@@ -4,6 +4,8 @@ export { UIManager, UIInstanceManager } from './uimanager';
 // Factories
 export { UIFactory } from './uifactory';
 export { DemoFactory } from './demofactory';
+export { SmDemoFactory } from './smdemofactory';
+export { SmUIFactory } from './smuifactory';
 // Utils
 export { ArrayUtils } from './arrayutils';
 export { StringUtils } from './stringutils';
