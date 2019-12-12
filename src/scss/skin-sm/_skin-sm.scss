@@ -1,4 +1,10 @@
-// Hide the watermark. Look at that, we're customizin'!
-.bmpui-ui-watermark {
+// Couldn't just remove this without creating an 
+// entirely new seekbar component, which would be foolish,
+// so just hide it like this.
+.bmpui-seekbar-playbackposition-marker {
     display: none;
+}
+
+.bmpui-ui-seekbar .bmpui-seekbar .bmpui-seekbar-bufferlevel {
+    transition: none;
 }

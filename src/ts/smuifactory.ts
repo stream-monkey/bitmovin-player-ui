@@ -31,7 +31,6 @@ import { PlaybackToggleOverlay } from './components/playbacktoggleoverlay';
 import { CastStatusOverlay } from './components/caststatusoverlay';
 import { TitleBar } from './components/titlebar';
 import { RecommendationOverlay } from './components/recommendationoverlay';
-import { Watermark } from './components/watermark';
 import { ErrorMessageOverlay } from './components/errormessageoverlay';
 import { AdClickOverlay } from './components/adclickoverlay';
 import { AdMessageLabel } from './components/admessagelabel';
@@ -48,17 +47,17 @@ import { i18n } from './localization/i18n';
 
 export namespace SmUIFactory {
 
-  export function buildSmDefaultUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
-    return SmUIFactory.buildSmUI(player, config);
-  }
+  // export function buildSmDefaultUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
+  //   return SmUIFactory.buildSmUI(player, config);
+  // }
 
-  export function buildSmDefaultSmallScreenUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
-    return SmUIFactory.buildSmSmallScreenUI(player, config);
-  }
+  // export function buildSmDefaultSmallScreenUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
+  //   return SmUIFactory.buildSmSmallScreenUI(player, config);
+  // }
 
-  export function buildSmDefaultCastReceiverUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
-    return SmUIFactory.buildSmCastReceiverUI(player, config);
-  }
+  // export function buildSmDefaultCastReceiverUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
+  //   return SmUIFactory.buildSmCastReceiverUI(player, config);
+  // }
 
   function modernUI() {
     let subtitleOverlay = new SubtitleOverlay();
@@ -136,7 +135,6 @@ export namespace SmUIFactory {
         controlBar,
         new TitleBar(),
         new RecommendationOverlay(),
-        new Watermark(),
         new ErrorMessageOverlay(),
       ],
       hideDelay: 2000,
@@ -263,7 +261,6 @@ export namespace SmUIFactory {
           ],
         }),
         settingsPanel,
-        new Watermark(),
         new ErrorMessageOverlay(),
       ],
       cssClasses: ['ui-skin-smallscreen'],
@@ -326,7 +323,6 @@ export namespace SmUIFactory {
         new SubtitleOverlay(),
         new BufferingOverlay(),
         new PlaybackToggleOverlay(),
-        new Watermark(),
         controlBar,
         new TitleBar({ keepHiddenWithoutMetadata: true }),
         new ErrorMessageOverlay(),

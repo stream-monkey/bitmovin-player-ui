@@ -723,7 +723,13 @@
 
   let smFactoryGroup = $('<optgroup label="SmFactory" />');
   $.each(smUiFactoryMethods, function(key, value) {
-    $('<option></option>').attr('value', value).text(value).appendTo(smFactoryGroup);
+    var smUiOption = $('<option></option>').attr('value', value).text(value)
+    if (value === 'buildSmUI') {
+      console.log('foudn buildSmUI')
+      smUiOption.attr('selected', true)
+      // Load the SmUIFactory.buildSmUI UIManager by default.
+    }
+    smUiOption.appendTo(smFactoryGroup);
   });
   smFactoryGroup.appendTo(configUISelect);
 
@@ -753,6 +759,9 @@
       uiManager = bitmovin.playerui.UIFactory[factoryMethod](player, uiConfig);
     }
   });
+
+  // Trigger a change to load the default selected UI.
+  configUISelect.change()
 
   // Populate stats
   $('#userAgent').html(navigator.userAgent);
