@@ -689,8 +689,6 @@
   //   }
   // }
 
-  console.log('bitmovin.playerui.SmDemoFactory', bitmovin.playerui.SmDemoFactory)
-
   // Collect all SM UI examples
   var uiDemos = [];
   for (var member in bitmovin.playerui.SmDemoFactory) {
@@ -699,8 +697,6 @@
     //   uiDemos.push(member);
     // }
   }
-
-  console.log('uiDemos', uiDemos)
 
   // Fill the UI factory method select box
   $.each(uiFactoryMethods, function(key, value) {
@@ -725,7 +721,6 @@
   $.each(smUiFactoryMethods, function(key, value) {
     var smUiOption = $('<option></option>').attr('value', value).text(value)
     if (value === 'buildSmUI') {
-      console.log('foudn buildSmUI')
       smUiOption.attr('selected', true)
       // Load the SmUIFactory.buildSmUI UIManager by default.
     }
@@ -752,7 +747,6 @@
       uiManager = bitmovin.playerui.SmDemoFactory[factoryMethod](player, uiConfig);
     }
     else if (factoryMethod.indexOf('buildSm') === 0) {
-      console.log(`SmUIFactory.${factoryMethod}`)
       uiManager = bitmovin.playerui.SmUIFactory[factoryMethod](player, uiConfig);
     } 
     else {

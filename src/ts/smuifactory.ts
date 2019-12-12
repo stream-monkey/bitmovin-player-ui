@@ -91,7 +91,8 @@ export namespace SmUIFactory {
 
     mainSettingsPanelPage.addComponent(
       new SettingsPanelItem(
-        new SubtitleSettingsLabel({text: i18n.getLocalizer('settings.subtitles'), opener: subtitleSettingsOpenButton}),
+        // new SubtitleSettingsLabel({text: i18n.getLocalizer('settings.subtitles'), opener: subtitleSettingsOpenButton}),
+        i18n.getLocalizer('settings.subtitles'),
         new SubtitleSelectBox(),
       ));
 
@@ -218,7 +219,8 @@ export namespace SmUIFactory {
 
     mainSettingsPanelPage.addComponent(
       new SettingsPanelItem(
-        new SubtitleSettingsLabel({text: i18n.getLocalizer('settings.subtitles'), opener: subtitleSettingsOpenButton}),
+        // new SubtitleSettingsLabel({text: i18n.getLocalizer('settings.subtitles'), opener: subtitleSettingsOpenButton}),
+        i18n.getLocalizer('settings.subtitles'),
         new SubtitleSelectBox(),
       ));
 
