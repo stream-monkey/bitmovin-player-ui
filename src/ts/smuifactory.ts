@@ -78,25 +78,27 @@ export namespace SmUIFactory {
       hidden: true,
     });
 
-    let subtitleSettingsPanelPage = new SubtitleSettingsPanelPage({
-      settingsPanel: settingsPanel,
-      overlay: subtitleOverlay,
-    });
+    // let subtitleSettingsPanelPage = new SubtitleSettingsPanelPage({
+    //   settingsPanel: settingsPanel,
+    //   overlay: subtitleOverlay,
+    // });
 
-    let subtitleSettingsOpenButton = new SettingsPanelPageOpenButton({
-      targetPage: subtitleSettingsPanelPage,
-      container: settingsPanel,
-      text: i18n.getLocalizer('open'),
-    });
+    // let subtitleSettingsOpenButton = new SettingsPanelPageOpenButton({
+    //   targetPage: subtitleSettingsPanelPage,
+    //   container: settingsPanel,
+    //   text: i18n.getLocalizer('open'),
+    // });
 
     mainSettingsPanelPage.addComponent(
       new SettingsPanelItem(
         // new SubtitleSettingsLabel({text: i18n.getLocalizer('settings.subtitles'), opener: subtitleSettingsOpenButton}),
+        // Don't allow customizing subtitles, i.e. don't include
+        // a settings button & page to do so.
         i18n.getLocalizer('settings.subtitles'),
         new SubtitleSelectBox(),
       ));
 
-    settingsPanel.addComponent(subtitleSettingsPanelPage);
+    // settingsPanel.addComponent(subtitleSettingsPanelPage);
 
     let controlBar = new ControlBar({
       components: [
@@ -134,7 +136,7 @@ export namespace SmUIFactory {
         new PlaybackToggleOverlay(),
         new CastStatusOverlay(),
         controlBar,
-        new TitleBar(),
+        // new TitleBar(),
         new RecommendationOverlay(),
         new ErrorMessageOverlay(),
       ],
@@ -206,28 +208,30 @@ export namespace SmUIFactory {
       hideDelay: -1,
     });
 
-    let subtitleSettingsPanelPage = new SubtitleSettingsPanelPage({
-      settingsPanel: settingsPanel,
-      overlay: subtitleOverlay,
-    });
+    // let subtitleSettingsPanelPage = new SubtitleSettingsPanelPage({
+    //   settingsPanel: settingsPanel,
+    //   overlay: subtitleOverlay,
+    // });
 
-    let subtitleSettingsOpenButton = new SettingsPanelPageOpenButton({
-      targetPage: subtitleSettingsPanelPage,
-      container: settingsPanel,
-      text: i18n.getLocalizer('open'),
-    });
+    // let subtitleSettingsOpenButton = new SettingsPanelPageOpenButton({
+    //   targetPage: subtitleSettingsPanelPage,
+    //   container: settingsPanel,
+    //   text: i18n.getLocalizer('open'),
+    // });
 
     mainSettingsPanelPage.addComponent(
       new SettingsPanelItem(
         // new SubtitleSettingsLabel({text: i18n.getLocalizer('settings.subtitles'), opener: subtitleSettingsOpenButton}),
+        // Don't allow customizing subtitles, i.e. don't include
+        // a settings button & page to do so.
         i18n.getLocalizer('settings.subtitles'),
         new SubtitleSelectBox(),
       ));
 
-    settingsPanel.addComponent(subtitleSettingsPanelPage);
+    // settingsPanel.addComponent(subtitleSettingsPanelPage);
 
     settingsPanel.addComponent(new CloseButton({ target: settingsPanel }));
-    subtitleSettingsPanelPage.addComponent(new CloseButton({ target: settingsPanel }));
+    // subtitleSettingsPanelPage.addComponent(new CloseButton({ target: settingsPanel }));
 
     let controlBar = new ControlBar({
       components: [
@@ -250,9 +254,19 @@ export namespace SmUIFactory {
         new PlaybackToggleOverlay(),
         new RecommendationOverlay(),
         controlBar,
+        // new TitleBar({
+        //   components: [
+        //     // dummy label with no content to move buttons to the right
+        //     new Label({ cssClass: 'label-metadata-title' }),
+        //     new FullscreenToggleButton(),
+        //   ],
+        // }),
         new TitleBar({
           components: [
-            new MetadataLabel({ content: MetadataLabelContent.Title }),
+            // Don't show the title.
+            // new MetadataLabel({ content: MetadataLabelContent.Title }),
+            // dummy label with no content to move buttons to the right
+            new Label({ cssClass: 'label-metadata-title' }),
             new CastToggleButton(),
             new VRToggleButton(),
             new PictureInPictureToggleButton(),
