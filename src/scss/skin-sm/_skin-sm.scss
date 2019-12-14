@@ -20,17 +20,42 @@
 .#{$prefix}-ui-seekbar {
     .#{$prefix}-seekbar {
         .#{$prefix}-seekbar-backdrop {
-            background-color: rgba(250, 250, 250, 0.2);
+            background-color: $color-black-faded--most;
         }
         .#{$prefix}-seekbar-bufferlevel {
-            background-color: rgba(250, 250, 250, 0.4);
+            background-color: $color-black-faded--more;
             transition: none;
         }
     }
 }
 
+.#{$prefix}-ui-seekbar-label {
+    .#{$prefix}-seekbar-label-inner {
+        border-bottom: none;
+
+        > .#{$prefix}-container-wrapper {
+            .#{$prefix}-seekbar-label-metadata {
+                padding: 0;
+                left: 50%;
+                -webkit-transform: translateX(-50%);
+                transform: translateX(-50%);
+                width: auto;
+
+                .#{$prefix}-seekbar-label-time {
+                    background: $color-black-faded--default;
+                    padding: 0.4em 1.2em;
+                }
+            }
+        }
+        
+        &::after {
+            border-top-color: $color-black-faded--default;
+        }
+    }
+}
+
 .#{$prefix}-ui-settings-panel {
-    background-color: rgba(0, 0, 0, 0.65);
+    background-color: $color-black-faded--default;
     border-radius: 0.2em;
 }
 
