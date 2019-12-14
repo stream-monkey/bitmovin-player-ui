@@ -43,21 +43,22 @@ import { PlayerUtils } from './playerutils';
 import { Label } from './components/label';
 import { CastUIContainer } from './components/castuicontainer';
 import { UIConditionContext, UIManager } from './uimanager';
-import { UIConfig } from './uiconfig';
+// import { UIConfig } from './uiconfig';
+import { SmUIConfig } from './smuiconfig';
 import { PlayerAPI } from 'bitmovin-player';
 import { i18n } from './localization/i18n';
 
 export namespace SmUIFactory {
 
-  // export function buildSmDefaultUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
+  // export function buildSmDefaultUI(player: PlayerAPI, config: SmUIConfig = {}): UIManager {
   //   return SmUIFactory.buildSmUI(player, config);
   // }
 
-  // export function buildSmDefaultSmallScreenUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
+  // export function buildSmDefaultSmallScreenUI(player: PlayerAPI, config: SmUIConfig = {}): UIManager {
   //   return SmUIFactory.buildSmSmallScreenUI(player, config);
   // }
 
-  // export function buildSmDefaultCastReceiverUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
+  // export function buildSmDefaultCastReceiverUI(player: PlayerAPI, config: SmUIConfig = {}): UIManager {
   //   return SmUIFactory.buildSmCastReceiverUI(player, config);
   // }
 
@@ -360,7 +361,9 @@ export namespace SmUIFactory {
     });
   }
 
-  export function buildSmUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
+  export function buildSmUI(player: PlayerAPI, config: SmUIConfig = {}): UIManager {
+    console.log('buildSmUI - config', config)
+
     // show smallScreen UI only on mobile/handheld devices
     let smallScreenSwitchWidth = 600;
 
@@ -389,7 +392,7 @@ export namespace SmUIFactory {
     }], config);
   }
 
-  export function buildSmSmallScreenUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
+  export function buildSmSmallScreenUI(player: PlayerAPI, config: SmUIConfig = {}): UIManager {
     return new UIManager(player, [{
       ui: modernSmallScreenAdsUI(),
       condition: (context: UIConditionContext) => {
@@ -403,7 +406,7 @@ export namespace SmUIFactory {
     }], config);
   }
 
-  export function buildSmCastReceiverUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
+  export function buildSmCastReceiverUI(player: PlayerAPI, config: SmUIConfig = {}): UIManager {
     return new UIManager(player, modernCastReceiverUI(), config);
   }
 }

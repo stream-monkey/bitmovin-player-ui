@@ -97,6 +97,11 @@ export class SharePanel extends Container<SharePanelConfig> {
     
     let title = uiconfig.metadata.title;
 
+    console.log('SharePanel.configure - uiconfig', uiconfig)
+
+    // @TODO: How can I pass & retrieve custom data?
+    // let playlist = uiconfig.metadata.playlist;
+
     this.facebookButton.onClick.subscribe(() => {
       alert(title + " -- Hi, I'm Facebook!");
     })
