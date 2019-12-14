@@ -10,6 +10,7 @@ import { SubtitleSettingsPanelPage } from './components/subtitlesettings/subtitl
 import { SettingsPanelPageOpenButton } from './components/settingspanelpageopenbutton';
 import { SubtitleSettingsLabel } from './components/subtitlesettings/subtitlesettingslabel';
 import { SubtitleSelectBox } from './components/subtitleselectbox';
+import { SharePanel } from './components/sharepanel';
 import { ControlBar } from './components/controlbar';
 import { Container } from './components/container';
 import { PlaybackTimeLabel, PlaybackTimeLabelMode } from './components/playbacktimelabel';
@@ -101,9 +102,13 @@ export namespace SmUIFactory {
 
     // settingsPanel.addComponent(subtitleSettingsPanelPage);
 
+    // Share panel.
+    let sharePanel = new SharePanel();
+
     let controlBar = new ControlBar({
       components: [
         settingsPanel,
+        sharePanel,
         new Container({
           components: [
             new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
@@ -122,7 +127,7 @@ export namespace SmUIFactory {
             new AirPlayToggleButton(),
             new CastToggleButton(),
             new VRToggleButton(),
-            new ShareToggleButton(),
+            new ShareToggleButton({ sharePanel: sharePanel }),
             new SettingsToggleButton({ settingsPanel: settingsPanel }),
             new FullscreenToggleButton(),
           ],

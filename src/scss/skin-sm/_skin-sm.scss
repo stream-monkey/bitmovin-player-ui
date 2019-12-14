@@ -3,6 +3,8 @@ $backdrop-bgc: hsla(0,0%,98%,.2);
 .#{$prefix}-ui-volumeslider,
 .#{$prefix}-ui-seekbar {
     .#{$prefix}-seekbar {
+        // Jeremy The Legend coded this all to implement
+        // the enlarge-on-hover display for the seekbars.
         background-color: $backdrop-bgc;
         transform: scaleY(0.5) translate3d(0,-50%,0);
         top: 50%;
@@ -27,19 +29,16 @@ $backdrop-bgc: hsla(0,0%,98%,.2);
             height: .7125em;
         }
 
+        > .#{$prefix}-seekbar-backdrop {
+            background-color: $backdrop-bgc;
+        }
+
         // Couldn't just remove this without creating an 
         // entirely new seekbar component, which would be foolish,
         // so just hide it like this.
         .#{$prefix}-seekbar-playbackposition-marker {
             display: none;
         }
-
-        
-        >  .#{$prefix}-seekbar-backdrop {
-            background-color: $backdrop-bgc;
-        }
-
-        
     }
 }
 

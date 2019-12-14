@@ -1,4 +1,5 @@
 import { Container, ContainerConfig } from './container';
+import { Label } from './label';
 import { UIInstanceManager } from '../uimanager';
 import { Timeout } from '../timeout';
 import { Event, EventDispatcher, NoArgs } from '../eventdispatcher';
@@ -44,13 +45,17 @@ export class SharePanel extends Container<SharePanelConfig> {
 
   private hideTimeout: Timeout;
 
-  constructor(config: SharePanelConfig) {
+  constructor(config: SharePanelConfig = {}) {
     super(config);
 
     this.config = this.mergeConfig(config, {
       cssClasses: ['ui-settings-panel', 'ui-share-panel'],
+      hidden: true,
       hideDelay: 3000,
       pageTransitionAnimation: true,
+      components: [
+        new Label({ text: 'twittah' }),
+      ]
     } as SharePanelConfig, this.config);
   }
 
