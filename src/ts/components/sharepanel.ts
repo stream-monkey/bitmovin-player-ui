@@ -102,17 +102,31 @@ export class SharePanel extends Container<SharePanelConfig> {
     // @TODO: How can I pass & retrieve custom data?
     // let playlist = uiconfig.metadata.playlist;
 
+    let shareLink = window.location.href
+
     this.facebookButton.onClick.subscribe(() => {
-      alert(title + " -- Hi, I'm Facebook!");
+      // alert(title + " -- Hi, I'm Facebook!");
+      let shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareLink}`
+      window.open(shareUrl, 'facebookwindow','left=20,top=20,width=600,height=700,toolbar=0,resizable=1');
     })
     this.twitterButton.onClick.subscribe(() => {
-      alert(title + " -- Hi, I'm Twitter!");
+      // alert(title + " -- Hi, I'm Twitter!");
+      let shareUrl = `https://twitter.com/share?&url=${shareLink}`
+      window.open(shareUrl, 'twitterwindow','left=20,top=20,width=600,height=300,toolbar=0,resizable=1');
     })
     this.emailButton.onClick.subscribe(() => {
-      alert(title + " -- Hi, I'm Electronic Mail!");
+      // alert(title + " -- Hi, I'm Electronic Mail!");
+      window.open(`mailto:?subject=${title}&body=${shareLink}`)
     })
     this.linkButton.onClick.subscribe(() => {
-      alert(title + " -- Hi, I'm Link - from Zelda!");
+      alert(`NEEDS TO COPY LINK: ${shareLink}`)
+      // alert(title + " -- Hi, I'm Link - from Zelda!");
+      // document.addEventListener('copy', (e: ClipboardEvent) => {
+      //   e.clipboardData.setData('text/plain', shareLink);
+      //   e.preventDefault();
+      //   document.removeEventListener('copy');
+      // });
+      // document.execCommand('copy');
     })
 
     if (config.hideDelay > -1) {
