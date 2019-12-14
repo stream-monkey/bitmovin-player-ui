@@ -53,21 +53,33 @@ export class SharePanel extends Container<SharePanelConfig> {
       cssClasses: ['ui-sharebutton', 'ui-facebooksharebutton'],
       text: 'Facebook',
     });
+    facebookButton.onClick.subscribe(() => {
+      alert("Hi, I'm Facebook!");
+    })
 
     let twitterButton = new Button({
       cssClasses: ['ui-sharebutton', 'ui-twittersharebutton'],
       text: 'Twitter',
     });
+    twitterButton.onClick.subscribe(() => {
+      alert("Hi, I'm Twitter!");
+    })
 
     let emailButton = new Button({
       cssClasses: ['ui-sharebutton', 'ui-emailsharebutton'],
       text: 'Email',
     });
+    emailButton.onClick.subscribe(() => {
+      alert("Hi, I'm Electronic Mail!");
+    })
 
     let linkButton = new Button({
       cssClasses: ['ui-sharebutton', 'ui-linksharebutton'],
       text: 'Link',
     });
+    linkButton.onClick.subscribe(() => {
+      alert("Hi, I'm Link - from Zelda!");
+    })
 
     this.config = this.mergeConfig(config, {
       cssClasses: ['ui-settings-panel', 'ui-share-panel'],
