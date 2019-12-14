@@ -23,6 +23,7 @@ import { PictureInPictureToggleButton } from './components/pictureinpicturetoggl
 import { AirPlayToggleButton } from './components/airplaytogglebutton';
 import { CastToggleButton } from './components/casttogglebutton';
 import { VRToggleButton } from './components/vrtogglebutton';
+import { ShareToggleButton } from './components/sharetogglebutton';
 import { SettingsToggleButton } from './components/settingstogglebutton';
 import { FullscreenToggleButton } from './components/fullscreentogglebutton';
 import { UIContainer } from './components/uicontainer';
@@ -121,6 +122,7 @@ export namespace SmUIFactory {
             new AirPlayToggleButton(),
             new CastToggleButton(),
             new VRToggleButton(),
+            new ShareToggleButton(),
             new SettingsToggleButton({ settingsPanel: settingsPanel }),
             new FullscreenToggleButton(),
           ],

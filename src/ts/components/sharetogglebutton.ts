@@ -1,101 +1,72 @@
-// import {ToggleButton, ToggleButtonConfig} from './togglebutton';
-// import {SettingsPanel} from './settingspanel';
-// import {UIInstanceManager} from '../uimanager';
-// import {Component, ComponentConfig} from './component';
-// import {ArrayUtils} from '../arrayutils';
-// import { PlayerAPI } from 'bitmovin-player';
-// import { i18n } from '../localization/i18n';
+import {ToggleButton, ToggleButtonConfig} from './togglebutton';
+import {SharePanel} from './sharepanel';
+import {UIInstanceManager} from '../uimanager';
+import {Component, ComponentConfig} from './component';
+import {ArrayUtils} from '../arrayutils';
+import { PlayerAPI } from 'bitmovin-player';
+import { i18n } from '../localization/i18n';
 
 // /**
-//  * Configuration interface for the {@link SettingsToggleButton}.
+//  * Configuration interface for the {@link ShareToggleButton}.
 //  */
-// export interface SettingsToggleButtonConfig extends ToggleButtonConfig {
+// export interface ShareToggleButtonConfig extends ToggleButtonConfig {
 //   /**
 //    * The settings panel whose visibility the button should toggle.
 //    */
-//   settingsPanel: SettingsPanel;
-
-//   /**
-//    * Decides if the button should be automatically hidden when the settings panel does not contain any active settings.
-//    * Default: true
-//    */
-//   autoHideWhenNoActiveSettings?: boolean;
+//   sharePanel: SharePanel;
 // }
 
-// /**
-//  * A button that toggles visibility of a settings panel.
-//  */
-// export class SettingsToggleButton extends ToggleButton<SettingsToggleButtonConfig> {
+/**
+ * A button that toggles visibility of a share panel.
+ */
+export class ShareToggleButton extends ToggleButton<ToggleButtonConfig> {
 
-//   private visibleSettingsPanels: SettingsPanel[] = [];
+  constructor(config: ToggleButtonConfig = {}) {
+    super(config);
 
-//   constructor(config: SettingsToggleButtonConfig) {
-//     super(config);
+    // if (!config.sharePanel) {
+    //   throw new Error('Required SharePanel is missing');
+    // }
 
-//     if (!config.settingsPanel) {
-//       throw new Error('Required SettingsPanel is missing');
-//     }
-
-//     this.config = this.mergeConfig(config, {
-//       cssClass: 'ui-settingstogglebutton',
-//       text: i18n.getLocalizer('settings'),
-//       settingsPanel: null,
-//       autoHideWhenNoActiveSettings: true,
-//     }, <SettingsToggleButtonConfig>this.config);
-//   }
+    this.config = this.mergeConfig(config, {
+      cssClass: 'ui-sharetogglebutton',
+      text: i18n.getLocalizer('share'),
+    //   sharePanel: null,
+    }, <ToggleButtonConfig>this.config);
+  }
 
 //   configure(player: PlayerAPI, uimanager: UIInstanceManager): void {
 //     super.configure(player, uimanager);
 
 //     let config = this.getConfig();
-//     let settingsPanel = config.settingsPanel;
+//     let sharePanel = config.sharePanel;
 
 //     this.onClick.subscribe(() => {
-//       // only hide other `SettingsPanel`s if a new one will be opened
-//       if (!settingsPanel.isShown()) {
-//         // Hide all open SettingsPanels before opening this button's panel
+//       // only hide other `SharePanel`s if a new one will be opened
+//       if (!sharePanel.isShown()) {
+//         // Hide all open SharePanels before opening this button's panel
 //         // (We need to iterate a copy because hiding them will automatically remove themselves from the array
 //         // due to the subscribeOnce above)
-//         this.visibleSettingsPanels.slice().forEach(settingsPanel => settingsPanel.hide());
+//         this.visibleSharePanels.slice().forEach(sharePanel => sharePanel.hide());
 //       }
-//       settingsPanel.toggleHidden();
+//       sharePanel.toggleHidden();
 //     });
-//     settingsPanel.onShow.subscribe(() => {
+//     sharePanel.onShow.subscribe(() => {
 //       // Set toggle status to on when the settings panel shows
 //       this.on();
 //     });
-//     settingsPanel.onHide.subscribe(() => {
+//     sharePanel.onHide.subscribe(() => {
 //       // Set toggle status to off when the settings panel hides
 //       this.off();
 //     });
 
 //     // Ensure that only one `SettingPanel` is visible at once
-//     // Keep track of shown SettingsPanels
+//     // Keep track of shown SharePanels
 //     uimanager.onComponentShow.subscribe((sender: Component<ComponentConfig>) => {
-//       if (sender instanceof SettingsPanel) {
-//         this.visibleSettingsPanels.push(sender);
-//         sender.onHide.subscribeOnce(() => ArrayUtils.remove(this.visibleSettingsPanels, sender));
+//       if (sender instanceof SharePanel) {
+//         this.visibleSharePanels.push(sender);
+//         sender.onHide.subscribeOnce(() => ArrayUtils.remove(this.visibleSharePanels, sender));
 //       }
 //     });
-
-//     // Handle automatic hiding of the button if there are no settings for the user to interact with
-//     if (config.autoHideWhenNoActiveSettings) {
-//       // Setup handler to show/hide button when the settings change
-//       let settingsPanelItemsChangedHandler = () => {
-//         if (settingsPanel.rootPageHasActiveSettings()) {
-//           if (this.isHidden()) {
-//             this.show();
-//           }
-//         } else {
-//           if (this.isShown()) {
-//             this.hide();
-//           }
-//         }
-//       };
-//       // Wire the handler to the event
-//       settingsPanel.onSettingsStateChanged.subscribe(settingsPanelItemsChangedHandler);
-//       // Call handler for first init at startup
-//       settingsPanelItemsChangedHandler();
-//     }
 //   }
-// }
+}
