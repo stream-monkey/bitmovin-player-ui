@@ -1,11 +1,12 @@
 import { Container, ContainerConfig } from './container';
 import { Label } from './label';
+import { MetadataLabel, MetadataLabelContent } from './metadatalabel';
 import { UIInstanceManager } from '../uimanager';
 import { Timeout } from '../timeout';
 import { Event, EventDispatcher, NoArgs } from '../eventdispatcher';
 import { PlayerAPI } from 'bitmovin-player';
 import { Component, ComponentConfig } from './component';
-import { Button } from './button';
+import { Button, ButtonConfig } from './button';
 
 /**
  * Configuration interface for a {@link SharePanel}.
@@ -46,51 +47,44 @@ export class SharePanel extends Container<SharePanelConfig> {
 
   private hideTimeout: Timeout;
 
+  private facebookButton: Button<ButtonConfig>;
+  private twitterButton: Button<ButtonConfig>;
+  private emailButton: Button<ButtonConfig>;
+  private linkButton: Button<ButtonConfig>;
+
   constructor(config: SharePanelConfig = {}) {
     super(config);
 
-    let facebookButton = new Button({
+    this.facebookButton = new Button({
       cssClasses: ['ui-sharebutton', 'ui-facebooksharebutton'],
       text: 'Facebook',
     });
-    facebookButton.onClick.subscribe(() => {
-      alert("Hi, I'm Facebook!");
-    })
-
-    let twitterButton = new Button({
+    
+    this.twitterButton = new Button({
       cssClasses: ['ui-sharebutton', 'ui-twittersharebutton'],
       text: 'Twitter',
     });
-    twitterButton.onClick.subscribe(() => {
-      alert("Hi, I'm Twitter!");
-    })
-
-    let emailButton = new Button({
+    
+    this.emailButton = new Button({
       cssClasses: ['ui-sharebutton', 'ui-emailsharebutton'],
       text: 'Email',
     });
-    emailButton.onClick.subscribe(() => {
-      alert("Hi, I'm Electronic Mail!");
-    })
-
-    let linkButton = new Button({
+    
+    this.linkButton = new Button({
       cssClasses: ['ui-sharebutton', 'ui-linksharebutton'],
       text: 'Link',
     });
-    linkButton.onClick.subscribe(() => {
-      alert("Hi, I'm Link - from Zelda!");
-    })
-
+    
     this.config = this.mergeConfig(config, {
       cssClasses: ['ui-settings-panel', 'ui-share-panel'],
       hidden: true,
       hideDelay: 3000,
       pageTransitionAnimation: true,
       components: [
-        facebookButton,
-        twitterButton,
-        emailButton,
-        linkButton,
+        this.facebookButton,
+        this.twitterButton,
+        this.emailButton,
+        this.linkButton,
       ]
     } as SharePanelConfig, this.config);
   }
@@ -99,6 +93,22 @@ export class SharePanel extends Container<SharePanelConfig> {
     super.configure(player, uimanager);
 
     let config = this.getConfig();
+    let uiconfig = uimanager.getConfig();
+    
+    let title = uiconfig.metadata.title;
+
+    this.facebookButton.onClick.subscribe(() => {
+      alert(title + " -- Hi, I'm Facebook!");
+    })
+    this.twitterButton.onClick.subscribe(() => {
+      alert(title + " -- Hi, I'm Twitter!");
+    })
+    this.emailButton.onClick.subscribe(() => {
+      alert(title + " -- Hi, I'm Electronic Mail!");
+    })
+    this.linkButton.onClick.subscribe(() => {
+      alert(title + " -- Hi, I'm Link - from Zelda!");
+    })
 
     if (config.hideDelay > -1) {
       this.hideTimeout = new Timeout(config.hideDelay, () => {
