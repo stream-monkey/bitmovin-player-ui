@@ -1,12 +1,31 @@
+$backdrop-bgc: hsla(0,0%,98%,.2);
+
 .#{$prefix}-ui-volumeslider,
 .#{$prefix}-ui-seekbar {
     .#{$prefix}-seekbar {
-        // @TODO: 
-        // Get Jeremy's help with the increased
-        // height on hover from our current player.
-        // &:hover {
-        //     // ...
-        // }
+        background-color: $backdrop-bgc;
+        transform: scaleY(0.5) translate3d(0,-50%,0);
+        top: 50%;
+        position: relative;
+        transition: all 0.1s cubic-bezier(0.94, 0.29, 0.8, 1.66);
+        height: .7125em;
+        transform-origin: center 0px;
+        will-change: transform;
+        
+        &:hover {
+            transform: scale(1) translate3d(0,-50%,0) !important;
+        }
+
+        // mirrors seekbar.scss, each of these extends %bar which has a fixed height
+        .#{$prefix}-seekbar-backdrop,
+        .#{$prefix}-seekbar-bufferlevel,
+        .#{$prefix}-seekbar-seekposition,
+        .#{$prefix}-seekbar-playbackposition,
+        .#{$prefix}-seekbar-playbackposition-marker,
+        .#{$prefix}-seekbar-markers,
+        .#{$prefix}-seekbar-markers > .#{$prefix}-seekbar-marker {
+            height: .7125em;
+        }
 
         // Couldn't just remove this without creating an 
         // entirely new seekbar component, which would be foolish,
@@ -14,6 +33,13 @@
         .#{$prefix}-seekbar-playbackposition-marker {
             display: none;
         }
+
+        
+        >  .#{$prefix}-seekbar-backdrop {
+            background-color: $backdrop-bgc;
+        }
+
+        
     }
 }
 
