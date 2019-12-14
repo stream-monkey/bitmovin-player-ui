@@ -5,6 +5,7 @@ import { Timeout } from '../timeout';
 import { Event, EventDispatcher, NoArgs } from '../eventdispatcher';
 import { PlayerAPI } from 'bitmovin-player';
 import { Component, ComponentConfig } from './component';
+import { Button } from './button';
 
 /**
  * Configuration interface for a {@link SharePanel}.
@@ -48,13 +49,36 @@ export class SharePanel extends Container<SharePanelConfig> {
   constructor(config: SharePanelConfig = {}) {
     super(config);
 
+    let facebookButton = new Button({
+      cssClasses: ['ui-sharebutton', 'ui-facebooksharebutton'],
+      text: 'Facebook',
+    });
+
+    let twitterButton = new Button({
+      cssClasses: ['ui-sharebutton', 'ui-twittersharebutton'],
+      text: 'Twitter',
+    });
+
+    let emailButton = new Button({
+      cssClasses: ['ui-sharebutton', 'ui-emailsharebutton'],
+      text: 'Email',
+    });
+
+    let linkButton = new Button({
+      cssClasses: ['ui-sharebutton', 'ui-linksharebutton'],
+      text: 'Link',
+    });
+
     this.config = this.mergeConfig(config, {
       cssClasses: ['ui-settings-panel', 'ui-share-panel'],
       hidden: true,
       hideDelay: 3000,
       pageTransitionAnimation: true,
       components: [
-        new Label({ text: 'twittah' }),
+        facebookButton,
+        twitterButton,
+        emailButton,
+        linkButton,
       ]
     } as SharePanelConfig, this.config);
   }
