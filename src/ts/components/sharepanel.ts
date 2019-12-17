@@ -7,6 +7,26 @@ import { Event, EventDispatcher, NoArgs } from '../eventdispatcher';
 import { PlayerAPI } from 'bitmovin-player';
 import { Component, ComponentConfig } from './component';
 import { Button, ButtonConfig } from './button';
+import copy from 'copy-to-clipboard';
+
+
+
+// @TODO:
+// Hmm... trying to figure out how to prevent the
+// TS error re the InternalUIConfig missing my
+// new `custom` property in SmUIConfig...
+// import { SmUIConfig } from '../smuiconfig';
+// export interface InternalSmUIConfig extends SmUIConfig {
+//   // ...
+// }
+// export class SmUIInstanceManager extends UIInstanceManager {
+//   private config: InternalSmUIConfig;
+
+//   constructor(player: PlayerAPI, ui: UIContainer, config: InternalSmUIConfig) {
+//     super(player, ui, config);
+//   }
+// }
+
 
 /**
  * Configuration interface for a {@link SharePanel}.
@@ -97,36 +117,28 @@ export class SharePanel extends Container<SharePanelConfig> {
     
     let title = uiconfig.metadata.title;
 
-    console.log('SharePanel.configure - uiconfig', uiconfig)
+    console.log('SharePanel.configure - uiconfig.custom', uiconfig.custom)
 
-    // @TODO: How can I pass & retrieve custom data?
-    // let playlist = uiconfig.metadata.playlist;
-
-    let shareLink = window.location.href
+    // Use a custom supplied share link if passed,
+    // otherwise use the current window location.
+    let shareLink = uiconfig.custom.shareLink
+      ? uiconfig.custom.shareLink
+      : window.location.href;
 
     this.facebookButton.onClick.subscribe(() => {
-      // alert(title + " -- Hi, I'm Facebook!");
       let shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareLink}`
       window.open(shareUrl, 'facebookwindow','left=20,top=20,width=600,height=700,toolbar=0,resizable=1');
     })
     this.twitterButton.onClick.subscribe(() => {
-      // alert(title + " -- Hi, I'm Twitter!");
       let shareUrl = `https://twitter.com/share?&url=${shareLink}`
       window.open(shareUrl, 'twitterwindow','left=20,top=20,width=600,height=300,toolbar=0,resizable=1');
     })
     this.emailButton.onClick.subscribe(() => {
-      // alert(title + " -- Hi, I'm Electronic Mail!");
       window.open(`mailto:?subject=${title}&body=${shareLink}`)
     })
     this.linkButton.onClick.subscribe(() => {
-      alert(`NEEDS TO COPY LINK: ${shareLink}`)
-      // alert(title + " -- Hi, I'm Link - from Zelda!");
-      // document.addEventListener('copy', (e: ClipboardEvent) => {
-      //   e.clipboardData.setData('text/plain', shareLink);
-      //   e.preventDefault();
-      //   document.removeEventListener('copy');
-      // });
-      // document.execCommand('copy');
+      copy(shareLink);
+      alert('Link copied to clipboard 👍');
     })
 
     if (config.hideDelay > -1) {

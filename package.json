@@ -24,6 +24,7 @@
     "bitmovin-player": "^8.19.1",
     "browser-sync": "^2.26.3",
     "browserify": "^13.1.1",
+    "copy-to-clipboard": "^3.2.0",
     "cssnano": "^3.8.0",
     "del": "^2.2.2",
     "gulp": "^4.0.0",
