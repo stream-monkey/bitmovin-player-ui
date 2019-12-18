@@ -24,27 +24,7 @@ export interface SharePanelConfig extends ContainerConfig {
 }
 
 /**
- * A panel containing a list of {@link SharePanelPage items}.
- *
- * To configure pages just pass them in the components array.
- *
- * Example:
- *  let settingsPanel = new SharePanel({
- *    hidden: true,
- *  });
- *
- *  let settingsPanelPage = new SharePanelPage({
- *    components: […]
- *  });
- *
- *  let secondSharePanelPage = new SharePanelPage({
- *    components: […]
- *  });
- *
- *  settingsPanel.addComponent(settingsPanelPage);
- *  settingsPanel.addComponent(secondSharePanelPage);
- *
- * For an example how to navigate between pages @see SharePanelPageNavigatorButton
+ * A panel containing a social share buttons.
  */
 export class SharePanel extends Container<SharePanelConfig> {
 
@@ -79,7 +59,7 @@ export class SharePanel extends Container<SharePanelConfig> {
     });
     
     this.config = this.mergeConfig(config, {
-      cssClasses: ['ui-settings-panel', 'ui-share-panel'],
+      cssClasses: ['ui-settings-panel', 'ui-sharepanel'],
       hidden: true,
       hideDelay: 3000,
       pageTransitionAnimation: true,
