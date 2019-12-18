@@ -43,26 +43,27 @@ import { PlayerUtils } from './playerutils';
 import { Label } from './components/label';
 import { CastUIContainer } from './components/castuicontainer';
 import { UIConditionContext, UIManager } from './uimanager';
-// import { UIConfig } from './uiconfig';
-import { SmUIConfig } from './smuiconfig';
+import { UIConfig } from './uiconfig';
 import { PlayerAPI } from 'bitmovin-player';
 import { i18n } from './localization/i18n';
 
 export namespace SmUIFactory {
 
-  // export function buildSmDefaultUI(player: PlayerAPI, config: SmUIConfig = {}): UIManager {
+  // export function buildSmDefaultUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
   //   return SmUIFactory.buildSmUI(player, config);
   // }
 
-  // export function buildSmDefaultSmallScreenUI(player: PlayerAPI, config: SmUIConfig = {}): UIManager {
+  // export function buildSmDefaultSmallScreenUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
   //   return SmUIFactory.buildSmSmallScreenUI(player, config);
   // }
 
-  // export function buildSmDefaultCastReceiverUI(player: PlayerAPI, config: SmUIConfig = {}): UIManager {
+  // export function buildSmDefaultCastReceiverUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
   //   return SmUIFactory.buildSmCastReceiverUI(player, config);
   // }
 
-  function modernUI() {
+  function modernUI(data: object = {}) {
+    console.log('modernUI - data', data);
+
     let subtitleOverlay = new SubtitleOverlay();
 
     let mainSettingsPanelPage = new SettingsPanelPage({
@@ -104,7 +105,7 @@ export namespace SmUIFactory {
     // settingsPanel.addComponent(subtitleSettingsPanelPage);
 
     // Share panel.
-    let sharePanel = new SharePanel();
+    let sharePanel = new SharePanel({ data });
 
     let controlBar = new ControlBar({
       components: [
@@ -157,7 +158,7 @@ export namespace SmUIFactory {
     });
   }
 
-  export function modernAdsUI() {
+  export function modernAdsUI(data: object = {}) {
     return new UIContainer({
       components: [
         new BufferingOverlay(),
@@ -195,7 +196,7 @@ export namespace SmUIFactory {
     });
   }
 
-  export function modernSmallScreenUI() {
+  export function modernSmallScreenUI(data: object = {}) {
     let subtitleOverlay = new SubtitleOverlay();
 
     let mainSettingsPanelPage = new SettingsPanelPage({
@@ -297,7 +298,7 @@ export namespace SmUIFactory {
     });
   }
 
-  export function modernSmallScreenAdsUI() {
+  export function modernSmallScreenAdsUI(data: object = {}) {
     return new UIContainer({
       components: [
         new BufferingOverlay(),
@@ -328,7 +329,7 @@ export namespace SmUIFactory {
     });
   }
 
-  export function modernCastReceiverUI() {
+  export function modernCastReceiverUI(data: object = {}) {
     let controlBar = new ControlBar({
       components: [
         new Container({
@@ -361,52 +362,52 @@ export namespace SmUIFactory {
     });
   }
 
-  export function buildSmUI(player: PlayerAPI, config: SmUIConfig = {}): UIManager {
-    console.log('buildSmUI - config', config)
+  export function buildSmUI(player: PlayerAPI, config: UIConfig = {}, data: object = {}): UIManager {
+    console.log('buildSmUI - config, data', config, data)
 
     // show smallScreen UI only on mobile/handheld devices
     let smallScreenSwitchWidth = 600;
 
     return new UIManager(player, [{
-      ui: modernSmallScreenAdsUI(),
+      ui: modernSmallScreenAdsUI(data),
       condition: (context: UIConditionContext) => {
         return context.isMobile && context.documentWidth < smallScreenSwitchWidth && context.isAd
           && context.adRequiresUi;
       },
     }, {
-      ui: modernAdsUI(),
+      ui: modernAdsUI(data),
       condition: (context: UIConditionContext) => {
         return context.isAd && context.adRequiresUi;
       },
     }, {
-      ui: modernSmallScreenUI(),
+      ui: modernSmallScreenUI(data),
       condition: (context: UIConditionContext) => {
         return !context.isAd && !context.adRequiresUi && context.isMobile
           && context.documentWidth < smallScreenSwitchWidth;
       },
     }, {
-      ui: modernUI(),
+      ui: modernUI(data),
       condition: (context: UIConditionContext) => {
         return !context.isAd && !context.adRequiresUi;
       },
     }], config);
   }
 
-  export function buildSmSmallScreenUI(player: PlayerAPI, config: SmUIConfig = {}): UIManager {
+  export function buildSmSmallScreenUI(player: PlayerAPI, config: UIConfig = {}, data: object = {}): UIManager {
     return new UIManager(player, [{
-      ui: modernSmallScreenAdsUI(),
+      ui: modernSmallScreenAdsUI(data),
       condition: (context: UIConditionContext) => {
         return context.isAd && context.adRequiresUi;
       },
     }, {
-      ui: modernSmallScreenUI(),
+      ui: modernSmallScreenUI(data),
       condition: (context: UIConditionContext) => {
         return !context.isAd && !context.adRequiresUi;
       },
     }], config);
   }
 
-  export function buildSmCastReceiverUI(player: PlayerAPI, config: SmUIConfig = {}): UIManager {
+  export function buildSmCastReceiverUI(player: PlayerAPI, config: UIConfig = {}, data: object = {}): UIManager {
     return new UIManager(player, modernCastReceiverUI(), config);
   }
 }

@@ -214,10 +214,11 @@
     advertising: adsEnabled ? advertisingConfig : null
   };
 
+  var uiData = {
+    shareLink: 'https://rooooarrr.com',
+  }
+
   var uiConfig = {
-    custom: {
-      shareLink: 'https://rooooarrr.com',
-    },
     metadata: {
      title: 'UI Demo Video Title',
      description: 'Bacon ipsum dolor amet t-bone prosciutto cupim kevin tongue, venison tail pork beef ribs boudin beef shoulder bacon jerky. Pork tail spare ribs jowl jerky andouille corned beef frankfurter. Burgdoggen meatloaf short ribs andouille tail tri-tip cow kevin doner.',
@@ -750,7 +751,7 @@
       uiManager = bitmovin.playerui.SmDemoFactory[factoryMethod](player, uiConfig);
     }
     else if (factoryMethod.indexOf('buildSm') === 0) {
-      uiManager = bitmovin.playerui.SmUIFactory[factoryMethod](player, uiConfig);
+      uiManager = bitmovin.playerui.SmUIFactory[factoryMethod](player, uiConfig, uiData);
     } 
     else {
       uiManager = bitmovin.playerui.UIFactory[factoryMethod](player, uiConfig);

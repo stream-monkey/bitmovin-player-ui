@@ -9,25 +9,6 @@ import { Component, ComponentConfig } from './component';
 import { Button, ButtonConfig } from './button';
 import copy from 'copy-to-clipboard';
 
-
-
-// @TODO:
-// Hmm... trying to figure out how to prevent the
-// TS error re the InternalUIConfig missing my
-// new `custom` property in SmUIConfig...
-// import { SmUIConfig } from '../smuiconfig';
-// export interface InternalSmUIConfig extends SmUIConfig {
-//   // ...
-// }
-// export class SmUIInstanceManager extends UIInstanceManager {
-//   private config: InternalSmUIConfig;
-
-//   constructor(player: PlayerAPI, ui: UIContainer, config: InternalSmUIConfig) {
-//     super(player, ui, config);
-//   }
-// }
-
-
 /**
  * Configuration interface for a {@link SharePanel}.
  */
@@ -38,6 +19,8 @@ export interface SharePanelConfig extends ContainerConfig {
    * Default: 3 seconds (3000)
    */
   hideDelay?: number;
+
+  data?: { shareLink?: null };
 }
 
 /**
@@ -117,12 +100,12 @@ export class SharePanel extends Container<SharePanelConfig> {
     
     let title = uiconfig.metadata.title;
 
-    console.log('SharePanel.configure - uiconfig.custom', uiconfig.custom)
+    console.log('SharePanel.configure - config.data', config.data)
 
     // Use a custom supplied share link if passed,
     // otherwise use the current window location.
-    let shareLink = uiconfig.custom.shareLink
-      ? uiconfig.custom.shareLink
+    let shareLink = config.data && config.data.shareLink
+      ? config.data.shareLink
       : window.location.href;
 
     this.facebookButton.onClick.subscribe(() => {
