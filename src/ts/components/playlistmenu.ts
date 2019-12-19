@@ -2,6 +2,7 @@ import { Container, ContainerConfig } from './container';
 import { UIInstanceManager } from '../uimanager';
 import { Timeout } from '../timeout';
 import { PlayerAPI } from 'bitmovin-player';
+import { PlaylistMenuItem, PlaylistMenuItemConfig } from './playlistmenuitem';
 // import { Button, ButtonConfig } from './button';
 
 /**
@@ -15,7 +16,7 @@ export interface PlaylistMenuConfig extends ContainerConfig {
    */
   hideDelay?: number;
 
-  data?: { items: object[] };
+  data: { items: any[] };
 }
 
 /**
@@ -25,20 +26,29 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
 
   private hideTimeout: Timeout;
 
-  constructor(config: PlaylistMenuConfig = {}) {
+  constructor(config: PlaylistMenuConfig) {
     super(config);
+
+    let allComponents = [];
 
     // @TODO:
     // Create PlaylistMenuItem components here!
+    config.data.items.forEach(item => {
+      allComponents.push(new PlaylistMenuItem({ text: item.title }))
+    });
+
+    console.log('PlaylistMenu - allComponents', allComponents)
+
+    // @TODO:
+    // I'm gonna need to add like close & nav button components 
+    // here too, yeah? Can they just be Button components??
     // ...
     
     this.config = this.mergeConfig(config, {
       cssClasses: ['ui-playlistmenu'],
       hidden: true,
       hideDelay: 3000,
-      components: [
-        // ...
-      ]
+      components: allComponents,
     } as PlaylistMenuConfig, this.config);
   }
 

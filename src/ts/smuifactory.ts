@@ -11,6 +11,7 @@ import { SettingsPanelPageOpenButton } from './components/settingspanelpageopenb
 import { SubtitleSettingsLabel } from './components/subtitlesettings/subtitlesettingslabel';
 import { SubtitleSelectBox } from './components/subtitleselectbox';
 import { SharePanel } from './components/sharepanel';
+import { PlaylistMenu } from './components/playlistmenu';
 import { ControlBar } from './components/controlbar';
 import { Container } from './components/container';
 import { PlaybackTimeLabel, PlaybackTimeLabelMode } from './components/playbacktimelabel';
@@ -106,6 +107,11 @@ export namespace SmUIFactory {
 
     // Share panel.
     let sharePanel = new SharePanel({ data });
+
+    // // If playlist data was passed, add the playlist's menu.
+    // if (data.playlistItems) {
+    //   allComponents.push(new PlaylistMenu({ items: data.playlistItems });
+    // }
 
     let controlBar = new ControlBar({
       components: [
