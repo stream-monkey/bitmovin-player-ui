@@ -62,8 +62,12 @@ export namespace SmUIFactory {
   //   return SmUIFactory.buildSmCastReceiverUI(player, config);
   // }
 
-  function modernUI(data: object = {}) {
+  function modernUI(data: any) {//} object = {}) {
     console.log('modernUI - data', data);
+
+    // If it's a playlist, add a custom class & playlist menu.
+    const isPlaylist = data.playlistItems && data.playlistItems.length > 0;
+    // .#{$prefix}-ui-playlist-container
 
     let subtitleOverlay = new SubtitleOverlay();
 
@@ -108,11 +112,6 @@ export namespace SmUIFactory {
     // Share panel.
     let sharePanel = new SharePanel({ data });
 
-    // // If playlist data was passed, add the playlist's menu.
-    // if (data.playlistItems) {
-    //   allComponents.push(new PlaylistMenu({ items: data.playlistItems });
-    // }
-
     let controlBar = new ControlBar({
       components: [
         settingsPanel,
@@ -144,17 +143,30 @@ export namespace SmUIFactory {
       ],
     });
 
+    // Assemble all container components.
+    let allComponents = [
+      subtitleOverlay,
+      new BufferingOverlay(),
+      new PlaybackToggleOverlay(),
+      new CastStatusOverlay(),
+      controlBar,
+      // new TitleBar(),
+      new RecommendationOverlay(),
+      new ErrorMessageOverlay(),
+    ];
+
+    // If playlist data was passed, add the playlist's menu.
+    if (isPlaylist) {
+      allComponents.push(new PlaylistMenu({
+        data: { 
+          items: data.playlistItems,
+        },
+      }));
+    }
+
     return new UIContainer({
-      components: [
-        subtitleOverlay,
-        new BufferingOverlay(),
-        new PlaybackToggleOverlay(),
-        new CastStatusOverlay(),
-        controlBar,
-        // new TitleBar(),
-        new RecommendationOverlay(),
-        new ErrorMessageOverlay(),
-      ],
+      cssClasses: [(isPlaylist ? 'ui-is-playlist' : '')],
+      components: allComponents,
       hideDelay: 2000,
       hidePlayerStateExceptions: [
         PlayerUtils.PlayerState.Prepared,

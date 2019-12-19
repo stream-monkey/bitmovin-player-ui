@@ -2,5 +2,9 @@
 @import '../mixins';
 
 .#{$prefix}-ui-playlistmenuitem {
-  // ...
+  background: aqua;
+
+  .#{$prefix}-label {
+    display: block;
+  }
 }

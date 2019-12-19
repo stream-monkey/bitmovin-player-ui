@@ -1,13 +1,231 @@
 @import '../variables';
 @import '../mixins';
 
-.#{$prefix}-ui-playlistmenu {
-  // ...
-}
+// .#{$prefix}-ui-playlistmenu {
+//   background: rebeccapurple;
+// }
 
 // Below is from the current CSS.
-$playlist-bottom: -16%;
+.#{$prefix}-ui-playlistmenu {
+  bottom: -16%;
+  left: 0;
+  opacity: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -webkit-overflow-scrolling: touch;
+  position: absolute;
+  transition: visibility 0s linear $animation-duration, opacity $animation-duration linear, bottom $animation-duration ease-out;
+  visibility: hidden;
+  white-space: nowrap;
+  width: 100%;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
+  &:hover {
+    bottom: 0 !important;
+    padding: {
+      bottom: 15px;
+    }
+
+    .#{$prefix}-ui-arrows {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .#{$prefix}-ui-arrows {
+    visibility: hidden;
+      opacity: 0;
+      transition: opacity $animation-duration, visibility $animation-duration;
+  }
+
+  p {
+    padding: 1em 0.5em 0;
+    color: white;
+    font-size: 1em;
+    text-align: left;
+  }
+
+  a {
+    height: 100%;
+    color: white;
+    display: block;
+    cursor: pointer;
+    text-align: left;
+    text-decoration: none;
+  }
+
+  // Arrow buttons.
+  .#{$prefix}-ui-arrow-prev, .#{$prefix}-ui-arrow-next {
+    position: fixed;
+    bottom: 15%;
+    background: none;
+    background-repeat: no-repeat;
+      color: inherit;
+      border: none;
+      padding: 0;
+      font: inherit;
+      cursor: pointer;
+      outline: inherit;
+
+    &:hover {
+      @include svg-icon-shadow;
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .#{$prefix}-ui-arrow-prev {
+    left: 0;
+    margin: {
+      left: 10px;
+    }
+
+    &:before {
+      content: "";
+      background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyMzggMjM4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyMzggMjM4OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjYuMywxMzAuM2wxMDkuOCwxMDMuMWM2LjYsNi4yLDE3LjMsNi4yLDIzLjksMGM2LjYtNi4yLDYuNi0xNi4zLDAtMjIuNUwxMDIuMiwxMTlMMjAwLDI3LjFjNi42LTYuMiw2LjYtMTYuMywwLTIyLjVzLTE3LjMtNi4yLTIzLjksMGwtMTA5LjgsMTAzYy0zLjQsMy4xLTUsNy4yLTQuOSwxMS4zQzYxLjQsMTIzLjEsNjMsMTI3LjIsNjYuMywxMzAuM3oiLz48L2c+PC9nPjwvc3ZnPg==");
+      display: block;
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  .#{$prefix}-ui-arrow-next {
+    right: 0;
+    margin: {
+      right: 10px;
+    }
+
+    &:before {
+      content: "";
+      background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyMzggMjM4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyMzggMjM4OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTcwLjEsMTA3LjdMNjAuMiw0LjZjLTYuNi02LjItMTcuMy02LjItMjMuOSwwcy02LjYsMTYuMywwLDIyLjVsOTcuOSw5MS45bC05Ny45LDkxLjljLTYuNiw2LjItNi42LDE2LjMsMCwyMi41czE3LjMsNi4yLDIzLjksMGwxMDkuOC0xMDNjMy40LTMuMSw1LTcuMiw0LjktMTEuM0MxNzUsMTE0LjksMTczLjQsMTEwLjgsMTcwLjEsMTA3Ljd6Ii8+PC9nPjwvZz48L3N2Zz4=");
+      display: block;
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  .#{$prefix}-ui-playlistmenuitem {
+    display: inline-block;
+    position: relative;
+    width: 24%;
+    word-break: break-word;
+    white-space: normal;
+    padding: {
+      left: 10px;
+      right: 10px;
+    }
+    vertical-align: top;
+    object-fit: cover;
+
+    a {
+      height: 100%;
+      color: white;
+      display: block;
+      cursor: pointer;
+      text-align: left;
+      text-decoration: none;
+    }
+
+    p {
+      margin: 0;
+      text-decoration: none;
+    }
+
+    .playlist-thumbnail-wrapper {
+      position: relative;
+      color: white;
+      font-weight: 400;
+      border: 2px solid transparentize($color-primary, .8);
+      border-radius: 3px;
+    }
+
+    .playlist-duration {
+      width: 100%;
+      position: absolute;
+      background: linear-gradient(to bottom, $color-transparent, $color-background-bars);
+      bottom: 0;
+      right: 0;
+      padding: .5em;
+      font-size: 1em;
+      text-align: right;
+    }
+
+    .playlist-item-playing {
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      top: 40%;
+      width: 100%;
+      text-align: center;
+      text-transform: uppercase;
+      transition: opacity $animation-duration, visibility $animation-duration;
+    }
+
+    .playlist-item-inside {
+      background: linear-gradient(to top, $color-transparent, $color-background-bars);
+      position: absolute;
+      top: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .playlist-title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: {
+        top: .5em;
+      }
+
+      overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .active .playlist-item-playing {
+      opacity: 1;
+      visibility: visible;
+      color: white;
+      text-shadow: 0 0 5px $color-black;
+      font-weight: 700;
+        font-size: 1em;
+    }
+
+    .playlist-thumbnail {
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
+// Customizations for standard elements when viewing a playlist.
+.#{$prefix}-ui-is-playlist {
+	.#{$prefix}-ui-controlbar {
+		background: linear-gradient(to bottom, $color-transparent, $color-background-bars);
+		padding: {
+			top: 1%;
+			bottom: 6.5%;
+		}
+	}
+}
+
+// Force show the playlist menu when force-showing all controls.
+&.#{$prefix}-controls-shown {
+	.#{$prefix}-ui-playlistmenu {
+		visibility: visible;
+		opacity: 1;
+		transition-delay: 0s;
+	}
+}
+
+// Mobile playlist menu toggle & close buttons.
 .#{$prefix}-ui-playlist-btn {
 	@extend %ui-button;
 	background: none;
@@ -25,7 +243,7 @@ $playlist-bottom: -16%;
 	    }
 
 		&.playlist {
-			@include playlist();
+			background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMzIgMzIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMyIDMyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNNi43LDguMUM2LjIsOC42LDUuNSw4LjksNC44LDguOVMzLjQsOC42LDIuOSw4LjFTMi4xLDYuOSwyLjEsNi4yczAuMy0xLjQsMC44LTEuOVM0LDMuNSw0LjgsMy41czEuNCwwLjMsMS45LDAuOHMwLjgsMS4yLDAuOCwxLjlTNy4yLDcuNiw2LjcsOC4xeiBNMi45LDEzLjNjLTAuNSwwLjUtMC44LDEuMi0wLjgsMS45czAuMywxLjQsMC44LDEuOXMxLjIsMC44LDEuOSwwLjhzMS40LTAuMywxLjktMC44czAuOC0xLjIsMC44LTEuOXMtMC4zLTEuNC0wLjgtMS45Yy0wLjUtMC41LTEuMi0wLjgtMS45LTAuOFMzLjQsMTIuOCwyLjksMTMuM3ogTTIuOSwyMi4zYy0wLjUsMC41LTAuOCwxLjItMC44LDEuOWMwLDAuOCwwLjMsMS40LDAuOCwxLjlzMS4yLDAuOCwxLjksMC44czEuNC0wLjMsMS45LTAuOHMwLjgtMS4yLDAuOC0xLjljMC0wLjgtMC4zLTEuNC0wLjgtMS45cy0xLjItMC44LTEuOS0wLjhTMy40LDIxLjgsMi45LDIyLjN6IE0zMC45LDUuM2MwLTAuMi0wLjEtMC4zLTAuMi0wLjVjLTAuMS0wLjEtMC4zLTAuMi0wLjUtMC4ySDEwYy0wLjIsMC0wLjMsMC4xLTAuNSwwLjJTOS4zLDUuMSw5LjMsNS4zdjEuOGMwLDAuMiwwLjEsMC4zLDAuMiwwLjVTOS44LDcuOCwxMCw3LjhoMjAuM2MwLjIsMCwwLjMtMC4xLDAuNS0wLjJjMC4xLTAuMSwwLjItMC4zLDAuMi0wLjVWNS4zeiBNMzAuOSwxNC4zYzAtMC4yLTAuMS0wLjMtMC4yLTAuNWMtMC4xLTAuMS0wLjMtMC4yLTAuNS0wLjJIMTBjLTAuMiwwLTAuMywwLjEtMC41LDAuMnMtMC4yLDAuMy0wLjIsMC41djEuOGMwLDAuMiwwLjEsMC4zLDAuMiwwLjVjMC4xLDAuMSwwLjMsMC4yLDAuNSwwLjJoMjAuM2MwLjIsMCwwLjMtMC4xLDAuNS0wLjJjMC4xLTAuMSwwLjItMC4zLDAuMi0wLjVWMTQuM3ogTTMwLjksMjMuM2MwLTAuMi0wLjEtMC4zLTAuMi0wLjVjLTAuMS0wLjEtMC4zLTAuMi0wLjUtMC4ySDEwYy0wLjIsMC0wLjMsMC4xLTAuNSwwLjJjLTAuMSwwLjEtMC4yLDAuMy0wLjIsMC41djEuOGMwLDAuMiwwLjEsMC4zLDAuMiwwLjVjMC4xLDAuMSwwLjMsMC4yLDAuNSwwLjJoMjAuM2MwLjIsMCwwLjMtMC4xLDAuNS0wLjJjMC4xLTAuMSwwLjItMC4zLDAuMi0wLjVWMjMuM3oiLz48L2c+PC9zdmc+");
 			height: 24px;
 			width: 27px;
 			margin: 0;
@@ -33,283 +251,32 @@ $playlist-bottom: -16%;
 	}
 }
 
-.#{$prefix}-ui-playlist-container {
-	.#{$prefix}-ui-titlebar {
-		@extend %ui-container;
-
-		@include hidden-animated;
-		@include layout-align-top;
-
-		display: block;
-
-		// background: linear-gradient(to top, $color-transparent, $color-background-bars);
-		padding: .5em 1em 1em;
-		pointer-events: none;
-
-		> .#{$prefix}-container-wrapper {
-			padding: .5em;
-			pointer-events: none;
-
-			.#{$prefix}-label-metadata {
-				pointer-events: none;
-			}
-
-			.#{$prefix}-label-metadata-title {
-				cursor: default;
-				display: block;
-				font-size: 1.2em;
-				text-shadow: 0 0 5px $color-black;
-				white-space: normal;
-			}
-
-			.#{$prefix}-label-metadata-description {
-				color: lighten($color-secondary, 30%);
-				cursor: default;
-				display: block;
-				text-shadow: 0 0 5px $color-black;
-				white-space: normal;
-			}
-		}
-	}
-
-	.#{$prefix}-ui-controlbar {
-		background: linear-gradient(to bottom, $color-transparent, $color-background-bars);
-		padding: {
-			top: 1%;
-			bottom: 6.5%;
-		}
-	}
-
-	.playlist-wrapper {
-		position: absolute;
-	    bottom: $playlist-bottom;
-	    left: 0;
-		white-space: nowrap;
-		width: 100%;
-
-		overflow-x: auto;
-		overflow-y: hidden;
-		-ms-overflow-style: -ms-autohiding-scrollbar;
-		-webkit-overflow-scrolling: touch;
-		white-space: nowrap;
-		&::-webkit-scrollbar {
-			display: none;
-		}
-
-		visibility: hidden;
-	    opacity: 0;
-	    transition: visibility 0s linear $animation-duration, opacity $animation-duration linear, bottom $animation-duration ease-out;
-
-		.#{$prefix}-ui-arrows {
-			visibility: hidden;
-		    opacity: 0;
-		    transition: opacity $animation-duration, visibility $animation-duration;
-		}
-
-		&:hover {
-			bottom: 0!important;
-			padding: {
-				bottom: 15px;
-			}
-
-			.#{$prefix}-ui-arrows {
-				visibility: visible;
-				opacity: 1;
-			}
-		}
-
-		p {
-			padding: 1em 0.5em 0;
-			color: white;
-			font-size: 1em;
-			text-align: left;
-		}
-		a {
-			height: 100%;
-			color: white;
-			display: block;
-			cursor: pointer;
-			text-align: left;
-			text-decoration: none;
-		}
-
-		.#{$prefix}-ui-closebutton-playlists {
-			display: none;
-			position: fixed;
-			height: 26px;
-			width: 26px;
-		}
-
-		// Arrows
-		.#{$prefix}-ui-arrow-prev, .#{$prefix}-ui-arrow-next {
-			position: fixed;
-			bottom: 15%;
-			background: none;
-			background-repeat: no-repeat;
-		    color: inherit;
-		    border: none;
-		    padding: 0;
-		    font: inherit;
-		    cursor: pointer;
-		    outline: inherit;
-
-			&:hover {
-			  @include svg-icon-shadow;
-			}
-
-			&.hidden {
-				display: none;
-			}
-		 }
-		.#{$prefix}-ui-arrow-prev {
-			left: 0;
-			margin: {
-				left: 10px;
-			}
-
-			&:before {
-				content: "";
-				@include chevronPrev();
-				display: block;
-				width: 35px;
-				height: 35px;
-			}
-		}
-		.#{$prefix}-ui-arrow-next {
-			right: 0;
-			margin: {
-				right: 10px;
-			}
-
-			&:before {
-				content: "";
-				@include chevronNext();
-				display: block;
-				width: 35px;
-				height: 35px;
-			}
-		}
-
-		.playlist-item {
-			display: inline-block;
-			position: relative;
-			width: 24%;
-			word-break: break-word;
-			white-space: normal;
-			padding: {
-				left: 10px;
-				right: 10px;
-			}
-			vertical-align: top;
-			object-fit: cover;
-
-			a {
-				height: 100%;
-				color: white;
-				display: block;
-				cursor: pointer;
-				text-align: left;
-				text-decoration: none;
-			}
-
-			p {
-				margin: 0;
-				text-decoration: none;
-			}
-
-			.playlist-thumbnail-wrapper {
-				position: relative;
-				color: white;
-				font-weight: 400;
-				border: 2px solid transparentize($color-primary, .8);
-				border-radius: 3px;
-			}
-
-			.playlist-duration {
-				width: 100%;
-				position: absolute;
-				background: linear-gradient(to bottom, $color-transparent, $color-background-bars);
-				bottom: 0;
-				right: 0;
-				padding: .5em;
-				font-size: 1em;
-				text-align: right;
-			}
-
-			.playlist-item-playing {
-				opacity: 0;
-				visibility: hidden;
-				position: absolute;
-				top: 40%;
-				width: 100%;
-				text-align: center;
-				text-transform: uppercase;
-				transition: opacity $animation-duration, visibility $animation-duration;
-			}
-
-			.playlist-item-inside {
-				background: linear-gradient(to top, $color-transparent, $color-background-bars);
-				position: absolute;
-				top: 0;
-    			width: 100%;
-    			height: 100%;
-			}
-
-			.playlist-title {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				padding: {
-					top: .5em;
-				}
-
-				overflow: hidden;
-    			white-space: nowrap;
-    			text-overflow: ellipsis;
-			}
-
-			.active .playlist-item-playing {
-				opacity: 1;
-				visibility: visible;
-				color: white;
-				text-shadow: 0 0 5px $black;
-				font-weight: 700;
-    			font-size: 1em;
-			}
-
-			.playlist-thumbnail {
-				display: block;
-				width: 100%;
-			}
-		}
-	}
-}
-&.#{$prefix}-controls-shown {
-	.playlist-wrapper {
-		visibility: visible;
-		opacity: 1;
-		transition-delay: 0s;
-	}
+.#{$prefix}-ui-closebutton-playlists {
+  display: none;
+  position: fixed;
+  height: 26px;
+  width: 26px;
 }
 
+// Responsive customizations.
 &.#{$prefix}-layout-max-width-800 {
-	.playlist-wrapper {
-		.playlist-item {
+	.#{$prefix}-ui-playlistmenu {
+		.#{$prefix}-ui-playlistmenuitem {
 			width: 28%;
 		}
 	}
 }
+
 &.#{$prefix}-layout-max-width-600 {
-	.#{$prefix}-ui-playlist-container {
+	.#{$prefix}-ui-is-playlist {
 		.#{$prefix}-ui-controlbar {
 			padding: {
 				bottom: 11%;
 			}
 		}
 
-		.playlist-wrapper {
-			.playlist-item {
+		.#{$prefix}-ui-playlistmenu {
+			.#{$prefix}-ui-playlistmenuitem {
 				width: 32%;
 
 				.playlist-title {
@@ -326,25 +293,25 @@ $playlist-bottom: -16%;
 	}
 }
 
-// Mobile corrections
-&.#{$prefix}-ui-skin-smallscreen, &.#{$prefix}-layout-max-width-400 {
-	.playlist-wrapper {
-		background-color: $background-transparent;
+&.#{$prefix}-ui-skin-smallscreen, 
+&.#{$prefix}-layout-max-width-400 {
+	.#{$prefix}-ui-playlistmenu {
+		background-color: $color-black-faded--most;
 		@include layout-cover;
 		@include layout-center-children-in-container;
 
 		display: block;
 		visibility: hidden;
 		opacity: 0;
-		bottom: 0!important;
+		bottom: 0 !important;
 		padding: 1em 1.1em;
 		overflow-y: scroll;
 
 		transition: opacity $animation-duration, visibility $animation-duration;
 
-		.playlist-item {
-			display: block!important;
-			width: 100%!important;
+		.#{$prefix}-ui-playlistmenuitem {
+			display: block !important;
+			width: 100% !important;
 			margin: {
 				bottom: .5em;
 			}
@@ -356,11 +323,11 @@ $playlist-bottom: -16%;
 			}
 
 			.playlist-thumbnail {
-				width: 22%!important;
+				width: 22% !important;
 			}
 			.playlist-item-inside {
 				width: 78%;
-				background: none!important;
+				background: none !important;
 				margin-left: 22%;
 			}
 			.playlist-duration {
@@ -383,7 +350,7 @@ $playlist-bottom: -16%;
 			}
 
 			.playlist-item-playing {
-				display: none!important;
+				display: none !important;
 			}
 
 			.active {
@@ -393,7 +360,7 @@ $playlist-bottom: -16%;
 		}
 
 		.playlist-thumbnail-wrapper {
-			border: none!important;
+			border: none !important;
 		}
 
 		&.open {
@@ -414,12 +381,11 @@ $playlist-bottom: -16%;
 		}
 	}
 
-	.#{$prefix}-ui-playlist-container {
+	.#{$prefix}-ui-is-playlist {
 		.#{$prefix}-ui-controlbar {
 			padding: {
-				bottom: .5em!important;
+				bottom: .5em !important;
 			}
 		}
 	}
 }
-

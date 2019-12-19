@@ -3,7 +3,7 @@ import { UIInstanceManager } from '../uimanager';
 import { Timeout } from '../timeout';
 import { PlayerAPI } from 'bitmovin-player';
 import { PlaylistMenuItem, PlaylistMenuItemConfig } from './playlistmenuitem';
-// import { Button, ButtonConfig } from './button';
+import { Button, ButtonConfig } from './button';
 
 /**
  * Configuration interface for a {@link PlaylistMenu}.
@@ -29,12 +29,15 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
   constructor(config: PlaylistMenuConfig) {
     super(config);
 
-    let allComponents = [];
+    let allComponents: any[] = [];
 
     // @TODO:
     // Create PlaylistMenuItem components here!
     config.data.items.forEach(item => {
-      allComponents.push(new PlaylistMenuItem({ text: item.title }))
+      allComponents.push(
+        new PlaylistMenuItem({ text: item.title })
+        // new Button({ text: item.title })
+      );
     });
 
     console.log('PlaylistMenu - allComponents', allComponents)
@@ -46,7 +49,7 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     
     this.config = this.mergeConfig(config, {
       cssClasses: ['ui-playlistmenu'],
-      hidden: true,
+      hidden: false, // true,
       hideDelay: 3000,
       components: allComponents,
     } as PlaylistMenuConfig, this.config);
