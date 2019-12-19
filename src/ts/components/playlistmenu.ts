@@ -35,7 +35,7 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     // Create PlaylistMenuItem components here!
     config.data.items.forEach(item => {
       allComponents.push(
-        new PlaylistMenuItem({ text: item.title })
+        new PlaylistMenuItem(item)
         // new Button({ text: item.title })
       );
     });

@@ -8,7 +8,8 @@ import { LocalizableText , i18n } from '../localization/i18n';
  * Configuration interface for a {@link PlaylistMenuItemConfig} component.
  */
 export interface PlaylistMenuItemConfig extends ButtonConfig {
-  text?: string;
+  title: string;
+  duration?: string;
 }
 
 /**
@@ -24,27 +25,82 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
     super(config);
 
     this.config = this.mergeConfig(config, {
-      cssClasses: ['ui-button', 'ui-playlistmenuitem'],
+      cssClasses: ['ui-playlistmenuitem'], // 'ui-button'
     } as Config, this.config);
   }
 
   protected toDomElement(): DOM {
     // Create the button element with the text label
-    let buttonElement = new DOM('button', {
-      'type': 'button',
-      'id': this.config.id,
-      'class': this.getCssClasses(),
-    }).append(new DOM('span', {
-      'class': this.prefixCss('label'),
-    }).html(this.config.text));
+    // let buttonElement = new DOM('button', {
+    //   'type': 'button',
+    //   'id': this.config.id,
+    //   'class': this.getCssClasses(),
+    // }).append(new DOM('span', {
+    //   'class': this.prefixCss('label'),
+    // }).html(this.config.text));
+
+    let itemEl = new DOM('div', {
+      id: this.config.id,
+      class: this.getCssClasses(),
+    });
+
+    let itemButtonEl = new DOM('button', {
+      type: 'button',
+      class: 'playlist-item-link',
+      'data-mediaid': 'bogus',
+      'data-video-index': 'bogus',
+      'data-media-type': 'bogus',
+    });
+
+    let itemButtonContentEl = new DOM('div', {
+      class: 'playlist-thumbnail-wrapper',
+    });
+
+    let thumbnailEl = new DOM('img', {
+      class: 'playlist-thumbnail',
+      src: 'https://images.streammonkey.com/560x315/black.jpg',
+    });
+
+    let detailsEl = new DOM('div', {
+      class: 'playlist-item-inside',
+    });
+
+    let statusEl = new DOM('div', {
+      class: 'playlist-item-playing',
+    });
+
+    let titleEl = new DOM('p', {
+      class: 'playlist-title',
+    }).html(this.config.title);
+
+    let durationEl = new DOM('span', {
+      class: 'playlist-duration',
+    }).html(this.config.duration);
+
+    // News team, ASSEMBLE!
+    detailsEl.append(statusEl, titleEl, durationEl);
+    itemButtonContentEl.append(thumbnailEl, detailsEl);
+    itemButtonEl.append(itemButtonContentEl);
+    itemEl.append(itemButtonEl);
+
+    // <a class="playlist-item-link active" data-mediaid="5c8823deee38c" data-video-index="0" data-media-type="on_demand_video">
+    //   <div class="playlist-thumbnail-wrapper">
+    //     <img class="playlist-thumbnail" src="https://images.streammonkey.com/560x315/black.jpg">
+    //     <div class="playlist-item-inside">
+    //             <div class="playlist-item-playing">Now Playing</div>
+    //       <p class="playlist-title">test 4 (copy)</p>
+    //       <span class="playlist-duration">00:00:05</span>
+    //     </div>
+    //   </div>
+    // </a>
 
     // Listen for the click event on the button element and trigger the corresponding event on the button component
-    buttonElement.on('click', () => {
+    itemEl.on('click', () => {
       // this.onClickEvent();
       alert('Do sumpin!');
     });
 
-    return buttonElement;
+    return itemEl;
   }
 
   /**
