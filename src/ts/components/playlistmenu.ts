@@ -81,7 +81,10 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
       // Wait to initialize the nav buttons until the menu has height
       // (i.e. the menu item images have loaded).
       let navButtonInit = setInterval(() => {
-        if (playlistMenuDom.get(0).clientHeight === 0) return;
+        let itemImageHeight = playlistMenuDom.find(`.${this.prefixCss('ui-playlistmenuitem')} .playlist-thumbnail`).height();
+        if (itemImageHeight === 0) {
+          return;
+        }
 
         clearInterval(navButtonInit);
 

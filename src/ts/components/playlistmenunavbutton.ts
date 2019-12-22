@@ -96,7 +96,9 @@ export class PlaylistMenuNavButton extends Button<PlaylistMenuNavButtonConfig> {
     let config = this.getConfig();
 
     // Set the position.
-    let offsetTop = config.playlistMenu.get(0).offsetTop - config.playlistMenu.get(0).clientHeight / 2 + 16;
+    let playlistMenuEl = config.playlistMenu.get(0);
+    // console.log('playlistMenuEl - offsetTop, clientHeight', playlistMenuEl.offsetTop, playlistMenuEl.clientHeight)
+    let offsetTop = playlistMenuEl.offsetTop - playlistMenuEl.clientHeight / 2 + 16;
     this.getDomElement().get(0).style.top = `${offsetTop}px`;
 
     this.onClick.subscribe(() => {
