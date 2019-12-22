@@ -306,9 +306,12 @@ export namespace SmUIFactory {
     // If playlist data was passed, init the playlist's menu.
     let playlistMenu;
     if (isPlaylist) {
-      let playlistMenu = new PlaylistMenu({ data: { items: data.playlistItems }});
+      playlistMenu = new PlaylistMenu({ 
+        data: { items: data.playlistItems },
+        hideDelay: -1,
+      });
       playlistMenu.addComponent(new CloseButton({ target: playlistMenu }));
-      titleBarComponents.push(new PlaylistMenuToggleButton({ playlistMenu }));
+      titleBarComponents.splice(1, 0, new PlaylistMenuToggleButton({ playlistMenu }));
     }
 
     // Assemble all container components.

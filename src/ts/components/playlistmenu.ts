@@ -42,7 +42,7 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     
     this.config = this.mergeConfig(config, {
       cssClasses: ['ui-playlistmenu'],
-      hidden: true, // false, // true,
+      hidden: true,
       hideDelay: 3000,
       components: allComponents,
     } as PlaylistMenuConfig, this.config);

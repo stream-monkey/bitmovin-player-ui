@@ -311,12 +311,13 @@
 &.#{$prefix}-ui-skin-smallscreen, 
 &.#{$prefix}-layout-max-width-400 {
 	.#{$prefix}-ui-playlistmenu {
-		background-color: $color-black-faded--most;
+		background-color: $color-black-faded--default;
 		@include layout-cover;
 		@include layout-center-children-in-container;
 
     // Reverse the force-show on .-controls-shown above, as in mobile, 
     // the playlist menu is shown via the toggle button.
+    display: block;
 		visibility: hidden;
     opacity: 0;
 
