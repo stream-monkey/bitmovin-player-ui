@@ -41,15 +41,44 @@ export class PlaylistMenuNavButton extends Button<PlaylistMenuNavButtonConfig> {
 
     let config = this.getConfig();
 
-    this.onClick.subscribe(() => {
+    config.playlistMenu.onHoverChanged.subscribe(() => {
+      console.log('playlistmenu.onHoverChanged...');
+
+      // @TODO: Do this check on scroll...
       const container = config.playlistMenu.getDomElement().get(0);
       const atEnd = container.offsetWidth + container.scrollLeft == container.scrollWidth;
       console.log('container.scrollLeft', container.scrollLeft)
       console.log('atEnd', atEnd)
-      
       if (atEnd && config.isForward) {
         this.hide();
       }
+    });
+
+    this.onClick.subscribe(() => {
+      const containerDom = config.playlistMenu.getDomElement();
+      const container = containerDom.get(0);
+      const itemWidth = containerDom.find('.bmpui-ui-playlistmenuitem').width();
+
+      // Four items are shown at a time; scroll "a page" each time.
+      const scrollPageWidth = itemWidth * 4;
+      
+      const newPosition = config.isForward
+        ? container.scrollLeft + scrollPageWidth
+        : container.scrollLeft - scrollPageWidth;
+      container.scroll({ left: newPosition, behavior: 'smooth' });
+
+
+      // @TODO: Actually scroll when clicking...
+      // ...
+
+      // // @TODO: Do this check on scroll...
+      // const container = config.playlistMenu.getDomElement().get(0);
+      // const atEnd = container.offsetWidth + container.scrollLeft == container.scrollWidth;
+      // console.log('container.scrollLeft', container.scrollLeft)
+      // console.log('atEnd', atEnd)
+      // if (atEnd && config.isForward) {
+      //   this.hide();
+      // }
     });
   }
 }
