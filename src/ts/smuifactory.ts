@@ -12,6 +12,7 @@ import { SubtitleSettingsLabel } from './components/subtitlesettings/subtitleset
 import { SubtitleSelectBox } from './components/subtitleselectbox';
 import { SharePanel } from './components/sharepanel';
 import { PlaylistMenu } from './components/playlistmenu';
+import { PlaylistMenuToggleButton } from './components/playlistmenutogglebutton';
 import { ControlBar } from './components/controlbar';
 import { Container } from './components/container';
 import { PlaybackTimeLabel, PlaybackTimeLabelMode } from './components/playbacktimelabel';
@@ -137,7 +138,7 @@ export namespace SmUIFactory {
             new AirPlayToggleButton(),
             new CastToggleButton(),
             new VRToggleButton(),
-            new ShareToggleButton({ sharePanel: sharePanel }),
+            new ShareToggleButton({ sharePanel }),
             new SettingsToggleButton({ settingsPanel: settingsPanel }),
             new FullscreenToggleButton(),
           ],
@@ -159,12 +160,10 @@ export namespace SmUIFactory {
     ];
 
     // If playlist data was passed, add the playlist's menu.
+    let playlistMenu;
     if (isPlaylist) {
-      components.push(new PlaylistMenu({
-        data: { 
-          items: data.playlistItems,
-        },
-      }));
+      playlistMenu = new PlaylistMenu({ data: { items: data.playlistItems }});
+      components.push(playlistMenu);
     }
 
     return new UIContainer({
@@ -284,6 +283,34 @@ export namespace SmUIFactory {
       cssClasses.push('ui-is-playlist');
     }
 
+    // Share panel.
+    let sharePanel = new SharePanel({ data });
+    sharePanel.addComponent(new CloseButton({ target: sharePanel }));
+
+    // All title bar components.
+    let titleBarComponents = [
+      // Don't show the title.
+      // new MetadataLabel({ content: MetadataLabelContent.Title }),
+      // dummy label with no content to move buttons to the right
+      new Label({ cssClass: 'label-metadata-title' }),
+      new CastToggleButton(),
+      new VRToggleButton(),
+      new ShareToggleButton({ sharePanel }),
+      new PictureInPictureToggleButton(),
+      new AirPlayToggleButton(),
+      new VolumeToggleButton(),
+      new SettingsToggleButton({ settingsPanel: settingsPanel }),
+      new FullscreenToggleButton(),
+    ];
+
+    // If playlist data was passed, init the playlist's menu.
+    let playlistMenu;
+    if (isPlaylist) {
+      let playlistMenu = new PlaylistMenu({ data: { items: data.playlistItems }});
+      playlistMenu.addComponent(new CloseButton({ target: playlistMenu }));
+      titleBarComponents.push(new PlaylistMenuToggleButton({ playlistMenu }));
+    }
+
     // Assemble all container components.
     let components = [
       subtitleOverlay,
@@ -300,31 +327,16 @@ export namespace SmUIFactory {
       //   ],
       // }),
       new TitleBar({
-        components: [
-          // Don't show the title.
-          // new MetadataLabel({ content: MetadataLabelContent.Title }),
-          // dummy label with no content to move buttons to the right
-          new Label({ cssClass: 'label-metadata-title' }),
-          new CastToggleButton(),
-          new VRToggleButton(),
-          new PictureInPictureToggleButton(),
-          new AirPlayToggleButton(),
-          new VolumeToggleButton(),
-          new SettingsToggleButton({ settingsPanel: settingsPanel }),
-          new FullscreenToggleButton(),
-        ],
+        components: titleBarComponents,
       }),
       settingsPanel,
+      sharePanel,
       new ErrorMessageOverlay(),
     ];
 
     // If playlist data was passed, add the playlist's menu.
     if (isPlaylist) {
-      components.push(new PlaylistMenu({
-        data: { 
-          items: data.playlistItems,
-        },
-      }));
+      components.push(playlistMenu);
     }
 
     return new UIContainer({

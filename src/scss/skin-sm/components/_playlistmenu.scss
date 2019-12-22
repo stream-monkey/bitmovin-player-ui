@@ -222,7 +222,11 @@
 			top: 1%;
 			bottom: 6.5%;
 		}
-	}
+  }
+  
+  .#{$prefix}-ui-settings-panel {
+    bottom: 9em;
+  }
 }
 
 // Force show the playlist menu when force-showing all controls.
@@ -311,9 +315,18 @@
 		@include layout-cover;
 		@include layout-center-children-in-container;
 
-		// display: block;
-		// visibility: hidden;
-		// opacity: 0;
+    // Reverse the force-show on .-controls-shown above, as in mobile, 
+    // the playlist menu is shown via the toggle button.
+		visibility: hidden;
+    opacity: 0;
+
+    // Sweet, and this allows for the native bitmovin ui toggling
+    // to work exactly as expected still.
+    &:not(.#{$prefix}-hidden) {
+      visibility: visible;
+      opacity: 1;
+    }
+    
 		bottom: 0 !important;
 		padding: 1em 1.1em;
 		overflow-y: scroll;
