@@ -31,16 +31,9 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
 
     let allComponents: any[] = [];
 
-    // @TODO:
-    // Create PlaylistMenuItem components here!
     config.data.items.forEach(item => {
-      allComponents.push(
-        new PlaylistMenuItem(item)
-        // new Button({ text: item.title })
-      );
+      allComponents.push(new PlaylistMenuItem(item));
     });
-
-    console.log('PlaylistMenu - allComponents', allComponents)
 
     // @TODO:
     // I'm gonna need to add like close & nav button components 
@@ -49,7 +42,7 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     
     this.config = this.mergeConfig(config, {
       cssClasses: ['ui-playlistmenu'],
-      hidden: false, // true,
+      hidden: true, // false, // true,
       hideDelay: 3000,
       components: allComponents,
     } as PlaylistMenuConfig, this.config);

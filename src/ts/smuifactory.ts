@@ -62,12 +62,15 @@ export namespace SmUIFactory {
   //   return SmUIFactory.buildSmCastReceiverUI(player, config);
   // }
 
+  export function isPlaylist(data: any) {
+    return data.playlistItems && data.playlistItems.length > 0;
+  }
+
   function modernUI(data: any) {//} object = {}) {
     console.log('modernUI - data', data);
 
     // If it's a playlist, add a custom class & playlist menu.
-    const isPlaylist = data.playlistItems && data.playlistItems.length > 0;
-    // .#{$prefix}-ui-playlist-container
+    const isPlaylist = SmUIFactory.isPlaylist(data);
 
     let subtitleOverlay = new SubtitleOverlay();
 
@@ -144,7 +147,7 @@ export namespace SmUIFactory {
     });
 
     // Assemble all container components.
-    let allComponents = [
+    let components = [
       subtitleOverlay,
       new BufferingOverlay(),
       new PlaybackToggleOverlay(),
@@ -157,7 +160,7 @@ export namespace SmUIFactory {
 
     // If playlist data was passed, add the playlist's menu.
     if (isPlaylist) {
-      allComponents.push(new PlaylistMenu({
+      components.push(new PlaylistMenu({
         data: { 
           items: data.playlistItems,
         },
@@ -166,7 +169,7 @@ export namespace SmUIFactory {
 
     return new UIContainer({
       cssClasses: [(isPlaylist ? 'ui-is-playlist' : '')],
-      components: allComponents,
+      components: components,
       hideDelay: 2000,
       hidePlayerStateExceptions: [
         PlayerUtils.PlayerState.Prepared,
@@ -176,7 +179,7 @@ export namespace SmUIFactory {
     });
   }
 
-  export function modernAdsUI(data: object = {}) {
+  export function modernAdsUI(data: any) {
     return new UIContainer({
       components: [
         new BufferingOverlay(),
@@ -214,7 +217,10 @@ export namespace SmUIFactory {
     });
   }
 
-  export function modernSmallScreenUI(data: object = {}) {
+  export function modernSmallScreenUI(data: any) { // object = {}) {
+    // If it's a playlist, add a custom class & playlist menu.
+    const isPlaylist = SmUIFactory.isPlaylist(data);
+
     let subtitleOverlay = new SubtitleOverlay();
 
     let mainSettingsPanelPage = new SettingsPanelPage({
@@ -273,40 +279,57 @@ export namespace SmUIFactory {
       ],
     });
 
+    let cssClasses = ['ui-skin-smallscreen']
+    if (isPlaylist) {
+      cssClasses.push('ui-is-playlist');
+    }
+
+    // Assemble all container components.
+    let components = [
+      subtitleOverlay,
+      new BufferingOverlay(),
+      new CastStatusOverlay(),
+      new PlaybackToggleOverlay(),
+      new RecommendationOverlay(),
+      controlBar,
+      // new TitleBar({
+      //   components: [
+      //     // dummy label with no content to move buttons to the right
+      //     new Label({ cssClass: 'label-metadata-title' }),
+      //     new FullscreenToggleButton(),
+      //   ],
+      // }),
+      new TitleBar({
+        components: [
+          // Don't show the title.
+          // new MetadataLabel({ content: MetadataLabelContent.Title }),
+          // dummy label with no content to move buttons to the right
+          new Label({ cssClass: 'label-metadata-title' }),
+          new CastToggleButton(),
+          new VRToggleButton(),
+          new PictureInPictureToggleButton(),
+          new AirPlayToggleButton(),
+          new VolumeToggleButton(),
+          new SettingsToggleButton({ settingsPanel: settingsPanel }),
+          new FullscreenToggleButton(),
+        ],
+      }),
+      settingsPanel,
+      new ErrorMessageOverlay(),
+    ];
+
+    // If playlist data was passed, add the playlist's menu.
+    if (isPlaylist) {
+      components.push(new PlaylistMenu({
+        data: { 
+          items: data.playlistItems,
+        },
+      }));
+    }
+
     return new UIContainer({
-      components: [
-        subtitleOverlay,
-        new BufferingOverlay(),
-        new CastStatusOverlay(),
-        new PlaybackToggleOverlay(),
-        new RecommendationOverlay(),
-        controlBar,
-        // new TitleBar({
-        //   components: [
-        //     // dummy label with no content to move buttons to the right
-        //     new Label({ cssClass: 'label-metadata-title' }),
-        //     new FullscreenToggleButton(),
-        //   ],
-        // }),
-        new TitleBar({
-          components: [
-            // Don't show the title.
-            // new MetadataLabel({ content: MetadataLabelContent.Title }),
-            // dummy label with no content to move buttons to the right
-            new Label({ cssClass: 'label-metadata-title' }),
-            new CastToggleButton(),
-            new VRToggleButton(),
-            new PictureInPictureToggleButton(),
-            new AirPlayToggleButton(),
-            new VolumeToggleButton(),
-            new SettingsToggleButton({ settingsPanel: settingsPanel }),
-            new FullscreenToggleButton(),
-          ],
-        }),
-        settingsPanel,
-        new ErrorMessageOverlay(),
-      ],
-      cssClasses: ['ui-skin-smallscreen'],
+      components,
+      cssClasses,
       hideDelay: 2000,
       hidePlayerStateExceptions: [
         PlayerUtils.PlayerState.Prepared,
@@ -316,7 +339,7 @@ export namespace SmUIFactory {
     });
   }
 
-  export function modernSmallScreenAdsUI(data: object = {}) {
+  export function modernSmallScreenAdsUI(data: any) {
     return new UIContainer({
       components: [
         new BufferingOverlay(),
@@ -347,7 +370,7 @@ export namespace SmUIFactory {
     });
   }
 
-  export function modernCastReceiverUI(data: object = {}) {
+  export function modernCastReceiverUI(data: any) {
     let controlBar = new ControlBar({
       components: [
         new Container({
@@ -380,7 +403,7 @@ export namespace SmUIFactory {
     });
   }
 
-  export function buildSmUI(player: PlayerAPI, config: UIConfig = {}, data: object = {}): UIManager {
+  export function buildSmUI(player: PlayerAPI, config: UIConfig = {}, data: any): UIManager {
     console.log('buildSmUI - config, data', config, data)
 
     // show smallScreen UI only on mobile/handheld devices
@@ -411,7 +434,7 @@ export namespace SmUIFactory {
     }], config);
   }
 
-  export function buildSmSmallScreenUI(player: PlayerAPI, config: UIConfig = {}, data: object = {}): UIManager {
+  export function buildSmSmallScreenUI(player: PlayerAPI, config: UIConfig = {}, data: any): UIManager {
     return new UIManager(player, [{
       ui: modernSmallScreenAdsUI(data),
       condition: (context: UIConditionContext) => {
@@ -425,7 +448,7 @@ export namespace SmUIFactory {
     }], config);
   }
 
-  export function buildSmCastReceiverUI(player: PlayerAPI, config: UIConfig = {}, data: object = {}): UIManager {
-    return new UIManager(player, modernCastReceiverUI(), config);
+  export function buildSmCastReceiverUI(player: PlayerAPI, config: UIConfig = {}, data: any): UIManager {
+    return new UIManager(player, modernCastReceiverUI(data), config);
   }
 }
