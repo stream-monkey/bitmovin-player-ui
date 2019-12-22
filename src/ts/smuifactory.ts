@@ -12,6 +12,7 @@ import { SubtitleSettingsLabel } from './components/subtitlesettings/subtitleset
 import { SubtitleSelectBox } from './components/subtitleselectbox';
 import { SharePanel } from './components/sharepanel';
 import { PlaylistMenu } from './components/playlistmenu';
+import { PlaylistMenuNavButton } from './components/playlistmenunavbutton';
 import { PlaylistMenuToggleButton } from './components/playlistmenutogglebutton';
 import { ControlBar } from './components/controlbar';
 import { Container } from './components/container';
@@ -148,7 +149,7 @@ export namespace SmUIFactory {
     });
 
     // Assemble all container components.
-    let components = [
+    let components: any[] = [
       subtitleOverlay,
       new BufferingOverlay(),
       new PlaybackToggleOverlay(),
@@ -167,6 +168,11 @@ export namespace SmUIFactory {
         includeNavButtons: true,
       });
       components.push(playlistMenu);
+
+      // Add nav buttons if designated. Used for non-mobile
+      // left/right movement of the playlist menu.
+      components.push(new PlaylistMenuNavButton({ playlistMenu }));
+      components.push(new PlaylistMenuNavButton({ playlistMenu, isForward: true }));
     }
 
     return new UIContainer({

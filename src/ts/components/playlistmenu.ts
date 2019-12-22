@@ -42,8 +42,8 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     // left/right movement of the playlist menu.
     if (config.includeNavButtons)
     {
-      components.push(new PlaylistMenuNavButton({ playlistMenu: this }));
-      components.push(new PlaylistMenuNavButton({ playlistMenu: this, isForward: true }));
+      // components.push(new PlaylistMenuNavButton({ playlistMenu: this }));
+      // components.push(new PlaylistMenuNavButton({ playlistMenu: this, isForward: true }));
     }
     
     this.config = this.mergeConfig(config, {
