@@ -71,20 +71,13 @@
 .#{$prefix}-ui-playlistmenunavbutton {
   @extend %ui-playlistmenunavbutton;
 
-  bottom: 50%;
-  margin-bottom: -10px;
+  // bottom: 50%;
+  // margin-bottom: -10px;
+  // This position will be set via DOM detection in the component.
+  // top: 100%;
+  top: 50%;
   position: absolute;
   
-  // background: none;
-  // background-repeat: no-repeat;
-  // color: inherit;
-  // border: none;
-  // padding: 0;
-  // font: inherit;
-  // cursor: pointer;
-
-  // background-size: 1.2em;
-
   // Back.
   &.#{$prefix}-ui-playlistmenunavbutton-back {
     left: 0;
@@ -107,5 +100,22 @@
     &.#{$prefix}-on {
       background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyMzggMjM4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyMzggMjM4OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTcwLjEsMTA3LjdMNjAuMiw0LjZjLTYuNi02LjItMTcuMy02LjItMjMuOSwwcy02LjYsMTYuMywwLDIyLjVsOTcuOSw5MS45bC05Ny45LDkxLjljLTYuNiw2LjItNi42LDE2LjMsMCwyMi41czE3LjMsNi4yLDIzLjksMGwxMDkuOC0xMDNjMy40LTMuMSw1LTcuMiw0LjktMTEuM0MxNzUsMTE0LjksMTczLjQsMTEwLjgsMTcwLjEsMTA3Ljd6Ii8+PC9nPjwvZz48L3N2Zz4=");
     }
+  }
+}
+
+// Show arrows on-hover of playlist menu. Since they're absolutely
+// positioned, this prevents any weird positioning / jumping.
+.#{$prefix}-ui-playlistmenu-wrapper {
+  &:hover {
+    .#{$prefix}-ui-playlistmenunavbutton {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .#{$prefix}-ui-playlistmenunavbutton {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity $animation-duration, visibility $animation-duration;
   }
 }

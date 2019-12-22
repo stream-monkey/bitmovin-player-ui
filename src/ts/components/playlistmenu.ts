@@ -18,6 +18,10 @@ export interface PlaylistMenuConfig extends ContainerConfig {
   hideDelay?: number;
 
   data: { items: any[] };
+
+  // navButtons?: PlaylistMenuNavButton[];
+
+  includeNavButtons?: boolean;
 }
 
 /**
@@ -31,13 +35,20 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     super(config);
 
     let components: any[] = [];
+    let itemComponents: any[] = [];
 
     config.data.items.forEach(item => {
-      components.push(new PlaylistMenuItem(item));
+      itemComponents.push(new PlaylistMenuItem(item));
     });
 
-    this.config = this.mergeConfig(config, {
+    components.push(new Container({
       cssClasses: ['ui-playlistmenu'],
+      components: itemComponents,
+    }));
+
+    this.config = this.mergeConfig(config, {
+      // cssClasses: ['ui-playlistmenu'],
+      cssClasses: ['ui-playlistmenu-wrapper'],
       hidden: true,
       hideDelay: 3000,
       components,
@@ -49,21 +60,41 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
 
     let config = this.getConfig();
     let uiconfig = uimanager.getConfig();
-    
-    // console.log('PlaylistMenu.configure - config.data', config.data)
 
-    // Set the initial position of the button, since it's absolutely
-    // positioned within the main player container, out of necessity.
-    setTimeout(() => {
-      console.log('playlistmenu offset, height', 
-        this.getDomElement().get(0).offsetTop,
-        this.getDomElement().get(0).clientHeight)
-      // Gotta access these via the DOM vs. more elegantly passing them
-      // through as a configuration property – chicken & egg dilemma: 
-      // the nav buttons need to access the playlist element for
-      // all of their event listeners / interactions.
-      // ...
-    }, 1000)
+    const self = this;
+
+    let playlistMenuDom = this.getDomElement().find('.bmpui-ui-playlistmenu');
+
+    // Do this after the fact so that they have access to
+    // this initialized PlaylistMenu component.
+    let backNavButton : PlaylistMenuNavButton;
+    let forwardNavButton : PlaylistMenuNavButton;
+    if (config.includeNavButtons) {
+      // Wait to initialize the nav buttons until the menu has height
+      // (i.e. the menu item images have loaded).
+      let navButtonInit = setInterval(() => {
+        if (playlistMenuDom.get(0).clientHeight === 0) return;
+
+        clearInterval(navButtonInit);
+
+        backNavButton = new PlaylistMenuNavButton({ playlistMenu: playlistMenuDom });
+        forwardNavButton = new PlaylistMenuNavButton({ playlistMenu: playlistMenuDom, isForward: true });
+        backNavButton.configure(player, uimanager);
+        forwardNavButton.configure(player, uimanager);
+        self.addComponent(backNavButton);
+        self.addComponent(forwardNavButton);
+  
+        // Create the actual DOM elements with the nav buttons.
+        self.updateComponents();
+
+        // Toggle button appropriately based on whether we're at the
+        // start or end of the overall scroll position.
+        playlistMenuDom.get(0).addEventListener('scroll', function(e) {
+          backNavButton.toggleVisibility();
+          forwardNavButton.toggleVisibility();
+        });
+      }, 100);
+    }
     
     // Auto-hiding.
     if (config.hideDelay > -1) {

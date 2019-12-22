@@ -163,13 +163,16 @@ export namespace SmUIFactory {
     // If playlist data was passed, add the playlist's menu.
     let playlistMenu;
     if (isPlaylist) {
-      playlistMenu = new PlaylistMenu({ data: { items: data.playlistItems } });
+      playlistMenu = new PlaylistMenu({ 
+        data: { items: data.playlistItems }, 
+        includeNavButtons: true 
+      });
       components.push(playlistMenu);
 
       // Add nav buttons if designated. Used for non-mobile
       // left/right movement of the playlist menu.
-      components.push(new PlaylistMenuNavButton({ playlistMenu }));
-      components.push(new PlaylistMenuNavButton({ playlistMenu, isForward: true }));
+      // components.push(new PlaylistMenuNavButton({ playlistMenu }));
+      // components.push(new PlaylistMenuNavButton({ playlistMenu, isForward: true }));
     }
 
     return new UIContainer({

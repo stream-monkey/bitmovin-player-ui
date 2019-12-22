@@ -3,6 +3,7 @@ import {PlaylistMenu} from './playlistmenu';
 import {UIInstanceManager} from '../uimanager';
 import {Component, ComponentConfig} from './component';
 import { PlayerAPI } from 'bitmovin-player';
+import { DOM } from '../dom';
 
 /**
  * Configuration interface for the {@link PlaylistMenuNavButton}.
@@ -11,7 +12,10 @@ export interface PlaylistMenuNavButtonConfig extends ButtonConfig {
   /**
    * The playlist menu whose position the button should alter.
    */
-  playlistMenu: PlaylistMenu;
+  // playlistMenu: PlaylistMenu;
+  playlistMenu: DOM;
+
+  topPosition?: number;
 
   /**
    *  Forward vs. back navigation direction.
@@ -45,7 +49,7 @@ export class PlaylistMenuNavButton extends Button<PlaylistMenuNavButtonConfig> {
     else {
       // If it's the forward button and there are less than four items, 
       // we're automatically "at the end," so hide it.
-      const containerDom = this.config.playlistMenu.getDomElement();
+      const containerDom = this.config.playlistMenu;
       if (containerDom.find('.bmpui-ui-playlistmenuitem').length < 4) {
         return true;
       }
@@ -56,17 +60,19 @@ export class PlaylistMenuNavButton extends Button<PlaylistMenuNavButtonConfig> {
   }
 
   scrollAtBeginning() {
-    const container = this.config.playlistMenu.getDomElement().get(0);
+    const container = this.config.playlistMenu.get(0);
     return container.scrollLeft === 0;
   }
 
   scrollAtEnd() {
-    const container = this.config.playlistMenu.getDomElement().get(0);
+    const container = this.config.playlistMenu.get(0);
     return container.offsetWidth + container.scrollLeft == container.scrollWidth;
   }
 
   toggleVisibility() {
-    const container = this.config.playlistMenu.getDomElement().get(0);
+    const container = this.config.playlistMenu.get(0);
+
+    console.log('playlistmenuitem - toggleVisibility, menu width, scrollLeft', container.scrollWidth, container.scrollLeft);
 
     // Forward button.
     if (this.config.isForward) {
@@ -95,16 +101,12 @@ export class PlaylistMenuNavButton extends Button<PlaylistMenuNavButtonConfig> {
 
     let config = this.getConfig();
 
-    const self = this;
-
-    // Toggle button appropriately based on whether we're at the
-    // start or end of the overall scroll position.
-    config.playlistMenu.getDomElement().get(0).addEventListener('scroll', function(e) {
-      self.toggleVisibility();
-    });
+    // Set the position.
+    let offsetTop = config.playlistMenu.get(0).offsetTop - config.playlistMenu.get(0).clientHeight / 2 + 16;
+    this.getDomElement().get(0).style.top = `${offsetTop}px`;
 
     this.onClick.subscribe(() => {
-      const containerDom = config.playlistMenu.getDomElement();
+      const containerDom = config.playlistMenu;
       const container = containerDom.get(0);
       const itemWidth = containerDom.find('.bmpui-ui-playlistmenuitem').width();
 
@@ -125,7 +127,7 @@ export class PlaylistMenuNavButton extends Button<PlaylistMenuNavButtonConfig> {
           || this.scrollAtBeginning() || this.scrollAtEnd();
         if (doneScrolling) {
           clearInterval(toggleVisibilityInterval);
-          config.playlistMenu.getDomElement().get(0).dispatchEvent(new Event('scroll'));
+          config.playlistMenu.get(0).dispatchEvent(new Event('scroll'));
         }
       }, 100);
     });
