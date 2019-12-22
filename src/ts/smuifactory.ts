@@ -163,10 +163,7 @@ export namespace SmUIFactory {
     // If playlist data was passed, add the playlist's menu.
     let playlistMenu;
     if (isPlaylist) {
-      playlistMenu = new PlaylistMenu({ 
-        data: { items: data.playlistItems },
-        includeNavButtons: true,
-      });
+      playlistMenu = new PlaylistMenu({ data: { items: data.playlistItems } });
       components.push(playlistMenu);
 
       // Add nav buttons if designated. Used for non-mobile
