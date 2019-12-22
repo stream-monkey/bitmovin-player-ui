@@ -30,17 +30,17 @@
       bottom: 15px;
     }
 
-    .#{$prefix}-ui-arrows {
-      visibility: visible;
-      opacity: 1;
-    }
+    // .#{$prefix}-ui-arrows {
+    //   visibility: visible;
+    //   opacity: 1;
+    // }
   }
 
-  .#{$prefix}-ui-arrows {
-    visibility: hidden;
-      opacity: 0;
-      transition: opacity $animation-duration, visibility $animation-duration;
-  }
+  // .#{$prefix}-ui-arrows {
+  //   visibility: hidden;
+  //   opacity: 0;
+  //   transition: opacity $animation-duration, visibility $animation-duration;
+  // }
 
   p {
     padding: 1em 0.5em 0;
@@ -58,57 +58,57 @@
     text-decoration: none;
   }
 
-  // Arrow buttons.
-  .#{$prefix}-ui-arrow-prev, .#{$prefix}-ui-arrow-next {
-    position: fixed;
-    bottom: 15%;
-    background: none;
-    background-repeat: no-repeat;
-      color: inherit;
-      border: none;
-      padding: 0;
-      font: inherit;
-      cursor: pointer;
-      outline: inherit;
+  // // Arrow buttons.
+  // .#{$prefix}-ui-arrow-prev, .#{$prefix}-ui-arrow-next {
+  //   position: fixed;
+  //   bottom: 15%;
+  //   background: none;
+  //   background-repeat: no-repeat;
+  //     color: inherit;
+  //     border: none;
+  //     padding: 0;
+  //     font: inherit;
+  //     cursor: pointer;
+  //     outline: inherit;
 
-    &:hover {
-      @include svg-icon-shadow;
-    }
+  //   &:hover {
+  //     @include svg-icon-shadow;
+  //   }
 
-    &.hidden {
-      display: none;
-    }
-  }
+  //   &.hidden {
+  //     display: none;
+  //   }
+  // }
 
-  .#{$prefix}-ui-arrow-prev {
-    left: 0;
-    margin: {
-      left: 10px;
-    }
+  // .#{$prefix}-ui-arrow-prev {
+  //   left: 0;
+  //   margin: {
+  //     left: 10px;
+  //   }
 
-    &:before {
-      content: "";
-      background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyMzggMjM4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyMzggMjM4OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjYuMywxMzAuM2wxMDkuOCwxMDMuMWM2LjYsNi4yLDE3LjMsNi4yLDIzLjksMGM2LjYtNi4yLDYuNi0xNi4zLDAtMjIuNUwxMDIuMiwxMTlMMjAwLDI3LjFjNi42LTYuMiw2LjYtMTYuMywwLTIyLjVzLTE3LjMtNi4yLTIzLjksMGwtMTA5LjgsMTAzYy0zLjQsMy4xLTUsNy4yLTQuOSwxMS4zQzYxLjQsMTIzLjEsNjMsMTI3LjIsNjYuMywxMzAuM3oiLz48L2c+PC9nPjwvc3ZnPg==");
-      display: block;
-      width: 35px;
-      height: 35px;
-    }
-  }
+  //   &:before {
+  //     content: "";
+  //     background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyMzggMjM4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyMzggMjM4OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjYuMywxMzAuM2wxMDkuOCwxMDMuMWM2LjYsNi4yLDE3LjMsNi4yLDIzLjksMGM2LjYtNi4yLDYuNi0xNi4zLDAtMjIuNUwxMDIuMiwxMTlMMjAwLDI3LjFjNi42LTYuMiw2LjYtMTYuMywwLTIyLjVzLTE3LjMtNi4yLTIzLjksMGwtMTA5LjgsMTAzYy0zLjQsMy4xLTUsNy4yLTQuOSwxMS4zQzYxLjQsMTIzLjEsNjMsMTI3LjIsNjYuMywxMzAuM3oiLz48L2c+PC9nPjwvc3ZnPg==");
+  //     display: block;
+  //     width: 35px;
+  //     height: 35px;
+  //   }
+  // }
 
-  .#{$prefix}-ui-arrow-next {
-    right: 0;
-    margin: {
-      right: 10px;
-    }
+  // .#{$prefix}-ui-arrow-next {
+  //   right: 0;
+  //   margin: {
+  //     right: 10px;
+  //   }
 
-    &:before {
-      content: "";
-      background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyMzggMjM4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyMzggMjM4OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTcwLjEsMTA3LjdMNjAuMiw0LjZjLTYuNi02LjItMTcuMy02LjItMjMuOSwwcy02LjYsMTYuMywwLDIyLjVsOTcuOSw5MS45bC05Ny45LDkxLjljLTYuNiw2LjItNi42LDE2LjMsMCwyMi41czE3LjMsNi4yLDIzLjksMGwxMDkuOC0xMDNjMy40LTMuMSw1LTcuMiw0LjktMTEuM0MxNzUsMTE0LjksMTczLjQsMTEwLjgsMTcwLjEsMTA3Ljd6Ii8+PC9nPjwvZz48L3N2Zz4=");
-      display: block;
-      width: 35px;
-      height: 35px;
-    }
-  }
+  //   &:before {
+  //     content: "";
+  //     background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyMzggMjM4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyMzggMjM4OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTcwLjEsMTA3LjdMNjAuMiw0LjZjLTYuNi02LjItMTcuMy02LjItMjMuOSwwcy02LjYsMTYuMywwLDIyLjVsOTcuOSw5MS45bC05Ny45LDkxLjljLTYuNiw2LjItNi42LDE2LjMsMCwyMi41czE3LjMsNi4yLDIzLjksMGwxMDkuOC0xMDNjMy40LTMuMSw1LTcuMiw0LjktMTEuM0MxNzUsMTE0LjksMTczLjQsMTEwLjgsMTcwLjEsMTA3Ljd6Ii8+PC9nPjwvZz48L3N2Zz4=");
+  //     display: block;
+  //     width: 35px;
+  //     height: 35px;
+  //   }
+  // }
 
   .#{$prefix}-ui-playlistmenuitem {
     display: inline-block;
@@ -238,39 +238,6 @@
 	}
 }
 
-// Mobile playlist menu toggle & close buttons.
-// .#{$prefix}-ui-playlist-btn {
-// 	@extend %ui-button;
-// 	background: none;
-
-// 	.icon {
-// 		background-repeat: no-repeat;
-
-// 		margin: {
-// 			top: 0;
-// 			bottom: 0;
-// 		}
-
-// 		&:hover {
-// 	      @include svg-icon-shadow;
-// 	    }
-
-// 		&.playlist {
-// 			background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMzIgMzIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMyIDMyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNNi43LDguMUM2LjIsOC42LDUuNSw4LjksNC44LDguOVMzLjQsOC42LDIuOSw4LjFTMi4xLDYuOSwyLjEsNi4yczAuMy0xLjQsMC44LTEuOVM0LDMuNSw0LjgsMy41czEuNCwwLjMsMS45LDAuOHMwLjgsMS4yLDAuOCwxLjlTNy4yLDcuNiw2LjcsOC4xeiBNMi45LDEzLjNjLTAuNSwwLjUtMC44LDEuMi0wLjgsMS45czAuMywxLjQsMC44LDEuOXMxLjIsMC44LDEuOSwwLjhzMS40LTAuMywxLjktMC44czAuOC0xLjIsMC44LTEuOXMtMC4zLTEuNC0wLjgtMS45Yy0wLjUtMC41LTEuMi0wLjgtMS45LTAuOFMzLjQsMTIuOCwyLjksMTMuM3ogTTIuOSwyMi4zYy0wLjUsMC41LTAuOCwxLjItMC44LDEuOWMwLDAuOCwwLjMsMS40LDAuOCwxLjlzMS4yLDAuOCwxLjksMC44czEuNC0wLjMsMS45LTAuOHMwLjgtMS4yLDAuOC0xLjljMC0wLjgtMC4zLTEuNC0wLjgtMS45cy0xLjItMC44LTEuOS0wLjhTMy40LDIxLjgsMi45LDIyLjN6IE0zMC45LDUuM2MwLTAuMi0wLjEtMC4zLTAuMi0wLjVjLTAuMS0wLjEtMC4zLTAuMi0wLjUtMC4ySDEwYy0wLjIsMC0wLjMsMC4xLTAuNSwwLjJTOS4zLDUuMSw5LjMsNS4zdjEuOGMwLDAuMiwwLjEsMC4zLDAuMiwwLjVTOS44LDcuOCwxMCw3LjhoMjAuM2MwLjIsMCwwLjMtMC4xLDAuNS0wLjJjMC4xLTAuMSwwLjItMC4zLDAuMi0wLjVWNS4zeiBNMzAuOSwxNC4zYzAtMC4yLTAuMS0wLjMtMC4yLTAuNWMtMC4xLTAuMS0wLjMtMC4yLTAuNS0wLjJIMTBjLTAuMiwwLTAuMywwLjEtMC41LDAuMnMtMC4yLDAuMy0wLjIsMC41djEuOGMwLDAuMiwwLjEsMC4zLDAuMiwwLjVjMC4xLDAuMSwwLjMsMC4yLDAuNSwwLjJoMjAuM2MwLjIsMCwwLjMtMC4xLDAuNS0wLjJjMC4xLTAuMSwwLjItMC4zLDAuMi0wLjVWMTQuM3ogTTMwLjksMjMuM2MwLTAuMi0wLjEtMC4zLTAuMi0wLjVjLTAuMS0wLjEtMC4zLTAuMi0wLjUtMC4ySDEwYy0wLjIsMC0wLjMsMC4xLTAuNSwwLjJjLTAuMSwwLjEtMC4yLDAuMy0wLjIsMC41djEuOGMwLDAuMiwwLjEsMC4zLDAuMiwwLjVjMC4xLDAuMSwwLjMsMC4yLDAuNSwwLjJoMjAuM2MwLjIsMCwwLjMtMC4xLDAuNS0wLjJjMC4xLTAuMSwwLjItMC4zLDAuMi0wLjVWMjMuM3oiLz48L2c+PC9zdmc+");
-// 			height: 24px;
-// 			width: 27px;
-// 			margin: 0;
-// 		}
-// 	}
-// }
-
-.#{$prefix}-ui-closebutton-playlists {
-  display: none;
-  position: fixed;
-  height: 26px;
-  width: 26px;
-}
-
 // Responsive customizations.
 &.#{$prefix}-layout-max-width-800 {
 	.#{$prefix}-ui-playlistmenu {
@@ -386,23 +353,6 @@
 
 		.playlist-thumbnail-wrapper {
 			border: none !important;
-		}
-
-		&.open {
-			visibility: visible;
-			opacity: 1;
-		}
-
-		.#{$prefix}-ui-closebutton-playlists {
-			display: block;
-			margin: {
-				top: 1em;
-				right: .2em;
-			}
-		}
-
-		.#{$prefix}-ui-arrows {
-			display: none;
 		}
 	}
 

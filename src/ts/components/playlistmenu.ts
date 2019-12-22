@@ -2,7 +2,8 @@ import { Container, ContainerConfig } from './container';
 import { UIInstanceManager } from '../uimanager';
 import { Timeout } from '../timeout';
 import { PlayerAPI } from 'bitmovin-player';
-import { PlaylistMenuItem, PlaylistMenuItemConfig } from './playlistmenuitem';
+import { PlaylistMenuItem } from './playlistmenuitem';
+import { PlaylistMenuNavButton } from './playlistmenunavbutton';
 import { Button, ButtonConfig } from './button';
 
 /**
@@ -17,6 +18,8 @@ export interface PlaylistMenuConfig extends ContainerConfig {
   hideDelay?: number;
 
   data: { items: any[] };
+
+  includeNavButtons?: boolean;
 }
 
 /**
@@ -29,22 +32,25 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
   constructor(config: PlaylistMenuConfig) {
     super(config);
 
-    let allComponents: any[] = [];
+    let components: any[] = [];
 
     config.data.items.forEach(item => {
-      allComponents.push(new PlaylistMenuItem(item));
+      components.push(new PlaylistMenuItem(item));
     });
 
-    // @TODO:
-    // I'm gonna need to add like close & nav button components 
-    // here too, yeah? Can they just be Button components??
-    // ...
+    // Add nav buttons if designated. Used for non-mobile
+    // left/right movement of the playlist menu.
+    if (config.includeNavButtons)
+    {
+      components.push(new PlaylistMenuNavButton({ playlistMenu: this }));
+      components.push(new PlaylistMenuNavButton({ playlistMenu: this, isForward: true }));
+    }
     
     this.config = this.mergeConfig(config, {
       cssClasses: ['ui-playlistmenu'],
       hidden: true,
       hideDelay: 3000,
-      components: allComponents,
+      components,
     } as PlaylistMenuConfig, this.config);
   }
 
