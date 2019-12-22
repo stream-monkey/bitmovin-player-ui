@@ -80,8 +80,6 @@ export class SharePanel extends Container<SharePanelConfig> {
     
     let title = uiconfig.metadata.title;
 
-    console.log('SharePanel.configure - config.data', config.data)
-
     // Use a custom supplied share link if passed,
     // otherwise use the current window location.
     let shareLink = config.data && config.data.shareLink

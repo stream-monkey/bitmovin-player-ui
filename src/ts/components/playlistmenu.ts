@@ -61,15 +61,23 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     let config = this.getConfig();
     let uiconfig = uimanager.getConfig();
 
-    const self = this;
-
-    let playlistMenuDom = this.getDomElement().find('.bmpui-ui-playlistmenu');
+    this.onHoverChanged.subscribe(() => {
+      const hoveredClass = this.prefixCss('ui-playlistmenu-wrapper-hovered');
+      if (this.isHovered()) {
+        this.getDomElement().addClass(hoveredClass);
+      }
+      else {
+        this.getDomElement().removeClass(hoveredClass);
+      }
+    })
 
     // Do this after the fact so that they have access to
     // this initialized PlaylistMenu component.
     let backNavButton : PlaylistMenuNavButton;
     let forwardNavButton : PlaylistMenuNavButton;
     if (config.includeNavButtons) {
+      let playlistMenuDom = this.getDomElement().find(`.${this.prefixCss('ui-playlistmenu')}`);
+
       // Wait to initialize the nav buttons until the menu has height
       // (i.e. the menu item images have loaded).
       let navButtonInit = setInterval(() => {
@@ -81,11 +89,11 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
         forwardNavButton = new PlaylistMenuNavButton({ playlistMenu: playlistMenuDom, isForward: true });
         backNavButton.configure(player, uimanager);
         forwardNavButton.configure(player, uimanager);
-        self.addComponent(backNavButton);
-        self.addComponent(forwardNavButton);
+        this.addComponent(backNavButton);
+        this.addComponent(forwardNavButton);
   
         // Create the actual DOM elements with the nav buttons.
-        self.updateComponents();
+        this.updateComponents();
 
         // Toggle button appropriately based on whether we're at the
         // start or end of the overall scroll position.

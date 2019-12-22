@@ -1,7 +1,5 @@
 import {ButtonConfig, Button} from './button';
-import {PlaylistMenu} from './playlistmenu';
 import {UIInstanceManager} from '../uimanager';
-import {Component, ComponentConfig} from './component';
 import { PlayerAPI } from 'bitmovin-player';
 import { DOM } from '../dom';
 
@@ -50,7 +48,7 @@ export class PlaylistMenuNavButton extends Button<PlaylistMenuNavButtonConfig> {
       // If it's the forward button and there are less than four items, 
       // we're automatically "at the end," so hide it.
       const containerDom = this.config.playlistMenu;
-      if (containerDom.find('.bmpui-ui-playlistmenuitem').length < 4) {
+      if (containerDom.find(`.${this.prefixCss('ui-playlistmenuitem')}`).length < 4) {
         return true;
       }
     }
@@ -70,10 +68,6 @@ export class PlaylistMenuNavButton extends Button<PlaylistMenuNavButtonConfig> {
   }
 
   toggleVisibility() {
-    const container = this.config.playlistMenu.get(0);
-
-    console.log('playlistmenuitem - toggleVisibility, menu width, scrollLeft', container.scrollWidth, container.scrollLeft);
-
     // Forward button.
     if (this.config.isForward) {
       // if (atEnd) this.hide();
@@ -108,7 +102,7 @@ export class PlaylistMenuNavButton extends Button<PlaylistMenuNavButtonConfig> {
     this.onClick.subscribe(() => {
       const containerDom = config.playlistMenu;
       const container = containerDom.get(0);
-      const itemWidth = containerDom.find('.bmpui-ui-playlistmenuitem').width();
+      const itemWidth = containerDom.find(`.${this.prefixCss('ui-playlistmenuitem')}`).width();
 
       // Four items are shown at a time; scroll "a page" each time.
       const scrollPageWidth = itemWidth * 4;

@@ -24,23 +24,13 @@
     display: none;
   }
 
-  &:hover {
+  // &:hover {
+  .#{$prefix}-ui-playlistmenu-wrapper-hovered & {
     bottom: 0 !important;
     padding: {
       bottom: 15px;
     }
-
-    // .#{$prefix}-ui-arrows {
-    //   visibility: visible;
-    //   opacity: 1;
-    // }
   }
-
-  // .#{$prefix}-ui-arrows {
-  //   visibility: hidden;
-  //   opacity: 0;
-  //   transition: opacity $animation-duration, visibility $animation-duration;
-  // }
 
   p {
     padding: 1em 0.5em 0;

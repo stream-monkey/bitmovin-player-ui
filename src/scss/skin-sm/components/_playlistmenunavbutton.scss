@@ -77,6 +77,17 @@
   // top: 100%;
   top: 50%;
   position: absolute;
+
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity $animation-duration, visibility $animation-duration;
+
+  // Show arrows on-hover of playlist menu. Since they're absolutely
+  // positioned, this prevents any weird positioning / jumping.
+  .#{$prefix}-ui-playlistmenu-wrapper-hovered & {
+    visibility: visible;
+    opacity: 1;
+  }
   
   // Back.
   &.#{$prefix}-ui-playlistmenunavbutton-back {
@@ -103,19 +114,19 @@
   }
 }
 
-// Show arrows on-hover of playlist menu. Since they're absolutely
-// positioned, this prevents any weird positioning / jumping.
-.#{$prefix}-ui-playlistmenu-wrapper {
-  &:hover {
-    .#{$prefix}-ui-playlistmenunavbutton {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
+// // Show arrows on-hover of playlist menu. Since they're absolutely
+// // positioned, this prevents any weird positioning / jumping.
+// .#{$prefix}-ui-playlistmenu-wrapper {
+//   &:hover {
+//     .#{$prefix}-ui-playlistmenunavbutton {
+//       visibility: visible;
+//       opacity: 1;
+//     }
+//   }
 
-  .#{$prefix}-ui-playlistmenunavbutton {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity $animation-duration, visibility $animation-duration;
-  }
-}
+//   .#{$prefix}-ui-playlistmenunavbutton {
+//     visibility: hidden;
+//     opacity: 0;
+//     transition: opacity $animation-duration, visibility $animation-duration;
+//   }
+// }
