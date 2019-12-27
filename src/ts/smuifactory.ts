@@ -164,15 +164,9 @@ export namespace SmUIFactory {
     let playlistMenu;
     if (isPlaylist) {
       playlistMenu = new PlaylistMenu({ 
-        data: { items: data.playlistItems }, 
-        includeNavButtons: true 
+        data: { items: data.playlistItems }
       });
       components.push(playlistMenu);
-
-      // Add nav buttons if designated. Used for non-mobile
-      // left/right movement of the playlist menu.
-      // components.push(new PlaylistMenuNavButton({ playlistMenu }));
-      // components.push(new PlaylistMenuNavButton({ playlistMenu, isForward: true }));
     }
 
     return new UIContainer({
@@ -318,8 +312,8 @@ export namespace SmUIFactory {
       playlistMenu = new PlaylistMenu({ 
         data: { items: data.playlistItems },
         hideDelay: -1,
+        isMobileMenu: true
       });
-      playlistMenu.addComponent(new CloseButton({ target: playlistMenu }));
       titleBarComponents.splice(1, 0, new PlaylistMenuToggleButton({ playlistMenu }));
     }
 

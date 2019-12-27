@@ -4,7 +4,7 @@ import { Timeout } from '../timeout';
 import { PlayerAPI } from 'bitmovin-player';
 import { PlaylistMenuItem } from './playlistmenuitem';
 import { PlaylistMenuNavButton } from './playlistmenunavbutton';
-import { Button, ButtonConfig } from './button';
+import { CloseButton } from './closebutton';
 
 /**
  * Configuration interface for a {@link PlaylistMenu}.
@@ -19,9 +19,7 @@ export interface PlaylistMenuConfig extends ContainerConfig {
 
   data: { items: any[] };
 
-  // navButtons?: PlaylistMenuNavButton[];
-
-  includeNavButtons?: boolean;
+  isMobileMenu?: boolean;
 }
 
 /**
@@ -35,19 +33,32 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     super(config);
 
     let components: any[] = [];
+    
     let itemComponents: any[] = [];
-
     config.data.items.forEach(item => {
       itemComponents.push(new PlaylistMenuItem(item));
     });
 
-    components.push(new Container({
+    if (config.isMobileMenu) {
+      itemComponents.unshift(new Container({
+        cssClasses: ['ui-playlistmenu-closebutton-container'],
+        components: [new CloseButton({ target: this })]
+      }));
+    }
+
+    let playlistMenu = new Container({
       cssClasses: ['ui-playlistmenu'],
       components: itemComponents,
-    }));
+    });
+
+    // // The mobile menu needs to include a close button.
+    // if (config.isMobileMenu) {
+    //   playlistMenu.addComponent(new CloseButton({ target: this }));
+    // }
+
+    components.push(playlistMenu);
 
     this.config = this.mergeConfig(config, {
-      // cssClasses: ['ui-playlistmenu'],
       cssClasses: ['ui-playlistmenu-wrapper'],
       hidden: true,
       hideDelay: 3000,
@@ -75,7 +86,7 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     // this initialized PlaylistMenu component.
     let backNavButton : PlaylistMenuNavButton;
     let forwardNavButton : PlaylistMenuNavButton;
-    if (config.includeNavButtons) {
+    if ( ! config.isMobileMenu) {
       let playlistMenuDom = this.getDomElement().find(`.${this.prefixCss('ui-playlistmenu')}`);
 
       // Wait to initialize the nav buttons until the menu has height

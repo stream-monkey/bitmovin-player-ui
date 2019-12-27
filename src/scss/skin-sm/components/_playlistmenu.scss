@@ -1,11 +1,6 @@
 @import '../variables';
 @import '../mixins';
 
-// .#{$prefix}-ui-playlistmenu {
-//   background: rebeccapurple;
-// }
-
-// Below is from the current CSS.
 .#{$prefix}-ui-playlistmenu {
   bottom: -16%;
   left: 0;
@@ -24,7 +19,6 @@
     display: none;
   }
 
-  // &:hover {
   .#{$prefix}-ui-playlistmenu-wrapper-hovered & {
     bottom: 0 !important;
     padding: {
@@ -47,58 +41,6 @@
     text-align: left;
     text-decoration: none;
   }
-
-  // // Arrow buttons.
-  // .#{$prefix}-ui-arrow-prev, .#{$prefix}-ui-arrow-next {
-  //   position: fixed;
-  //   bottom: 15%;
-  //   background: none;
-  //   background-repeat: no-repeat;
-  //     color: inherit;
-  //     border: none;
-  //     padding: 0;
-  //     font: inherit;
-  //     cursor: pointer;
-  //     outline: inherit;
-
-  //   &:hover {
-  //     @include svg-icon-shadow;
-  //   }
-
-  //   &.hidden {
-  //     display: none;
-  //   }
-  // }
-
-  // .#{$prefix}-ui-arrow-prev {
-  //   left: 0;
-  //   margin: {
-  //     left: 10px;
-  //   }
-
-  //   &:before {
-  //     content: "";
-  //     background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyMzggMjM4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyMzggMjM4OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjYuMywxMzAuM2wxMDkuOCwxMDMuMWM2LjYsNi4yLDE3LjMsNi4yLDIzLjksMGM2LjYtNi4yLDYuNi0xNi4zLDAtMjIuNUwxMDIuMiwxMTlMMjAwLDI3LjFjNi42LTYuMiw2LjYtMTYuMywwLTIyLjVzLTE3LjMtNi4yLTIzLjksMGwtMTA5LjgsMTAzYy0zLjQsMy4xLTUsNy4yLTQuOSwxMS4zQzYxLjQsMTIzLjEsNjMsMTI3LjIsNjYuMywxMzAuM3oiLz48L2c+PC9nPjwvc3ZnPg==");
-  //     display: block;
-  //     width: 35px;
-  //     height: 35px;
-  //   }
-  // }
-
-  // .#{$prefix}-ui-arrow-next {
-  //   right: 0;
-  //   margin: {
-  //     right: 10px;
-  //   }
-
-  //   &:before {
-  //     content: "";
-  //     background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyMzggMjM4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyMzggMjM4OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTcwLjEsMTA3LjdMNjAuMiw0LjZjLTYuNi02LjItMTcuMy02LjItMjMuOSwwcy02LjYsMTYuMywwLDIyLjVsOTcuOSw5MS45bC05Ny45LDkxLjljLTYuNiw2LjItNi42LDE2LjMsMCwyMi41czE3LjMsNi4yLDIzLjksMGwxMDkuOC0xMDNjMy40LTMuMSw1LTcuMiw0LjktMTEuM0MxNzUsMTE0LjksMTczLjQsMTEwLjgsMTcwLjEsMTA3Ljd6Ii8+PC9nPjwvZz48L3N2Zz4=");
-  //     display: block;
-  //     width: 35px;
-  //     height: 35px;
-  //   }
-  // }
 
   .#{$prefix}-ui-playlistmenuitem {
     display: inline-block;
@@ -246,9 +188,7 @@
 		}
 
 		.#{$prefix}-ui-playlistmenu {
-      background: rebeccapurple;
-      
-			.#{$prefix}-ui-playlistmenuitem {
+      .#{$prefix}-ui-playlistmenuitem {
 				width: 32%;
 
 				.playlist-title {
@@ -265,44 +205,37 @@
 	}
 }
 
+// Mobile playlist menu.
 &.#{$prefix}-ui-skin-smallscreen, 
 &.#{$prefix}-layout-max-width-400 {
-	.#{$prefix}-ui-playlistmenu {
+  .#{$prefix}-ui-playlistmenu-wrapper {
+    &.#{$prefix}-hidden {
+      display: none;
+    }
+  }
+  
+  .#{$prefix}-ui-playlistmenu {
 		background-color: $color-black-faded--default;
 		@include layout-cover;
-		@include layout-center-children-in-container;
-
-    // Reverse the force-show on .-controls-shown above, as in mobile, 
-    // the playlist menu is shown via the toggle button.
-    display: block;
-		visibility: hidden;
-    opacity: 0;
-
-    // Sweet, and this allows for the native bitmovin ui toggling
-    // to work exactly as expected still.
-    &:not(.#{$prefix}-hidden) {
-      visibility: visible;
-      opacity: 1;
+    
+    .#{$prefix}-ui-playlistmenu-closebutton-container {
+      text-align: right;
     }
     
 		bottom: 0 !important;
 		padding: 1em 1.1em;
 		overflow-y: scroll;
 
-		transition: opacity $animation-duration, visibility $animation-duration;
-
 		.#{$prefix}-ui-playlistmenuitem {
 			display: block !important;
 			width: 100% !important;
-			margin: {
-				bottom: .5em;
-			}
-			padding: {
-				bottom: .4em;
-			}
-			border: {
-				bottom: 1px solid transparentize($color-primary, .8);
-			}
+			margin-bottom: .5em;
+			padding-bottom: .4em;
+      border-bottom: 1px solid transparentize($color-primary, .8);
+      
+      &:last-child {
+        border-bottom: none;
+      }
 
 			.playlist-thumbnail {
 				width: 22% !important;
