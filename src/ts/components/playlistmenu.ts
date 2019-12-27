@@ -35,8 +35,13 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     let components: any[] = [];
     
     let itemComponents: any[] = [];
-    config.data.items.forEach(item => {
-      itemComponents.push(new PlaylistMenuItem(item));
+    config.data.items.forEach((item, index) => {
+      itemComponents.push(new PlaylistMenuItem({
+        index,
+        title: item.title,
+        isPlaylist: item.media_type === 'playlist',
+        duration: item.duration,
+      }));
     });
 
     if (config.isMobileMenu) {
