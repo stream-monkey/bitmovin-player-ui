@@ -408,7 +408,7 @@ export namespace SmUIFactory {
         new BufferingOverlay(),
         new PlaybackToggleOverlay(),
         controlBar,
-        new TitleBar({ keepHiddenWithoutMetadata: true }),
+        // new TitleBar({ keepHiddenWithoutMetadata: true }),
         new ErrorMessageOverlay(),
       ],
       cssClasses: ['ui-skin-cast-receiver'],

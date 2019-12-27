@@ -1,11 +1,9 @@
-$backdrop-bgc: hsla(0,0%,98%,.2);
-
 .#{$prefix}-ui-volumeslider,
 .#{$prefix}-ui-seekbar {
     .#{$prefix}-seekbar {
         // Jeremy The Legend coded this all to implement
         // the enlarge-on-hover display for the seekbars.
-        background-color: $backdrop-bgc;
+        background-color: $color-seekbar;
         transform: scaleY(0.5) translate3d(0,-50%,0);
         top: 50%;
         position: relative;
@@ -30,7 +28,7 @@ $backdrop-bgc: hsla(0,0%,98%,.2);
         }
 
         > .#{$prefix}-seekbar-backdrop {
-            background-color: $backdrop-bgc;
+            background-color: $color-seekbar;
         }
 
         // Couldn't just remove this without creating an 
@@ -154,4 +152,11 @@ $backdrop-bgc: hsla(0,0%,98%,.2);
     .#{$prefix}-image {
         background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTQwIDE0MCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTQwIDE0MDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+LnN0MHtvcGFjaXR5OjAuODtlbmFibGUtYmFja2dyb3VuZDpuZXcgICAgO30uc3Qxe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48cGF0aCBjbGFzcz0ic3QwIiBkPSJNNzAsMTMyYy0zNC4yLDAtNjItMjcuOC02Mi02MlMzNS44LDgsNzAsOHM2MiwyNy44LDYyLDYyUzEwNC4yLDEzMiw3MCwxMzJ6Ii8+PGcgaWQ9IlNoYXBlXzJfY29weSI+PGc+PHBhdGggY2xhc3M9InN0MSIgZD0iTTg5LjIsNjguNUw2My4xLDUwLjRjLTAuNi0wLjQtMS40LTAuNS0yLTAuMWMtMC42LDAuMy0xLjEsMS0xLjEsMS43djM2LjJjMCwwLjcsMC40LDEuNCwxLjEsMS43YzAuMywwLjEsMC42LDAuMiwwLjksMC4yYzAuNCwwLDAuOC0wLjEsMS4xLTAuNGwyNi4xLTE4LjFjMC41LTAuNCwwLjgtMC45LDAuOC0xLjVDOTAsNjkuNCw4OS43LDY4LjgsODkuMiw2OC41eiBNNjMuOSw4NC40VjU1LjZMODQuNyw3MEw2My45LDg0LjR6Ii8+PC9nPjwvZz48L3N2Zz4=");
     }
+}
+
+// Hide the "noise" image on the error overlay.
+.#{$prefix}-ui-errormessage-overlay {
+  .#{$prefix}-ui-tvnoisecanvas {
+    // display: none;
+  }
 }
