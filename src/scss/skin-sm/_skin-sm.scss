@@ -157,6 +157,6 @@
 // Hide the "noise" image on the error overlay.
 .#{$prefix}-ui-errormessage-overlay {
   .#{$prefix}-ui-tvnoisecanvas {
-    // display: none;
+    display: none;
   }
 }
