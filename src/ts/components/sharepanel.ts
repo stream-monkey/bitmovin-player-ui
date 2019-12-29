@@ -1,6 +1,5 @@
 import { Container, ContainerConfig } from './container';
 import { Label } from './label';
-import { MetadataLabel, MetadataLabelContent } from './metadatalabel';
 import { UIInstanceManager } from '../uimanager';
 import { Timeout } from '../timeout';
 import { Event, EventDispatcher, NoArgs } from '../eventdispatcher';
@@ -20,7 +19,7 @@ export interface SharePanelConfig extends ContainerConfig {
    */
   hideDelay?: number;
 
-  data?: { shareLink?: null };
+  shareLink?: string;
 }
 
 /**
@@ -82,8 +81,8 @@ export class SharePanel extends Container<SharePanelConfig> {
 
     // Use a custom supplied share link if passed,
     // otherwise use the current window location.
-    let shareLink = config.data && config.data.shareLink
-      ? config.data.shareLink
+    let shareLink = config.shareLink
+      ? config.shareLink
       : window.location.href;
 
     this.facebookButton.onClick.subscribe(() => {

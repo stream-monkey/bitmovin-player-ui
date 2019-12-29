@@ -215,6 +215,8 @@
   };
 
   var uiData = {
+    // @TODO: Implement this...
+    shareEnabled: true,
     shareLink: 'https://rooooarrr.com',
     // playlistItems: [
     //   {
@@ -797,6 +799,7 @@
 
   // Refresh UI when a factory is selected
   configUISelect.change(function() {
+    // @NOTE: This is where the UI-switching magic happens.
     uiManager.release();
     var factoryMethod = $(this).val();
     if (factoryMethod.indexOf('buildSmDemo') === 0) {

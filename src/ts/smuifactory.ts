@@ -114,38 +114,53 @@ export namespace SmUIFactory {
 
     // settingsPanel.addComponent(subtitleSettingsPanelPage);
 
-    // Share panel.
-    let sharePanel = new SharePanel({ data });
+    let bottomControlBarComponents = [
+      new PlaybackToggleButton(),
+      new VolumeToggleButton(),
+      new VolumeSlider(),
+      new Spacer(),
+      new PictureInPictureToggleButton(),
+      new AirPlayToggleButton(),
+      new CastToggleButton(),
+      new VRToggleButton(),
+      new SettingsToggleButton({ settingsPanel: settingsPanel }),
+      new FullscreenToggleButton(),
+    ];
+
+    // Add the share button & panel if sharing is enabled.
+    let sharePanel;
+    if (data.shareEnabled) {
+      sharePanel = new SharePanel({ 
+        shareLink: data.shareLink ? data.shareLink : null 
+      });
+
+      bottomControlBarComponents.splice(
+        (bottomControlBarComponents.length - 2), 0, new ShareToggleButton({ sharePanel })
+      );
+    }
+    
+    let controlBarComponents: any[] = [
+      settingsPanel,
+      new Container({
+        components: [
+          new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
+          new SeekBar({ label: new SeekBarLabel() }),
+          new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
+        ],
+        cssClasses: ['controlbar-top'],
+      }),
+      new Container({
+        components: bottomControlBarComponents,
+        cssClasses: ['controlbar-bottom'],
+      }),
+    ];
+
+    if (data.shareEnabled) {
+      controlBarComponents.push(sharePanel);
+    }
 
     let controlBar = new ControlBar({
-      components: [
-        settingsPanel,
-        sharePanel,
-        new Container({
-          components: [
-            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
-            new SeekBar({ label: new SeekBarLabel() }),
-            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
-          ],
-          cssClasses: ['controlbar-top'],
-        }),
-        new Container({
-          components: [
-            new PlaybackToggleButton(),
-            new VolumeToggleButton(),
-            new VolumeSlider(),
-            new Spacer(),
-            new PictureInPictureToggleButton(),
-            new AirPlayToggleButton(),
-            new CastToggleButton(),
-            new VRToggleButton(),
-            new ShareToggleButton({ sharePanel }),
-            new SettingsToggleButton({ settingsPanel: settingsPanel }),
-            new FullscreenToggleButton(),
-          ],
-          cssClasses: ['controlbar-bottom'],
-        }),
-      ],
+      components: controlBarComponents,
     });
 
     // Assemble all container components.
@@ -286,10 +301,6 @@ export namespace SmUIFactory {
       cssClasses.push('ui-is-playlist');
     }
 
-    // Share panel.
-    let sharePanel = new SharePanel({ data });
-    sharePanel.addComponent(new CloseButton({ target: sharePanel }));
-
     // All title bar components.
     let titleBarComponents = [
       // Don't show the title.
@@ -298,13 +309,25 @@ export namespace SmUIFactory {
       new Label({ cssClass: 'label-metadata-title' }),
       new CastToggleButton(),
       new VRToggleButton(),
-      new ShareToggleButton({ sharePanel }),
       new PictureInPictureToggleButton(),
       new AirPlayToggleButton(),
       new VolumeToggleButton(),
       new SettingsToggleButton({ settingsPanel: settingsPanel }),
       new FullscreenToggleButton(),
     ];
+
+    // Add the share button & panel if sharing is enabled.
+    let sharePanel;
+    if (data.shareEnabled) {
+      sharePanel = new SharePanel({ 
+        shareLink: data.shareLink ? data.shareLink : null 
+      });
+      sharePanel.addComponent(new CloseButton({ target: sharePanel }));
+
+      titleBarComponents.splice(
+        (titleBarComponents.length - 3), 0, new ShareToggleButton({ sharePanel })
+      );
+    }
 
     // If playlist data was passed, init the playlist's menu.
     let playlistMenu;
@@ -336,9 +359,13 @@ export namespace SmUIFactory {
         components: titleBarComponents,
       }),
       settingsPanel,
-      sharePanel,
       new ErrorMessageOverlay(),
     ];
+
+    // Add the share button & panel if sharing is enabled.
+    if (data.shareEnabled) {
+      components.push(sharePanel);
+    }
 
     // If playlist data was passed, add the playlist's menu.
     if (isPlaylist) {
