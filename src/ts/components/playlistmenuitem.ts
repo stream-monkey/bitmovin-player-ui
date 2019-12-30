@@ -11,8 +11,8 @@ import { PlayerAPI } from 'bitmovin-player';
 export interface PlaylistMenuItemConfig extends ButtonConfig {
   index: number;
   title: string;
-  duration?: string;
-  isPlaylist: boolean;
+  duration?: number;
+  mediaType: string;
 }
 
 /**
@@ -80,7 +80,7 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
 
     let durationEl = new DOM('span', {
       class: 'playlist-duration',
-    }).html(this.config.duration);
+    }).html(this.durationContent());
 
     // News team, ASSEMBLE!
     detailsEl.append(statusEl, titleEl, durationEl);
@@ -94,6 +94,31 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
     });
 
     return itemEl;
+  }
+
+  protected durationTimestamp() {
+    if ( ! this.config.duration) return null;
+
+    return new Date(this.config.duration * 1000)
+      .toISOString().substr(11, 8);
+  }
+
+  protected durationContent() {
+    let durationContent;
+    
+    switch (this.config.mediaType) {
+      case 'on_demand_video':
+        durationContent = this.durationTimestamp()
+        break;
+      case 'live_stream':
+        durationContent = `<i class="fal fa-broadcast-tower"></i>`;
+        break;
+      case 'playlist':
+        durationContent = `<i class="fal fa-folder"></i>`;
+        break;
+    }
+
+    return durationContent;
   }
 
   protected onClickEvent() {

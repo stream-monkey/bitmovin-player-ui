@@ -68,9 +68,7 @@ export namespace SmUIFactory {
     return data.playlistItems && data.playlistItems.length > 0;
   }
 
-  function modernUI(data: any) {//} object = {}) {
-    console.log('modernUI - data', data);
-
+  function modernUI(data: any) {
     // If it's a playlist, add a custom class & playlist menu.
     const isPlaylist = SmUIFactory.isPlaylist(data);
 
@@ -234,7 +232,7 @@ export namespace SmUIFactory {
     });
   }
 
-  export function modernSmallScreenUI(data: any) { // object = {}) {
+  export function modernSmallScreenUI(data: any) {
     // If it's a playlist, add a custom class & playlist menu.
     const isPlaylist = SmUIFactory.isPlaylist(data);
 

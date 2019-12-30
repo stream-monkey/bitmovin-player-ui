@@ -39,7 +39,7 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
       itemComponents.push(new PlaylistMenuItem({
         index,
         title: item.title,
-        isPlaylist: item.media_type === 'playlist',
+        mediaType: item.media_type,
         duration: item.duration,
       }));
     });
