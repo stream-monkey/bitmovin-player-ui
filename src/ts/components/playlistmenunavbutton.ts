@@ -113,25 +113,16 @@ export class PlaylistMenuNavButton extends Button<PlaylistMenuNavButtonConfig> {
 
     this.getDomElement().get(0).style.top = `${offsetTop}px`;
   }
-
-  protected toggleButtonsVisible() {
-    // @TODO: hide the nav buttons if the playlist items
-    // don't overflow the visible menu container.
-    // ...
-  }
   
   configure(player: PlayerAPI, uimanager: UIInstanceManager): void {
     super.configure(player, uimanager);
 
     let config = this.getConfig();
 
-    // Toggle the buttons based on if they're actually needed,
-    // and set the button position; and adjust those both on
-    // the fly when the window is resized.
-    this.toggleButtonsVisible();
+    // Set the button position and adjust it on the 
+    // fly if/when the window is resized.
     this.setButtonPosition();
     window.onresize = function () {
-      this.toggleButtonsVisible();
       this.setButtonPosition();
     }.bind(this);
 

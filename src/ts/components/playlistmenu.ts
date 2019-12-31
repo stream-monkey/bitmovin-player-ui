@@ -17,7 +17,7 @@ export interface PlaylistMenuConfig extends ContainerConfig {
    */
   hideDelay?: number;
 
-  data: { items: any[] };
+  items: any[];
 
   isMobileMenu?: boolean;
 }
@@ -35,7 +35,7 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     let components: any[] = [];
     
     let itemComponents: any[] = [];
-    config.data.items.forEach((item, index) => {
+    config.items.forEach((item, index) => {
       itemComponents.push(new PlaylistMenuItem({
         index,
         title: item.title,
@@ -89,9 +89,10 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
 
     // Do this after the fact so that they have access to
     // this initialized PlaylistMenu component.
-    let backNavButton : PlaylistMenuNavButton;
-    let forwardNavButton : PlaylistMenuNavButton;
-    if ( ! config.isMobileMenu) {
+    // And only add the nav buttons if there are > 4 playlist items,
+    // otherwise, they all appear within the available space
+    // (and only if it's not the mobile menu).
+    if ( ! config.isMobileMenu && config.items.length > 4) {
       let playlistMenuDom = this.getDomElement().find(`.${this.prefixCss('ui-playlistmenu')}`);
 
       // Wait to initialize the nav buttons until the menu has height
@@ -104,8 +105,8 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
 
         clearInterval(navButtonInit);
 
-        backNavButton = new PlaylistMenuNavButton({ playlistMenu: playlistMenuDom });
-        forwardNavButton = new PlaylistMenuNavButton({ playlistMenu: playlistMenuDom, isForward: true });
+        let backNavButton = new PlaylistMenuNavButton({ playlistMenu: playlistMenuDom });
+        let forwardNavButton = new PlaylistMenuNavButton({ playlistMenu: playlistMenuDom, isForward: true });
         backNavButton.configure(player, uimanager);
         forwardNavButton.configure(player, uimanager);
         this.addComponent(backNavButton);

@@ -2,7 +2,8 @@
 @import '../mixins';
 
 .#{$prefix}-ui-playlistmenu {
-  bottom: -16%;
+  // bottom: -16%;
+  top: 90%;
   left: 0;
   opacity: 0;
   overflow-x: auto;
@@ -10,7 +11,7 @@
   -ms-overflow-style: -ms-autohiding-scrollbar;
   -webkit-overflow-scrolling: touch;
   position: absolute;
-  transition: visibility 0s linear $animation-duration, opacity $animation-duration linear, bottom $animation-duration ease-out;
+  transition: visibility 0s linear $animation-duration, opacity $animation-duration linear, top $animation-duration ease-out; // , bottom $animation-duration ease-out;
   visibility: hidden;
   white-space: nowrap;
   width: 100%;
@@ -20,7 +21,9 @@
   }
 
   .#{$prefix}-ui-playlistmenu-wrapper-hovered & {
-    bottom: 0 !important;
+    // bottom: 0 !important;
+    top: 75%;
+
     padding: {
       bottom: 15px;
     }
@@ -206,8 +209,9 @@
 }
 
 // Mobile playlist menu.
-&.#{$prefix}-ui-skin-smallscreen, 
-&.#{$prefix}-layout-max-width-400 {
+// &.#{$prefix}-ui-skin-smallscreen, 
+// &.#{$prefix}-layout-max-width-400 {
+&.#{$prefix}-ui-skin-smallscreen {
   .#{$prefix}-ui-playlistmenu-wrapper {
     &.#{$prefix}-hidden {
       display: none;

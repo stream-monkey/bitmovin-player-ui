@@ -176,9 +176,7 @@ export namespace SmUIFactory {
     // If playlist data was passed, add the playlist's menu.
     let playlistMenu;
     if (isPlaylist) {
-      playlistMenu = new PlaylistMenu({ 
-        data: { items: data.playlistItems }
-      });
+      playlistMenu = new PlaylistMenu({ items: data.playlistItems });
       components.push(playlistMenu);
     }
 
@@ -331,7 +329,7 @@ export namespace SmUIFactory {
     let playlistMenu;
     if (isPlaylist) {
       playlistMenu = new PlaylistMenu({ 
-        data: { items: data.playlistItems },
+        items: data.playlistItems,
         hideDelay: -1,
         isMobileMenu: true
       });
