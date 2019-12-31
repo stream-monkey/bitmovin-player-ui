@@ -89,17 +89,51 @@ export class PlaylistMenuNavButton extends Button<PlaylistMenuNavButtonConfig> {
       }
     }
   }
+
+  protected setButtonPosition() {
+    // Set the position.
+    let playlistMenuEl = this.config.playlistMenu.get(0);
+
+    let windowHeight = window.innerHeight;
+    let playlistHeight = playlistMenuEl.clientHeight;
+    let playlistExpandedBottomPadding = 15;
+    let buttonHeight = 32;
+    
+    // Start at the bottom; subtract the bottom padding set
+    // when the menu is made fully visible; subtract half the
+    // playlist height, so now the top of the button is at
+    // exactly the playlist menu vertical midpoint; and then
+    // subtract half the button height to center it.
+    let offsetTop = windowHeight - playlistExpandedBottomPadding 
+      - (playlistHeight / 2) - (buttonHeight / 2);
+
+    // console.log('windowHeight', windowHeight);
+    // console.log('playlistHeight', playlistHeight);
+    // console.log('offsetTop', offsetTop);
+
+    this.getDomElement().get(0).style.top = `${offsetTop}px`;
+  }
+
+  protected toggleButtonsVisible() {
+    // @TODO: hide the nav buttons if the playlist items
+    // don't overflow the visible menu container.
+    // ...
+  }
   
   configure(player: PlayerAPI, uimanager: UIInstanceManager): void {
     super.configure(player, uimanager);
 
     let config = this.getConfig();
 
-    // Set the position.
-    let playlistMenuEl = config.playlistMenu.get(0);
-    // console.log('playlistMenuEl - offsetTop, clientHeight', playlistMenuEl.offsetTop, playlistMenuEl.clientHeight)
-    let offsetTop = playlistMenuEl.offsetTop - playlistMenuEl.clientHeight / 2 + 16;
-    this.getDomElement().get(0).style.top = `${offsetTop}px`;
+    // Toggle the buttons based on if they're actually needed,
+    // and set the button position; and adjust those both on
+    // the fly when the window is resized.
+    this.toggleButtonsVisible();
+    this.setButtonPosition();
+    window.onresize = function () {
+      this.toggleButtonsVisible();
+      this.setButtonPosition();
+    }.bind(this);
 
     this.onClick.subscribe(() => {
       const containerDom = config.playlistMenu;
