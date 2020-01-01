@@ -49,13 +49,14 @@
     vertical-align: top;
     object-fit: cover;
 
-    button {
+    .playlist-item-link {
       background: none;
       border: none;
       color: white;
       cursor: pointer;
       display: block;
       height: 100%;
+      width: 100%;
       padding: 0;
       text-align: left;
       text-decoration: none;
@@ -78,6 +79,9 @@
       font-weight: 400;
       border: 2px solid transparentize($color-primary, .8);
       border-radius: 3px;
+      // Prevent a weird display when a new playlist is dynamically 
+      // loaded, before the thumbnail images are loaded.
+      min-height: 10em;
     }
 
     .playlist-item-inside {
@@ -119,6 +123,7 @@
     }
 
     .playlist-item-playing {
+      display: none; // only show on hovered. see below.
       opacity: 0;
       visibility: hidden;
       color: $color-primary;
@@ -138,6 +143,17 @@
       visibility: visible;
     }
   }
+}
+
+// Only show the status/playing labels when the menu is
+// hovered to prevent them weirdly flashing if loading
+// a new playlist dynamically.
+.#{$prefix}-ui-playlistmenu {
+  .#{$prefix}-ui-playlistmenu-wrapper-hovered & {
+    .playlist-item-playing {
+      display: block;
+    }
+  } 
 }
 
 // Customizations for standard elements when viewing a playlist.
@@ -208,8 +224,13 @@
   }
   
   .#{$prefix}-ui-playlistmenu {
-		background-color: $color-black-faded--default;
-		@include layout-cover;
+    background-color: $color-black-faded--default;
+    @include layout-cover;
+
+    // This is important, because for the desktop menu the 
+    // top position is now altered dynamically on/off hover, 
+    // but the mobile one needs to stay pinned to the top.
+    top: 0 !important;
     
     .#{$prefix}-ui-playlistmenu-closebutton-container {
       text-align: right;
@@ -223,11 +244,20 @@
 			display: block !important;
 			width: 100% !important;
 			margin-bottom: .5em;
-			padding-bottom: .4em;
+      padding-top: .5em;
+      padding-bottom: .5em;
       border-bottom: 1px solid transparentize($color-primary, .8);
       
       &:last-child {
         border-bottom: none;
+      }
+
+      &.#{$prefix}-ui-playlistmenuitem-active {
+        background-color: $color-black-faded--more;
+      }
+
+      .playlist-thumbnail-wrapper {
+        min-height: 0;
       }
 
 			.playlist-thumbnail {
@@ -236,34 +266,34 @@
 			.playlist-item-inside {
 				width: 78%;
 				background: none !important;
-				margin-left: 22%;
+        margin-left: 22%;
+        overflow: hidden;
 			}
 			.playlist-duration {
 				background: none;
 				position: relative;
 				display: block;
-				font-size: .7em;
-				padding: {
-					left: .7em;
-					top: 0;
-				}
+				font-size: 0.9em;
+				padding: 0 0.1em 0 0;
+        float: right;
+        width: auto;
 			}
 			.playlist-title {
 				display: block;
 				position: relative;
-				font-size: .9em;
-				padding: {
-					top: 0;
-				}
+        line-height: 1.2em;
+				padding-top: 0;
+        float: left;
+        width: 85%;
 			}
 
 			.playlist-item-playing {
-				display: none !important;
-			}
-
-			.active {
-				background: $color-background-highlight;
-				border: 1px solid $color-secondary
+        clear: both;
+        display: block;
+        position: static;
+        text-align: left;
+        font-size: 0.9em;
+        padding: 0.25em 0.5em 0;
 			}
 		}
 

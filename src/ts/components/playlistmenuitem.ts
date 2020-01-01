@@ -89,10 +89,6 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
       class: 'playlist-item-inside',
     });
 
-    let statusEl = new DOM('div', {
-      class: 'playlist-item-playing',
-    }).html(this.activeLabelContent()); // .html(this.activeLabelContent());
-
     let titleEl = new DOM('p', {
       class: 'playlist-title',
     }).html(this.config.title);
@@ -101,8 +97,12 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
       class: 'playlist-duration',
     }).html(this.durationContent());
 
+    let statusEl = new DOM('div', {
+      class: 'playlist-item-playing',
+    }).html(this.activeLabelContent());
+
     // News team, ASSEMBLE!
-    detailsEl.append(statusEl, titleEl, durationEl);
+    detailsEl.append(titleEl, durationEl, statusEl);
     itemButtonContentEl.append(thumbnailEl, detailsEl);
     itemButtonEl.append(itemButtonContentEl);
     itemEl.append(itemButtonEl);
