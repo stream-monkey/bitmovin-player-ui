@@ -31,6 +31,8 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
 
   private playlistMenuItself : Container<ContainerConfig>;
 
+  private hoveredClass = 'ui-playlistmenu-wrapper-hovered';
+
   constructor(config: PlaylistMenuConfig) {
     super(config);
 
@@ -90,9 +92,11 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
 
     // Collapse/expand menu on/off hover.
     let collapseMenuTimeout = new Timeout(500, () => {
+      this.getDomElement().removeClass(this.prefixCss(this.hoveredClass));
       this.setPlaylistTopPosition(false);
     });
     let showMenu = () => {
+      this.getDomElement().addClass(this.prefixCss(this.hoveredClass));
       this.setPlaylistTopPosition(true);
       collapseMenuTimeout.clear();
     };
