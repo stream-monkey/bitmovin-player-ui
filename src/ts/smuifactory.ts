@@ -445,7 +445,7 @@ export namespace SmUIFactory {
   }
 
   export function buildSmUI(player: PlayerAPI, config: UIConfig = {}, data: any): UIManager {
-    console.log('buildSmUI - config, data', config, data)
+    // console.log('buildSmUI - config, data', config, data)
 
     // show smallScreen UI only on mobile/handheld devices
     let smallScreenSwitchWidth = 600;

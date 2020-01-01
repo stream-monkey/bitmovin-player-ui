@@ -29,6 +29,8 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
 
   private hideTimeout: Timeout;
 
+  private playlistMenuItself : Container<ContainerConfig>;
+
   constructor(config: PlaylistMenuConfig) {
     super(config);
 
@@ -51,17 +53,12 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
       }));
     }
 
-    let playlistMenu = new Container({
+    this.playlistMenuItself = new Container({
       cssClasses: ['ui-playlistmenu'],
       components: itemComponents,
     });
 
-    // // The mobile menu needs to include a close button.
-    // if (config.isMobileMenu) {
-    //   playlistMenu.addComponent(new CloseButton({ target: this }));
-    // }
-
-    components.push(playlistMenu);
+    components.push(this.playlistMenuItself);
 
     this.config = this.mergeConfig(config, {
       cssClasses: ['ui-playlistmenu-wrapper'],
@@ -71,21 +68,44 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     } as PlaylistMenuConfig, this.config);
   }
 
+  protected setPlaylistTopPosition (shown: boolean) {
+    let playlistDom = this.playlistMenuItself.getDomElement();
+
+    // If it's shown, get the position via subtracting the
+    // current playlist height from the current window height;
+    // if hidden, it goes back to the default 90%;
+    let position = shown
+      ? `${(window.innerHeight - playlistDom.height())}px`
+      : '90%';
+
+    playlistDom.get(0).style.top = position;
+  }
+
   configure(player: PlayerAPI, uimanager: UIInstanceManager): void {
     super.configure(player, uimanager);
 
     let config = this.getConfig();
     let uiconfig = uimanager.getConfig();
 
+    // Collapse/expand menu on/off hover.
+    let collapseMenuTimeout = new Timeout(500, () => {
+      this.setPlaylistTopPosition(false);
+    });
+    let showMenu = () => {
+      this.setPlaylistTopPosition(true);
+      collapseMenuTimeout.clear();
+    };
+    let hideMenu = () => {
+      collapseMenuTimeout.start();
+    };
     this.onHoverChanged.subscribe(() => {
-      const hoveredClass = this.prefixCss('ui-playlistmenu-wrapper-hovered');
       if (this.isHovered()) {
-        this.getDomElement().addClass(hoveredClass);
+        showMenu();
       }
       else {
-        this.getDomElement().removeClass(hoveredClass);
+        hideMenu();
       }
-    })
+    });
 
     // Do this after the fact so that they have access to
     // this initialized PlaylistMenu component.

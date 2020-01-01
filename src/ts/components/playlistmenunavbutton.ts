@@ -13,8 +13,6 @@ export interface PlaylistMenuNavButtonConfig extends ButtonConfig {
   // playlistMenu: PlaylistMenu;
   playlistMenu: DOM;
 
-  topPosition?: number;
-
   /**
    *  Forward vs. back navigation direction.
    */
