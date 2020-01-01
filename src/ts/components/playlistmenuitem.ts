@@ -4,6 +4,7 @@ import {DOM} from '../dom';
 import {EventDispatcher, NoArgs, Event} from '../eventdispatcher';
 import {UIInstanceManager} from '../uimanager';
 import { PlayerAPI } from 'bitmovin-player';
+import { PlaylistMenu } from './playlistmenu';
 
 /**
  * Configuration interface for a {@link PlaylistMenuItemConfig} component.
@@ -13,6 +14,7 @@ export interface PlaylistMenuItemConfig extends ButtonConfig {
   title: string;
   duration?: number;
   mediaType: string;
+  playlistMenu: PlaylistMenu;
 }
 
 /**
@@ -24,11 +26,19 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
     onClick: new EventDispatcher<PlaylistMenuItem<Config>, NoArgs>(),
   };
 
+  private itemClass: string = 'ui-playlistmenuitem';
+  private itemActiveClass: string = 'ui-playlistmenuitem-active';
+
   constructor(config: Config) {
     super(config);
 
+    let cssClasses = [this.itemClass];
+    if (config.index === 0) {
+      cssClasses.push(this.itemActiveClass);
+    }
+
     this.config = this.mergeConfig(config, {
-      cssClasses: ['ui-playlistmenuitem'],
+      cssClasses,
     } as Config, this.config);
   }
 
@@ -40,6 +50,15 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
         index: this.config.index,
       }});
       player.getContainer().dispatchEvent(event);
+
+      // Remove the active class from all other playlist menu items,
+      // and add it to this one.
+      const activeClass = this.prefixCss(this.itemActiveClass)
+      this.config.playlistMenu.getDomElement().find(`.${this.prefixCss(this.itemClass)}`)
+        .get().forEach(playlistMenuItemEl => {
+          new DOM(playlistMenuItemEl).removeClass(activeClass);
+        });
+      this.getDomElement().addClass(activeClass);
     });
   }
 
@@ -72,7 +91,7 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
 
     let statusEl = new DOM('div', {
       class: 'playlist-item-playing',
-    });
+    }).html(this.activeLabelContent()); // .html(this.activeLabelContent());
 
     let titleEl = new DOM('p', {
       class: 'playlist-title',
@@ -104,7 +123,7 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
   }
 
   protected durationContent() {
-    let durationContent;
+    let durationContent : string;
     
     switch (this.config.mediaType) {
       case 'on_demand_video':
@@ -119,6 +138,19 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
     }
 
     return durationContent;
+  }
+
+  protected activeLabelContent() {
+    let labelContent: string;
+
+    if (this.config.mediaType === 'playlist') {
+      labelContent = 'Loading...';
+    }
+    else {
+      labelContent = 'Now Playing';
+    }
+
+    return labelContent;
   }
 
   protected onClickEvent() {

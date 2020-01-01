@@ -43,6 +43,7 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
         title: item.title,
         mediaType: item.media_type,
         duration: item.duration,
+        playlistMenu: this,
       }));
     });
 

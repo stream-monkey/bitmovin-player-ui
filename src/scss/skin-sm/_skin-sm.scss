@@ -1,98 +1,102 @@
+.#{$prefix}-ui-uicontainer {
+	-webkit-font-smoothing: antialiased;
+}
+
 .#{$prefix}-ui-volumeslider,
 .#{$prefix}-ui-seekbar {
-    .#{$prefix}-seekbar {
-        // Jeremy The Legend coded this all to implement
-        // the enlarge-on-hover display for the seekbars.
-        background-color: $color-seekbar;
-        transform: scaleY(0.5) translate3d(0,-50%,0);
-        top: 50%;
-        position: relative;
-        transition: all 0.1s cubic-bezier(0.94, 0.29, 0.8, 1.66);
-        height: .7125em;
-        transform-origin: center 0px;
-        will-change: transform;
-        
-        &:hover {
-            transform: scale(1) translate3d(0,-50%,0) !important;
-        }
+	.#{$prefix}-seekbar {
+		// Jeremy The Legend coded this all to implement
+		// the enlarge-on-hover display for the seekbars.
+		background-color: $color-seekbar;
+		transform: scaleY(0.5) translate3d(0,-50%,0);
+		top: 50%;
+		position: relative;
+		transition: all 0.1s cubic-bezier(0.94, 0.29, 0.8, 1.66);
+		height: .7125em;
+		transform-origin: center 0px;
+		will-change: transform;
+		
+		&:hover {
+			transform: scale(1) translate3d(0,-50%,0) !important;
+		}
 
-        // mirrors seekbar.scss, each of these extends %bar which has a fixed height
-        .#{$prefix}-seekbar-backdrop,
-        .#{$prefix}-seekbar-bufferlevel,
-        .#{$prefix}-seekbar-seekposition,
-        .#{$prefix}-seekbar-playbackposition,
-        .#{$prefix}-seekbar-playbackposition-marker,
-        .#{$prefix}-seekbar-markers,
-        .#{$prefix}-seekbar-markers > .#{$prefix}-seekbar-marker {
-            height: .7125em;
-        }
+		// mirrors seekbar.scss, each of these extends %bar which has a fixed height
+		.#{$prefix}-seekbar-backdrop,
+		.#{$prefix}-seekbar-bufferlevel,
+		.#{$prefix}-seekbar-seekposition,
+		.#{$prefix}-seekbar-playbackposition,
+		.#{$prefix}-seekbar-playbackposition-marker,
+		.#{$prefix}-seekbar-markers,
+		.#{$prefix}-seekbar-markers > .#{$prefix}-seekbar-marker {
+			height: .7125em;
+		}
 
-        > .#{$prefix}-seekbar-backdrop {
-            background-color: $color-seekbar;
-        }
+		> .#{$prefix}-seekbar-backdrop {
+			background-color: $color-seekbar;
+		}
 
-        // Couldn't just remove this without creating an 
-        // entirely new seekbar component, which would be foolish,
-        // so just hide it like this.
-        .#{$prefix}-seekbar-playbackposition-marker {
-            display: none;
-        }
-    }
+		// Couldn't just remove this without creating an 
+		// entirely new seekbar component, which would be foolish,
+		// so just hide it like this.
+		.#{$prefix}-seekbar-playbackposition-marker {
+			display: none;
+		}
+	}
 }
 
 .#{$prefix}-ui-seekbar {
-    .#{$prefix}-seekbar {
-        .#{$prefix}-seekbar-backdrop {
-            background-color: $color-black-faded--most;
-        }
-        .#{$prefix}-seekbar-bufferlevel {
-            background-color: $color-black-faded--more;
-            transition: none;
-        }
-    }
+	.#{$prefix}-seekbar {
+		.#{$prefix}-seekbar-backdrop {
+			background-color: $color-black-faded--most;
+		}
+		.#{$prefix}-seekbar-bufferlevel {
+			background-color: $color-black-faded--more;
+			transition: none;
+		}
+	}
 }
 
 .#{$prefix}-ui-seekbar-label {
-    .#{$prefix}-seekbar-label-inner {
-        border-bottom: none;
+	.#{$prefix}-seekbar-label-inner {
+		border-bottom: none;
 
-        > .#{$prefix}-container-wrapper {
-            .#{$prefix}-seekbar-thumbnail {
-                border-radius: 0.2em;
-            }
+		> .#{$prefix}-container-wrapper {
+			.#{$prefix}-seekbar-thumbnail {
+				border-radius: 0.2em;
+			}
 
-            .#{$prefix}-seekbar-label-metadata {
-                padding: 0;
-                left: 50%;
-                -webkit-transform: translateX(-50%);
-                transform: translateX(-50%);
-                width: auto;
+			.#{$prefix}-seekbar-label-metadata {
+				padding: 0;
+				left: 50%;
+				-webkit-transform: translateX(-50%);
+				transform: translateX(-50%);
+				width: auto;
 
-                .#{$prefix}-seekbar-label-time {
-                    background: $color-black-faded--default;
-                    padding: 0.4em 1.2em;
-                }
-            }
-        }
-        
-        &::after {
-            border-top-color: $color-black-faded--default;
-        }
-    }
+				.#{$prefix}-seekbar-label-time {
+					background: $color-black-faded--default;
+					padding: 0.4em 1.2em;
+				}
+			}
+		}
+		
+		&::after {
+			border-top-color: $color-black-faded--default;
+		}
+	}
 }
 
 .#{$prefix}-ui-settings-panel {
-    background-color: $color-black-faded--default;
-    border-radius: 0.2em;
+	background-color: $color-black-faded--default;
+	border-radius: 0.2em;
 }
 
 .#{$prefix}-ui-settings-panel-page .#{$prefix}-ui-settings-panel-item {
-    margin: 0 1em;
-    padding: .5em 0;
+	margin: 0 1em;
+	padding: .5em 0;
 }
 
 .#{$prefix}-ui-selectbox {
-    color: $color-primary;
+	color: $color-primary;
 }
 
 .#{$prefix}-ui-playbacktogglebutton,
@@ -108,77 +112,77 @@
 .#{$prefix}-ui-fullscreentogglebutton,
 .#{$prefix}-ui-subtitlesettingstogglebutton, 
 .#{$prefix}-ui-audiotracksettingstogglebutton {
-    &,
-    &:focus,
-    &:hover {
-        outline: 0;
-    }
+	&,
+	&:focus,
+	&:hover {
+		outline: 0;
+	}
 
-    &.#{$prefix}-on {
-        &,
-        &:hover {
-            -webkit-filter: drop-shadow(0 0 1px $color-primary);
-            filter: drop-shadow(0 0 1px $color-primary);
-        }
-    }
+	&.#{$prefix}-on {
+		&,
+		&:hover {
+			-webkit-filter: drop-shadow(0 0 1px $color-primary);
+			filter: drop-shadow(0 0 1px $color-primary);
+		}
+	}
 }
 
 .#{$prefix}-ui-settingstogglebutton {
-    &.#{$prefix}-on {
-        background-image: svg('assets/skin-modern/images/settings.svg');
-    }
+	&.#{$prefix}-on {
+		background-image: svg('assets/skin-modern/images/settings.svg');
+	}
 }
 
 .#{$prefix}-ui-subtitlesettingstogglebutton {
-    &.#{$prefix}-on {
-        background-image: svg('assets/skin-modern/images/subtitles.svg');
-    }
+	&.#{$prefix}-on {
+		background-image: svg('assets/skin-modern/images/subtitles.svg');
+	}
 }
 
 .#{$prefix}-ui-audiotracksettingstogglebutton {
-    &.#{$prefix}-on {
-        background-image: svg('assets/skin-modern/images/audio-tracks.svg');
-    }
+	&.#{$prefix}-on {
+		background-image: svg('assets/skin-modern/images/audio-tracks.svg');
+	}
 }
 
 .#{$prefix}-ui-fullscreentogglebutton {
-    &.#{$prefix}-on {
-        // background-image: svg('assets/skin-modern/images/fullscreen.svg');
-        background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAzMiAzMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzIgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48c3R5bGUgdHlwZT0idGV4dC9jc3MiPi5zdDB7ZGlzcGxheTpub25lO30uc3Qxe2Rpc3BsYXk6aW5saW5lO2ZpbGw6IzAyMEYxNjt9LnN0MntmaWxsOiNGRkZGRkY7fTwvc3R5bGU+PGcgaWQ9IkxheWVyXzIiIGNsYXNzPSJzdDAiPjxyZWN0IHg9Ii0zIiBjbGFzcz0ic3QxIiB3aWR0aD0iMzgiIGhlaWdodD0iMzEuMiIvPjwvZz48ZyBpZD0iTGF5ZXJfMSI+PGcgaWQ9IlJlY3RhbmdsZV82Ij48Zz48cGF0aCBjbGFzcz0ic3QyIiBkPSJNNywxMC4ySDIuM3YyLjNIN2MxLjMsMCwyLjQtMS4xLDIuNC0yLjRWNS40SDdWMTAuMnoiLz48L2c+PC9nPjxnIGlkPSJSZWN0YW5nbGVfNl9jb3B5Ij48Zz48cGF0aCBjbGFzcz0ic3QyIiBkPSJNNy4yLDI2LjZoMi4zdi00LjdjMC0xLjMtMS4xLTIuNC0yLjQtMi40SDIuNHYyLjRoNC44VjI2LjZ6Ii8+PC9nPjwvZz48ZyBpZD0iUmVjdGFuZ2xlXzZfY29weV8yIj48Zz48cGF0aCBjbGFzcz0ic3QyIiBkPSJNMjUsMTIuNWg0Ljd2LTIuNEgyNVY1LjRoLTIuNHY0LjhDMjIuNywxMS41LDIzLjcsMTIuNSwyNSwxMi41eiIvPjwvZz48L2c+PGcgaWQ9IlJlY3RhbmdsZV82X2NvcHlfMyI+PGc+PHBhdGggY2xhc3M9InN0MiIgZD0iTTI1LDIyaDQuN3YtMi40SDI1Yy0xLjMsMC0yLjQsMS4xLTIuNCwyLjR2NC43SDI1VjIyeiIvPjwvZz48L2c+PC9nPjwvc3ZnPg==");
-    }
+	&.#{$prefix}-on {
+		// background-image: svg('assets/skin-modern/images/fullscreen.svg');
+		background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAzMiAzMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzIgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48c3R5bGUgdHlwZT0idGV4dC9jc3MiPi5zdDB7ZGlzcGxheTpub25lO30uc3Qxe2Rpc3BsYXk6aW5saW5lO2ZpbGw6IzAyMEYxNjt9LnN0MntmaWxsOiNGRkZGRkY7fTwvc3R5bGU+PGcgaWQ9IkxheWVyXzIiIGNsYXNzPSJzdDAiPjxyZWN0IHg9Ii0zIiBjbGFzcz0ic3QxIiB3aWR0aD0iMzgiIGhlaWdodD0iMzEuMiIvPjwvZz48ZyBpZD0iTGF5ZXJfMSI+PGcgaWQ9IlJlY3RhbmdsZV82Ij48Zz48cGF0aCBjbGFzcz0ic3QyIiBkPSJNNywxMC4ySDIuM3YyLjNIN2MxLjMsMCwyLjQtMS4xLDIuNC0yLjRWNS40SDdWMTAuMnoiLz48L2c+PC9nPjxnIGlkPSJSZWN0YW5nbGVfNl9jb3B5Ij48Zz48cGF0aCBjbGFzcz0ic3QyIiBkPSJNNy4yLDI2LjZoMi4zdi00LjdjMC0xLjMtMS4xLTIuNC0yLjQtMi40SDIuNHYyLjRoNC44VjI2LjZ6Ii8+PC9nPjwvZz48ZyBpZD0iUmVjdGFuZ2xlXzZfY29weV8yIj48Zz48cGF0aCBjbGFzcz0ic3QyIiBkPSJNMjUsMTIuNWg0Ljd2LTIuNEgyNVY1LjRoLTIuNHY0LjhDMjIuNywxMS41LDIzLjcsMTIuNSwyNSwxMi41eiIvPjwvZz48L2c+PGcgaWQ9IlJlY3RhbmdsZV82X2NvcHlfMyI+PGc+PHBhdGggY2xhc3M9InN0MiIgZD0iTTI1LDIyaDQuN3YtMi40SDI1Yy0xLjMsMC0yLjQsMS4xLTIuNCwyLjR2NC43SDI1VjIyeiIvPjwvZz48L2c+PC9nPjwvc3ZnPg==");
+	}
 }
 
 .#{$prefix}-ui-hugeplaybacktogglebutton {
-    padding-left: 0;
-    padding-right: 0;
-    
-    .#{$prefix}-image {
-        background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTQwIDE0MCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTQwIDE0MDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+LnN0MHtvcGFjaXR5OjAuODtlbmFibGUtYmFja2dyb3VuZDpuZXcgICAgO30uc3Qxe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48cGF0aCBjbGFzcz0ic3QwIiBkPSJNNzAsMTMyYy0zNC4yLDAtNjItMjcuOC02Mi02MlMzNS44LDgsNzAsOHM2MiwyNy44LDYyLDYyUzEwNC4yLDEzMiw3MCwxMzJ6Ii8+PGcgaWQ9IlNoYXBlXzJfY29weSI+PGc+PHBhdGggY2xhc3M9InN0MSIgZD0iTTg5LjIsNjguNUw2My4xLDUwLjRjLTAuNi0wLjQtMS40LTAuNS0yLTAuMWMtMC42LDAuMy0xLjEsMS0xLjEsMS43djM2LjJjMCwwLjcsMC40LDEuNCwxLjEsMS43YzAuMywwLjEsMC42LDAuMiwwLjksMC4yYzAuNCwwLDAuOC0wLjEsMS4xLTAuNGwyNi4xLTE4LjFjMC41LTAuNCwwLjgtMC45LDAuOC0xLjVDOTAsNjkuNCw4OS43LDY4LjgsODkuMiw2OC41eiBNNjMuOSw4NC40VjU1LjZMODQuNyw3MEw2My45LDg0LjR6Ii8+PC9nPjwvZz48L3N2Zz4=");
-    }
+	padding-left: 0;
+	padding-right: 0;
+	
+	.#{$prefix}-image {
+		background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTQwIDE0MCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTQwIDE0MDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+LnN0MHtvcGFjaXR5OjAuODtlbmFibGUtYmFja2dyb3VuZDpuZXcgICAgO30uc3Qxe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48cGF0aCBjbGFzcz0ic3QwIiBkPSJNNzAsMTMyYy0zNC4yLDAtNjItMjcuOC02Mi02MlMzNS44LDgsNzAsOHM2MiwyNy44LDYyLDYyUzEwNC4yLDEzMiw3MCwxMzJ6Ii8+PGcgaWQ9IlNoYXBlXzJfY29weSI+PGc+PHBhdGggY2xhc3M9InN0MSIgZD0iTTg5LjIsNjguNUw2My4xLDUwLjRjLTAuNi0wLjQtMS40LTAuNS0yLTAuMWMtMC42LDAuMy0xLjEsMS0xLjEsMS43djM2LjJjMCwwLjcsMC40LDEuNCwxLjEsMS43YzAuMywwLjEsMC42LDAuMiwwLjksMC4yYzAuNCwwLDAuOC0wLjEsMS4xLTAuNGwyNi4xLTE4LjFjMC41LTAuNCwwLjgtMC45LDAuOC0xLjVDOTAsNjkuNCw4OS43LDY4LjgsODkuMiw2OC41eiBNNjMuOSw4NC40VjU1LjZMODQuNyw3MEw2My45LDg0LjR6Ii8+PC9nPjwvZz48L3N2Zz4=");
+	}
 }
 
 .#{$prefix}-ui-hugereplaybutton {
-    .#{$prefix}-image {
-        background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgODAgODAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDgwIDgwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe29wYWNpdHk6MC44O2VuYWJsZS1iYWNrZ3JvdW5kOm5ldyAgICA7fS5zdDF7ZmlsbDojRkZGRkZGO308L3N0eWxlPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00MCw3My41Yy0xOC41LDAtMzMuNS0xNS0zMy41LTMzLjVTMjEuNSw2LjUsNDAsNi41czMzLjUsMTUsMzMuNSwzMy41UzU4LjUsNzMuNSw0MCw3My41eiIvPjxnIGlkPSJFbGxpcHNlXzMiPjxnPjxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik01NCw0MC4zYzAtMC4xLDAtMC4yLDAtMC4zaC0wLjFjLTAuMi0wLjYtMC44LTEtMS40LTFzLTEuMiwwLjQtMS40LDFINTFjMCw2LjEtNC45LDExLTExLDExcy0xMS00LjktMTEtMTFzNC45LTExLDExLTExYzAuNywwLDEuNCwwLjEsMiwwLjJ2My4zYzAsMC4yLDAuMSwwLjMsMC4zLDAuNGMwLjEsMCwwLjIsMC4xLDAuMywwLjFzMC4yLDAsMC4zLTAuMWw3LjgtNC41YzAuMi0wLjEsMC4yLTAuMiwwLjItMC40cy0wLjEtMC4zLTAuMi0wLjRsLTcuOC00LjVjLTAuMi0wLjEtMC40LTAuMS0wLjYsMGMtMC4yLDAuMS0wLjMsMC4yLTAuMywwLjR2Mi43Yy0wLjctMC4xLTEuMy0wLjItMi0wLjJjLTcuNywwLTE0LDYuMy0xNCwxNHM2LjMsMTQsMTQsMTRjNy40LDAsMTMuNS01LjgsMTQtMTMuMmMwLTAuMSwwLTAuMiwwLTAuM1M1NCw0MC40LDU0LDQwLjN6Ii8+PC9nPjwvZz48L3N2Zz4=");
-    }
+	.#{$prefix}-image {
+		background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgODAgODAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDgwIDgwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe29wYWNpdHk6MC44O2VuYWJsZS1iYWNrZ3JvdW5kOm5ldyAgICA7fS5zdDF7ZmlsbDojRkZGRkZGO308L3N0eWxlPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00MCw3My41Yy0xOC41LDAtMzMuNS0xNS0zMy41LTMzLjVTMjEuNSw2LjUsNDAsNi41czMzLjUsMTUsMzMuNSwzMy41UzU4LjUsNzMuNSw0MCw3My41eiIvPjxnIGlkPSJFbGxpcHNlXzMiPjxnPjxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik01NCw0MC4zYzAtMC4xLDAtMC4yLDAtMC4zaC0wLjFjLTAuMi0wLjYtMC44LTEtMS40LTFzLTEuMiwwLjQtMS40LDFINTFjMCw2LjEtNC45LDExLTExLDExcy0xMS00LjktMTEtMTFzNC45LTExLDExLTExYzAuNywwLDEuNCwwLjEsMiwwLjJ2My4zYzAsMC4yLDAuMSwwLjMsMC4zLDAuNGMwLjEsMCwwLjIsMC4xLDAuMywwLjFzMC4yLDAsMC4zLTAuMWw3LjgtNC41YzAuMi0wLjEsMC4yLTAuMiwwLjItMC40cy0wLjEtMC4zLTAuMi0wLjRsLTcuOC00LjVjLTAuMi0wLjEtMC40LTAuMS0wLjYsMGMtMC4yLDAuMS0wLjMsMC4yLTAuMywwLjR2Mi43Yy0wLjctMC4xLTEuMy0wLjItMi0wLjJjLTcuNywwLTE0LDYuMy0xNCwxNHM2LjMsMTQsMTQsMTRjNy40LDAsMTMuNS01LjgsMTQtMTMuMmMwLTAuMSwwLTAuMiwwLTAuM1M1NCw0MC40LDU0LDQwLjN6Ii8+PC9nPjwvZz48L3N2Zz4=");
+	}
 }
 
 .#{$prefix}-ui-buffering-overlay {
-    background-color: $color-black-faded--default;
+	background-color: $color-black-faded--default;
 
-    .#{$prefix}-ui-buffering-overlay-indicator {
-        background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMzIgMzIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMyIDMyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe29wYWNpdHk6MC4zMDI7fS5zdDF7ZmlsbDojRkFGQUZBO30uc3Qye2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48ZyBpZD0iUmVjdGFuZ2xlXzNfY29weV8zIiBjbGFzcz0ic3QwIj48Zz48cmVjdCB4PSI4IiB5PSI4IiBjbGFzcz0ic3QxIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiLz48L2c+PC9nPjxnIGlkPSJSZWN0YW5nbGVfMl9jb3B5XzEzIj48Zz48cGF0aCBjbGFzcz0ic3QyIiBkPSJNMjMsN0g5QzcuOSw3LDcsNy45LDcsOXYxNGMwLDEuMSwwLjksMiwyLDJoMTRjMS4xLDAsMi0wLjksMi0yVjlDMjUsNy45LDI0LjEsNywyMyw3eiBNMjMsMjNIOVY5aDE0VjIzeiIvPjwvZz48L2c+PC9zdmc+");
-    }
+	.#{$prefix}-ui-buffering-overlay-indicator {
+		background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMzIgMzIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMyIDMyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe29wYWNpdHk6MC4zMDI7fS5zdDF7ZmlsbDojRkFGQUZBO30uc3Qye2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48ZyBpZD0iUmVjdGFuZ2xlXzNfY29weV8zIiBjbGFzcz0ic3QwIj48Zz48cmVjdCB4PSI4IiB5PSI4IiBjbGFzcz0ic3QxIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiLz48L2c+PC9nPjxnIGlkPSJSZWN0YW5nbGVfMl9jb3B5XzEzIj48Zz48cGF0aCBjbGFzcz0ic3QyIiBkPSJNMjMsN0g5QzcuOSw3LDcsNy45LDcsOXYxNGMwLDEuMSwwLjksMiwyLDJoMTRjMS4xLDAsMi0wLjksMi0yVjlDMjUsNy45LDI0LjEsNywyMyw3eiBNMjMsMjNIOVY5aDE0VjIzeiIvPjwvZz48L2c+PC9zdmc+");
+	}
 }
 
 // Hide the "noise" image on the error overlay.
 .#{$prefix}-ui-errormessage-overlay {
   .#{$prefix}-ui-tvnoisecanvas {
-    display: none;
+	display: none;
   }
 }
 
 // Fix the replay background.
 .#{$prefix}-ui-recommendation-overlay {
-    background-color: $color-black-faded--default;
+	background-color: $color-black-faded--default;
 }

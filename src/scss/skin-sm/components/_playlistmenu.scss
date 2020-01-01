@@ -80,28 +80,6 @@
       border-radius: 3px;
     }
 
-    .playlist-duration {
-      width: 100%;
-      position: absolute;
-      background: linear-gradient(to bottom, $color-transparent, $color-background-bars);
-      bottom: 0;
-      right: 0;
-      padding: .5em;
-      font-size: 1em;
-      text-align: right;
-    }
-
-    .playlist-item-playing {
-      opacity: 0;
-      visibility: hidden;
-      position: absolute;
-      top: 40%;
-      width: 100%;
-      text-align: center;
-      text-transform: uppercase;
-      transition: opacity $animation-duration, visibility $animation-duration;
-    }
-
     .playlist-item-inside {
       background: linear-gradient(to top, $color-transparent, $color-background-bars);
       position: absolute;
@@ -124,18 +102,40 @@
         text-overflow: ellipsis;
     }
 
-    .active .playlist-item-playing {
-      opacity: 1;
-      visibility: visible;
-      color: white;
-      text-shadow: 0 0 5px $color-black;
-      font-weight: 700;
-        font-size: 1em;
-    }
-
     .playlist-thumbnail {
       display: block;
       width: 100%;
+    }
+
+    .playlist-duration {
+      width: 100%;
+      position: absolute;
+      background: linear-gradient(to bottom, $color-transparent, $color-background-bars);
+      bottom: 0;
+      right: 0;
+      padding: .5em;
+      font-size: 1em;
+      text-align: right;
+    }
+
+    .playlist-item-playing {
+      opacity: 0;
+      visibility: hidden;
+      color: $color-primary;
+      font-weight: 700;
+      text-shadow: 0 0 5px $color-black;
+      position: absolute;
+      top: 50%;
+      margin-top: -0.5em;
+      width: 100%;
+      text-align: center;
+      text-transform: uppercase;
+      transition: opacity $animation-duration, visibility $animation-duration;
+    }
+
+    &.#{$prefix}-ui-playlistmenuitem-active .playlist-item-playing {
+      opacity: 1;
+      visibility: visible;
     }
   }
 }
