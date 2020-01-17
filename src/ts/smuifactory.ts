@@ -72,106 +72,123 @@ export namespace SmUIFactory {
     // If it's a playlist, add a custom class & playlist menu.
     const isPlaylist = SmUIFactory.isPlaylist(data);
 
-    let subtitleOverlay = new SubtitleOverlay();
+    let controlBar;
 
-    let mainSettingsPanelPage = new SettingsPanelPage({
-      components: [
-        new SettingsPanelItem(i18n.getLocalizer('settings.video.quality'), new VideoQualitySelectBox()),
-        new SettingsPanelItem(i18n.getLocalizer('speed'), new PlaybackSpeedSelectBox()),
-        new SettingsPanelItem(i18n.getLocalizer('settings.audio.track'), new AudioTrackSelectBox()),
-        new SettingsPanelItem(i18n.getLocalizer('settings.audio.quality'), new AudioQualitySelectBox()),
-      ],
-    });
+    // Establish the top control bar components up here, as they're
+    // shared whether or not the rest of the controls are disabled.
+    let controlBarTopComponents = data.seekBarDisabled
+      ? []
+      : [
+        new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
+        new SeekBar({ label: new SeekBarLabel() }),
+        new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] })
+      ];
 
-    let settingsPanel = new SettingsPanel({
-      components: [
-        mainSettingsPanelPage,
-      ],
-      hidden: true,
-    });
-
-    // let subtitleSettingsPanelPage = new SubtitleSettingsPanelPage({
-    //   settingsPanel: settingsPanel,
-    //   overlay: subtitleOverlay,
-    // });
-
-    // let subtitleSettingsOpenButton = new SettingsPanelPageOpenButton({
-    //   targetPage: subtitleSettingsPanelPage,
-    //   container: settingsPanel,
-    //   text: i18n.getLocalizer('open'),
-    // });
-
-    mainSettingsPanelPage.addComponent(
-      new SettingsPanelItem(
-        // new SubtitleSettingsLabel({text: i18n.getLocalizer('settings.subtitles'), opener: subtitleSettingsOpenButton}),
-        // Don't allow customizing subtitles, i.e. don't include
-        // a settings button & page to do so.
-        i18n.getLocalizer('settings.subtitles'),
-        new SubtitleSelectBox(),
-      ));
-
-    // settingsPanel.addComponent(subtitleSettingsPanelPage);
-
-    let bottomControlBarComponents = [
-      new PlaybackToggleButton(),
-      new VolumeToggleButton(),
-      new VolumeSlider(),
-      new Spacer(),
-      new PictureInPictureToggleButton(),
-      new AirPlayToggleButton(),
-      new CastToggleButton(),
-      new VRToggleButton(),
-      new SettingsToggleButton({ settingsPanel: settingsPanel }),
-      new FullscreenToggleButton(),
-    ];
-
-    // Add the share button & panel if sharing is enabled.
-    let sharePanel;
-    if (data.shareEnabled) {
-      sharePanel = new SharePanel({ 
-        shareLink: data.shareLink ? data.shareLink : null 
+    if ( ! data.controlsDisabled) {
+      let mainSettingsPanelPage = new SettingsPanelPage({
+        components: [
+          new SettingsPanelItem(i18n.getLocalizer('settings.video.quality'), new VideoQualitySelectBox()),
+          new SettingsPanelItem(i18n.getLocalizer('speed'), new PlaybackSpeedSelectBox()),
+          new SettingsPanelItem(i18n.getLocalizer('settings.audio.track'), new AudioTrackSelectBox()),
+          new SettingsPanelItem(i18n.getLocalizer('settings.audio.quality'), new AudioQualitySelectBox()),
+        ],
       });
 
-      bottomControlBarComponents.splice(
-        (bottomControlBarComponents.length - 2), 0, new ShareToggleButton({ sharePanel })
-      );
-    }
-    
-    let controlBarComponents: any[] = [
-      settingsPanel,
-      new Container({
+      let settingsPanel = new SettingsPanel({
         components: [
-          new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
-          new SeekBar({ label: new SeekBarLabel() }),
-          new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
+          mainSettingsPanelPage,
         ],
-        cssClasses: ['controlbar-top'],
-      }),
-      new Container({
-        components: bottomControlBarComponents,
-        cssClasses: ['controlbar-bottom'],
-      }),
-    ];
+        hidden: true,
+      });
 
-    if (data.shareEnabled) {
-      controlBarComponents.push(sharePanel);
+      mainSettingsPanelPage.addComponent(
+        new SettingsPanelItem(
+          // new SubtitleSettingsLabel({text: i18n.getLocalizer('settings.subtitles'), opener: subtitleSettingsOpenButton}),
+          // Don't allow customizing subtitles, i.e. don't include
+          // a settings button & page to do so.
+          i18n.getLocalizer('settings.subtitles'),
+          new SubtitleSelectBox(),
+        ));
+
+      let sharePanel;
+      
+      let controlBarBottomComponents = [
+        new PlaybackToggleButton(),
+        new VolumeToggleButton(),
+        new VolumeSlider(),
+        new Spacer(),
+        new PictureInPictureToggleButton(),
+        new AirPlayToggleButton(),
+        new CastToggleButton(),
+        new VRToggleButton(),
+        new SettingsToggleButton({ settingsPanel: settingsPanel }),
+        new FullscreenToggleButton(),
+      ];
+  
+      // Add the share button & panel if sharing is enabled.
+      if ( ! data.shareDisabled) {
+        sharePanel = new SharePanel({ 
+          shareLink: data.shareLink ? data.shareLink : null 
+        });
+  
+        controlBarBottomComponents.splice(
+          (controlBarBottomComponents.length - 2), 0, new ShareToggleButton({ sharePanel })
+        );
+      }
+      
+      let controlBarComponents: any[] = [
+        settingsPanel,
+        new Container({
+          components: controlBarTopComponents,
+          cssClasses: ['controlbar-top'],
+        }),
+        new Container({
+          components: controlBarBottomComponents,
+          cssClasses: ['controlbar-bottom'],
+        }),
+      ];
+
+      if ( ! data.shareDisabled) {
+        controlBarComponents.push(sharePanel);
+      }
+
+      controlBar = new ControlBar({
+        components: controlBarComponents,
+      });
     }
+    // If controls are disabled, only show the seek bar.
+    else {
+      // ...but if the seek bar is also disabled,
+      // show nothing.
+      let controlBarComponents = data.seekBarDisabled
+        ? []
+        : [
+          new Container({
+            components: controlBarTopComponents,
+            cssClasses: ['controlbar-top'],
+          }),
+        ];
 
-    let controlBar = new ControlBar({
-      components: controlBarComponents,
-    });
+      controlBar = new ControlBar({
+        components: controlBarComponents
+      });
+    }
 
     // Assemble all container components.
     let components: any[] = [
-      subtitleOverlay,
+      new SubtitleOverlay(),
       new BufferingOverlay(),
       new PlaybackToggleOverlay(),
       new CastStatusOverlay(),
-      controlBar,
-      // new TitleBar(),
       new RecommendationOverlay(),
       new ErrorMessageOverlay(),
+      // new TitleBar(),
+      controlBar
     ];
+
+    // if ( ! data.controlsDisabled) {
+    //   components.push(controlBar);
+    // }
 
     // If playlist data was passed, add the playlist's menu.
     let playlistMenu;
@@ -314,7 +331,7 @@ export namespace SmUIFactory {
 
     // Add the share button & panel if sharing is enabled.
     let sharePanel;
-    if (data.shareEnabled) {
+    if ( ! data.shareDisabled) {
       sharePanel = new SharePanel({ 
         shareLink: data.shareLink ? data.shareLink : null 
       });
@@ -359,7 +376,7 @@ export namespace SmUIFactory {
     ];
 
     // Add the share button & panel if sharing is enabled.
-    if (data.shareEnabled) {
+    if ( ! data.shareDisabled) {
       components.push(sharePanel);
     }
 
