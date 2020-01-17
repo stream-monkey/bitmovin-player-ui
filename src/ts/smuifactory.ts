@@ -339,38 +339,23 @@ export namespace SmUIFactory {
     
     // If it's not disabled, add the seek bar.
     if ( ! data.seekBarDisabled) {
-      components.push(new ControlBar({
-        components: [
-          new Container({
-            components: [
-              new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
-              new SeekBar({ label: new SeekBarLabel() }),
-              new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
-            ],
-            cssClasses: ['controlbar-top'],
-          }),
-        ],
-      }));
+      components.splice(
+        components.length - 1, 
+        0, 
+        new ControlBar({
+          components: [
+            new Container({
+              components: [
+                new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
+                new SeekBar({ label: new SeekBarLabel() }),
+                new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
+              ],
+              cssClasses: ['controlbar-top'],
+            }),
+          ],
+        })
+      );
     }
-
-    // // Assemble all container components.
-    // let components = [
-    //   new SubtitleOverlay(),
-    //   new BufferingOverlay(),
-    //   new CastStatusOverlay(),
-    //   new PlaybackToggleOverlay(),
-    //   new RecommendationOverlay(),
-    //   new ErrorMessageOverlay(),
-    //   settingsPanel,
-    //   controlBar,
-    //   new TitleBar({
-    //     components: titleBarComponents,
-    //   })
-    // ];
-
-    
-
-
 
     let cssClasses = ['ui-skin-smallscreen']
     if (isPlaylist) {
