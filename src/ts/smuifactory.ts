@@ -182,13 +182,8 @@ export namespace SmUIFactory {
       new CastStatusOverlay(),
       new RecommendationOverlay(),
       new ErrorMessageOverlay(),
-      // new TitleBar(),
       controlBar
     ];
-
-    // if ( ! data.controlsDisabled) {
-    //   components.push(controlBar);
-    // }
 
     // If playlist data was passed, add the playlist's menu.
     let playlistMenu;
@@ -251,138 +246,135 @@ export namespace SmUIFactory {
     // If it's a playlist, add a custom class & playlist menu.
     const isPlaylist = SmUIFactory.isPlaylist(data);
 
-    let subtitleOverlay = new SubtitleOverlay();
-
-    let mainSettingsPanelPage = new SettingsPanelPage({
-      components: [
-        new SettingsPanelItem(i18n.getLocalizer('settings.video.quality'), new VideoQualitySelectBox()),
-        new SettingsPanelItem(i18n.getLocalizer('speed'), new PlaybackSpeedSelectBox()),
-        new SettingsPanelItem(i18n.getLocalizer('settings.audio.track'), new AudioTrackSelectBox()),
-        new SettingsPanelItem(i18n.getLocalizer('settings.audio.quality'), new AudioQualitySelectBox()),
-      ],
-    });
-
-    let settingsPanel = new SettingsPanel({
-      components: [
-        mainSettingsPanelPage,
-      ],
-      hidden: true,
-      pageTransitionAnimation: false,
-      hideDelay: -1,
-    });
-
-    // let subtitleSettingsPanelPage = new SubtitleSettingsPanelPage({
-    //   settingsPanel: settingsPanel,
-    //   overlay: subtitleOverlay,
-    // });
-
-    // let subtitleSettingsOpenButton = new SettingsPanelPageOpenButton({
-    //   targetPage: subtitleSettingsPanelPage,
-    //   container: settingsPanel,
-    //   text: i18n.getLocalizer('open'),
-    // });
-
-    mainSettingsPanelPage.addComponent(
-      new SettingsPanelItem(
-        // new SubtitleSettingsLabel({text: i18n.getLocalizer('settings.subtitles'), opener: subtitleSettingsOpenButton}),
-        // Don't allow customizing subtitles, i.e. don't include
-        // a settings button & page to do so.
-        i18n.getLocalizer('settings.subtitles'),
-        new SubtitleSelectBox(),
-      ));
-
-    // settingsPanel.addComponent(subtitleSettingsPanelPage);
-
-    settingsPanel.addComponent(new CloseButton({ target: settingsPanel }));
-    // subtitleSettingsPanelPage.addComponent(new CloseButton({ target: settingsPanel }));
-
-    let controlBar = new ControlBar({
-      components: [
-        new Container({
-          components: [
-            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
-            new SeekBar({ label: new SeekBarLabel() }),
-            new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
-          ],
-          cssClasses: ['controlbar-top'],
-        }),
-      ],
-    });
-
-    let cssClasses = ['ui-skin-smallscreen']
-    if (isPlaylist) {
-      cssClasses.push('ui-is-playlist');
-    }
-
-    // All title bar components.
-    let titleBarComponents = [
-      // Don't show the title.
-      // new MetadataLabel({ content: MetadataLabelContent.Title }),
-      // dummy label with no content to move buttons to the right
-      new Label({ cssClass: 'label-metadata-title' }),
-      new CastToggleButton(),
-      new VRToggleButton(),
-      new PictureInPictureToggleButton(),
-      new AirPlayToggleButton(),
-      new VolumeToggleButton(),
-      new SettingsToggleButton({ settingsPanel: settingsPanel }),
-      new FullscreenToggleButton(),
-    ];
-
-    // Add the share button & panel if sharing is enabled.
-    let sharePanel;
-    if ( ! data.shareDisabled) {
-      sharePanel = new SharePanel({ 
-        shareLink: data.shareLink ? data.shareLink : null 
-      });
-      sharePanel.addComponent(new CloseButton({ target: sharePanel }));
-
-      titleBarComponents.splice(
-        (titleBarComponents.length - 3), 0, new ShareToggleButton({ sharePanel })
-      );
-    }
-
-    // If playlist data was passed, init the playlist's menu.
-    let playlistMenu;
-    if (isPlaylist) {
-      playlistMenu = new PlaylistMenu({ 
-        items: data.playlistItems,
-        hideDelay: -1,
-        isMobileMenu: true
-      });
-      titleBarComponents.splice(1, 0, new PlaylistMenuToggleButton({ playlistMenu }));
-    }
-
-    // Assemble all container components.
-    let components = [
-      subtitleOverlay,
+    // Intial set of components.
+    let components: any[] = [
+      new SubtitleOverlay(),
       new BufferingOverlay(),
       new CastStatusOverlay(),
       new PlaybackToggleOverlay(),
       new RecommendationOverlay(),
-      controlBar,
-      // new TitleBar({
-      //   components: [
-      //     // dummy label with no content to move buttons to the right
-      //     new Label({ cssClass: 'label-metadata-title' }),
-      //     new FullscreenToggleButton(),
-      //   ],
-      // }),
-      new TitleBar({
-        components: titleBarComponents,
-      }),
-      settingsPanel,
-      new ErrorMessageOverlay(),
+      new ErrorMessageOverlay()
     ];
 
-    // Add the share button & panel if sharing is enabled.
-    if ( ! data.shareDisabled) {
-      components.push(sharePanel);
+    if ( ! data.controlsDisabled) {
+      let mainSettingsPanelPage = new SettingsPanelPage({
+        components: [
+          new SettingsPanelItem(i18n.getLocalizer('settings.video.quality'), new VideoQualitySelectBox()),
+          new SettingsPanelItem(i18n.getLocalizer('speed'), new PlaybackSpeedSelectBox()),
+          new SettingsPanelItem(i18n.getLocalizer('settings.audio.track'), new AudioTrackSelectBox()),
+          new SettingsPanelItem(i18n.getLocalizer('settings.audio.quality'), new AudioQualitySelectBox()),
+        ],
+      });
+  
+      let settingsPanel = new SettingsPanel({
+        components: [
+          mainSettingsPanelPage,
+        ],
+        hidden: true,
+        pageTransitionAnimation: false,
+        hideDelay: -1,
+      });
+  
+      mainSettingsPanelPage.addComponent(
+        new SettingsPanelItem(
+          // Don't allow customizing subtitles, i.e. don't include
+          // a settings button & page to do so.
+          i18n.getLocalizer('settings.subtitles'),
+          new SubtitleSelectBox(),
+        ));
+  
+      settingsPanel.addComponent(new CloseButton({ target: settingsPanel }));
+      
+      // All title bar components.
+      let titleBarComponents = [
+        // Dummy label with no content to move buttons to the right.
+        new Label({ cssClass: 'label-metadata-title' }),
+        new CastToggleButton(),
+        new VRToggleButton(),
+        new PictureInPictureToggleButton(),
+        new AirPlayToggleButton(),
+        new VolumeToggleButton(),
+        new SettingsToggleButton({ settingsPanel: settingsPanel }),
+        new FullscreenToggleButton(),
+      ];
+
+      // Add the share button & panel if sharing is enabled.
+      let sharePanel;
+      if ( ! data.shareDisabled) {
+        sharePanel = new SharePanel({ 
+          shareLink: data.shareLink ? data.shareLink : null 
+        });
+        sharePanel.addComponent(new CloseButton({ target: sharePanel }));
+
+        titleBarComponents.splice(
+          (titleBarComponents.length - 3), 0, new ShareToggleButton({ sharePanel })
+        );
+      }
+
+      // Add the settings panel & title bar.
+      components.push(
+        settingsPanel, 
+        new TitleBar({
+          components: titleBarComponents,
+        })
+      );
+
+      // Add the share button & panel if sharing is enabled.
+      if ( ! data.shareDisabled) {
+        components.push(sharePanel);
+      }
+
+      // If playlist data was passed, add the playlist's menu.
+      if (isPlaylist) {
+        let playlistMenu = new PlaylistMenu({ 
+          items: data.playlistItems,
+          hideDelay: -1,
+          isMobileMenu: true
+        });
+        titleBarComponents.splice(1, 0, new PlaylistMenuToggleButton({ playlistMenu }));
+
+        components.push(playlistMenu);
+      }
+    }
+    
+    // If it's not disabled, add the seek bar.
+    if ( ! data.seekBarDisabled) {
+      components.push(new ControlBar({
+        components: [
+          new Container({
+            components: [
+              new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.CurrentTime, hideInLivePlayback: true }),
+              new SeekBar({ label: new SeekBarLabel() }),
+              new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] }),
+            ],
+            cssClasses: ['controlbar-top'],
+          }),
+        ],
+      }));
     }
 
-    // If playlist data was passed, add the playlist's menu.
+    // // Assemble all container components.
+    // let components = [
+    //   new SubtitleOverlay(),
+    //   new BufferingOverlay(),
+    //   new CastStatusOverlay(),
+    //   new PlaybackToggleOverlay(),
+    //   new RecommendationOverlay(),
+    //   new ErrorMessageOverlay(),
+    //   settingsPanel,
+    //   controlBar,
+    //   new TitleBar({
+    //     components: titleBarComponents,
+    //   })
+    // ];
+
+    
+
+
+
+    let cssClasses = ['ui-skin-smallscreen']
     if (isPlaylist) {
-      components.push(playlistMenu);
+      cssClasses.push('ui-is-playlist');
     }
 
     return new UIContainer({
@@ -405,7 +397,7 @@ export namespace SmUIFactory {
         new PlaybackToggleOverlay(),
         new TitleBar({
           components: [
-            // dummy label with no content to move buttons to the right
+            // Dummy label with no content to move buttons to the right.
             new Label({ cssClass: 'label-metadata-title' }),
             new FullscreenToggleButton(),
           ],
@@ -448,7 +440,6 @@ export namespace SmUIFactory {
         new BufferingOverlay(),
         new PlaybackToggleOverlay(),
         controlBar,
-        // new TitleBar({ keepHiddenWithoutMetadata: true }),
         new ErrorMessageOverlay(),
       ],
       cssClasses: ['ui-skin-cast-receiver'],
