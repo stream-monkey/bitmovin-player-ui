@@ -440,6 +440,26 @@ export namespace SmUIFactory {
   export function buildSmUI(player: PlayerAPI, config: UIConfig = {}, data: any): UIManager {
     // console.log('buildSmUI - config, data', config, data)
 
+    // For customizing the highlight color, just inject
+    // a <style> block within the player container with the custom color value.
+    // This prevents having to, e.g., extend the necessary components
+    // simply to supply a custom color, which would be foolish and fragile,
+    // in terms of any future Bitmovin UI library updates.
+    if (data.highlightColor) {
+      player.getContainer().insertAdjacentHTML(
+        'afterbegin', 
+        `<style>
+          .bmpui-ui-seekbar .bmpui-seekbar .bmpui-seekbar-playbackposition, 
+          .bmpui-ui-volumeslider .bmpui-seekbar .bmpui-seekbar-playbackposition {
+            background-color: ${data.highlightColor}; 
+          }
+          .bmpui-ui-playbacktimelabel.bmpui-ui-playbacktimelabel-live.bmpui-ui-playbacktimelabel-live-edge::before {
+            color: ${data.highlightColor};
+          }
+        </style>`
+      );
+    }
+
     // show smallScreen UI only on mobile/handheld devices
     let smallScreenSwitchWidth = 600;
 
