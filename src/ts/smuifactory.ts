@@ -446,6 +446,12 @@ export namespace SmUIFactory {
     // simply to supply a custom color, which would be foolish and fragile,
     // in terms of any future Bitmovin UI library updates.
     if (data.highlightColor) {
+      // Remove any previously-added style blocks.
+      let existingStyleBlocks = player.getContainer().querySelectorAll('style');
+      if (existingStyleBlocks.length > 0) {
+        existingStyleBlocks.forEach(styleBlock => styleBlock.remove());
+      }
+
       player.getContainer().insertAdjacentHTML(
         'afterbegin', 
         `<style>
