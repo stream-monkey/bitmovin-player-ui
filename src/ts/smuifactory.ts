@@ -436,35 +436,63 @@ export namespace SmUIFactory {
       ],
     });
   }
+  
+  // For customizing the highlight color or "theme", just inject
+  // a <style> block within the player container with the custom color value.
+  // This prevents having to, e.g., extend the necessary components
+  // simply to supply a custom color, which would be foolish and fragile,
+  // in terms of any future Bitmovin UI library updates.
+  function addCustomStyles(player: PlayerAPI, data: any) {
+    // Remove any previously-added custom style blocks.
+    let existingStyleBlocks = player.getContainer().querySelectorAll('style');
+    if (existingStyleBlocks.length > 0) {
+      existingStyleBlocks.forEach(styleBlock => styleBlock.remove());
+    }
+
+    // Gather any custom style rules.
+    let customStyles: String = '';
+
+    if (data.highlightColor) {
+      customStyles += `
+        .bmpui-ui-seekbar .bmpui-seekbar .bmpui-seekbar-playbackposition, 
+        .bmpui-ui-volumeslider .bmpui-seekbar .bmpui-seekbar-playbackposition {
+          background-color: ${data.highlightColor}; 
+        }
+        .bmpui-ui-playbacktimelabel.bmpui-ui-playbacktimelabel-live.bmpui-ui-playbacktimelabel-live-edge::before {
+          color: ${data.highlightColor};
+        }
+      `;
+    }
+
+    // If a theme is set, make the (currently laughably minor)
+    // style additions.
+    if (data.theme) {
+      switch (data.theme) {
+        case 'bar_dark':
+          customStyles += `
+            .bmpui-ui-controlbar {
+              background-color: rgba(0, 0, 0, 0.8);
+            }
+          `;
+          break;
+      }
+    }
+
+    // If set, append the custom styles now.
+    if (customStyles) {
+      player.getContainer().insertAdjacentHTML(
+        'afterbegin', 
+        `<style>
+          ${customStyles}
+        </style>`
+      );
+    }
+  }
 
   export function buildSmUI(player: PlayerAPI, config: UIConfig = {}, data: any): UIManager {
     // console.log('buildSmUI - config, data', config, data)
 
-    // For customizing the highlight color, just inject
-    // a <style> block within the player container with the custom color value.
-    // This prevents having to, e.g., extend the necessary components
-    // simply to supply a custom color, which would be foolish and fragile,
-    // in terms of any future Bitmovin UI library updates.
-    if (data.highlightColor) {
-      // Remove any previously-added style blocks.
-      let existingStyleBlocks = player.getContainer().querySelectorAll('style');
-      if (existingStyleBlocks.length > 0) {
-        existingStyleBlocks.forEach(styleBlock => styleBlock.remove());
-      }
-
-      player.getContainer().insertAdjacentHTML(
-        'afterbegin', 
-        `<style>
-          .bmpui-ui-seekbar .bmpui-seekbar .bmpui-seekbar-playbackposition, 
-          .bmpui-ui-volumeslider .bmpui-seekbar .bmpui-seekbar-playbackposition {
-            background-color: ${data.highlightColor}; 
-          }
-          .bmpui-ui-playbacktimelabel.bmpui-ui-playbacktimelabel-live.bmpui-ui-playbacktimelabel-live-edge::before {
-            color: ${data.highlightColor};
-          }
-        </style>`
-      );
-    }
+    addCustomStyles(player, data);
 
     // show smallScreen UI only on mobile/handheld devices
     let smallScreenSwitchWidth = 600;
