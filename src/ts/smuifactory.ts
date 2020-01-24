@@ -498,7 +498,7 @@ export namespace SmUIFactory {
       // still needs to be accessible.
       customStyles += `
         .bitmovinplayer-poster {
-          display: block;
+          display: block !important;
           background-image: url(${offlineImage}) !important;
         }
 
