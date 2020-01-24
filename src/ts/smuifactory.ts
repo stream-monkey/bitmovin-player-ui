@@ -65,7 +65,8 @@ export namespace SmUIFactory {
   // }
 
   export function isPlaylist(data: any) {
-    return data.playlistItems && data.playlistItems.length > 0;
+    return data.playlist 
+      && data.playlist.items && data.playlist.items.length > 0;
   }
 
   function modernUI(data: any) {
@@ -188,7 +189,11 @@ export namespace SmUIFactory {
     // If playlist data was passed, add the playlist's menu.
     let playlistMenu;
     if (isPlaylist) {
-      playlistMenu = new PlaylistMenu({ items: data.playlistItems });
+      playlistMenu = new PlaylistMenu({ 
+        items: data.playlist.items, 
+        activeIndex: data.playlist.activeIndex,
+        activeItemOffline: data.isOffline ? data.isOffline : false
+      });
       components.push(playlistMenu);
     }
 
@@ -327,7 +332,9 @@ export namespace SmUIFactory {
       // If playlist data was passed, add the playlist's menu.
       if (isPlaylist) {
         let playlistMenu = new PlaylistMenu({ 
-          items: data.playlistItems,
+          items: data.playlist.items, 
+          activeIndex: data.playlist.activeIndex,
+          activeItemOffline: data.isOffline ? data.isOffline : false,
           hideDelay: -1,
           isMobileMenu: true
         });
@@ -476,6 +483,30 @@ export namespace SmUIFactory {
           `;
           break;
       }
+    }
+
+    // Excellent. If offline, inject the offline image
+    // into the existing Bitmovin player poster element.
+    if (data.isOffline) {
+      const offlineImage = data.offlineImage
+        ? data.offlineImage
+        : '//images.streammonkey.com/offline.jpg'
+      
+      // Set the bitmovinplayer-poster's image to our offline image
+      // and hide the main controls.
+      // Note that if viewing within a playlist, the playlist menu
+      // still needs to be accessible.
+      customStyles += `
+        .bitmovinplayer-poster {
+          display: block;
+          background-image: url(${offlineImage}) !important;
+        }
+
+        .bmpui-ui-playbacktoggle-overlay .bmpui-ui-hugeplaybacktogglebutton .bmpui-image,
+        .bmpui-ui-controlbar {
+          display: none;
+        }
+      `;
     }
 
     // If set, append the custom styles now.

@@ -19,7 +19,11 @@ export interface PlaylistMenuConfig extends ContainerConfig {
 
   items: any[];
 
+  activeIndex: number;
+
   isMobileMenu?: boolean;
+
+  activeItemOffline?: boolean;
 }
 
 /**
@@ -40,12 +44,15 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
     
     let itemComponents: any[] = [];
     config.items.forEach((item, index) => {
+      let isActive = index === config.activeIndex;
       itemComponents.push(new PlaylistMenuItem({
         index,
         title: item.title,
         mediaType: item.media_type,
         duration: item.duration,
         playlistMenu: this,
+        isActive,
+        isOffline: isActive && config.activeItemOffline,
       }));
     });
 

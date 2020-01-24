@@ -15,6 +15,8 @@ export interface PlaylistMenuItemConfig extends ButtonConfig {
   duration?: number;
   mediaType: string;
   playlistMenu: PlaylistMenu;
+  isActive: boolean;
+  isOffline: boolean;
 }
 
 /**
@@ -33,7 +35,7 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
     super(config);
 
     let cssClasses = [this.itemClass];
-    if (config.index === 0) {
+    if (config.isActive) {
       cssClasses.push(this.itemActiveClass);
     }
 
@@ -147,7 +149,9 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
       labelContent = 'Loading...';
     }
     else {
-      labelContent = 'Now Playing';
+      labelContent = this.config.isOffline
+        ? 'Offline'
+        : 'Now Playing';
     }
 
     return labelContent;
