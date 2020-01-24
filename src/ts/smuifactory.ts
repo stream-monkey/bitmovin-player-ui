@@ -497,11 +497,21 @@ export namespace SmUIFactory {
       // Note that if viewing within a playlist, the playlist menu
       // still needs to be accessible.
       customStyles += `
+        // Force-show the poster with the offline image.
         .bitmovinplayer-poster {
           display: block !important;
           background-image: url(${offlineImage}) !important;
         }
 
+        // Show the big play button container even if the player goes "idle",
+        // which makes sure to still allow for the hover to show the playlist menu;
+        // otherwise, if it hits that idle state, you'll never be able
+        // to hover/view the playlist menu again.
+        .bmpui-ui-uicontainer.bmpui-player-state-idle .bmpui-ui-hugeplaybacktogglebutton {
+          display: inline-block;
+        }
+
+        // Hide the big play button & all of the normal controls.
         .bmpui-ui-playbacktoggle-overlay .bmpui-ui-hugeplaybacktogglebutton .bmpui-image,
         .bmpui-ui-controlbar {
           display: none;
