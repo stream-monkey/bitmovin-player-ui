@@ -497,21 +497,29 @@ export namespace SmUIFactory {
       // Note that if viewing within a playlist, the playlist menu
       // still needs to be accessible.
       customStyles += `
-        // Force-show the poster with the offline image.
+        /* Force-show the poster with the offline image. */
         .bitmovinplayer-poster {
           display: block !important;
           background-image: url(${offlineImage}) !important;
         }
 
-        // Show the big play button container even if the player goes "idle",
-        // which makes sure to still allow for the hover to show the playlist menu;
-        // otherwise, if it hits that idle state, you'll never be able
-        // to hover/view the playlist menu again.
+        /* So we can't disable pointer events to disable the player click, 
+        because that also disables the hover required to toggle the playlist
+        menu, so just alter the cursor to deter. (Note that it won't do any
+        harm for them to click an offline stream, just unnecessary processing.) */
+        .bmpui-ui-playbacktoggle-overlay .bmpui-ui-hugeplaybacktogglebutton {
+          cursor: not-allowed;
+        }
+
+        /* Show the big play button container even if the player goes "idle",
+        which makes sure to still allow for the hover to show the playlist menu;
+        otherwise, if it hits that idle state, you'll never be able
+        to hover/view the playlist menu again. */
         .bmpui-ui-uicontainer.bmpui-player-state-idle .bmpui-ui-hugeplaybacktogglebutton {
           display: inline-block;
         }
 
-        // Hide the big play button & all of the normal controls.
+        /* Hide the big play button & all of the normal controls. */
         .bmpui-ui-playbacktoggle-overlay .bmpui-ui-hugeplaybacktogglebutton .bmpui-image,
         .bmpui-ui-controlbar {
           display: none;
