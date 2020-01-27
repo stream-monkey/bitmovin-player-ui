@@ -52,26 +52,14 @@ import { i18n } from './localization/i18n';
 
 export namespace SmUIFactory {
 
-  // export function buildSmDefaultUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
-  //   return SmUIFactory.buildSmUI(player, config);
-  // }
-
-  // export function buildSmDefaultSmallScreenUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
-  //   return SmUIFactory.buildSmSmallScreenUI(player, config);
-  // }
-
-  // export function buildSmDefaultCastReceiverUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
-  //   return SmUIFactory.buildSmCastReceiverUI(player, config);
-  // }
-
-  export function isPlaylist(data: any) {
+  function isPlaylistPlayer(data: any) {
     return data.playlist 
       && data.playlist.items && data.playlist.items.length > 0;
   }
 
   function modernUI(data: any) {
     // If it's a playlist, add a custom class & playlist menu.
-    const isPlaylist = SmUIFactory.isPlaylist(data);
+    const isPlaylist = isPlaylistPlayer(data);
 
     let controlBar;
 
@@ -104,7 +92,6 @@ export namespace SmUIFactory {
 
       mainSettingsPanelPage.addComponent(
         new SettingsPanelItem(
-          // new SubtitleSettingsLabel({text: i18n.getLocalizer('settings.subtitles'), opener: subtitleSettingsOpenButton}),
           // Don't allow customizing subtitles, i.e. don't include
           // a settings button & page to do so.
           i18n.getLocalizer('settings.subtitles'),
@@ -249,7 +236,7 @@ export namespace SmUIFactory {
 
   export function modernSmallScreenUI(data: any) {
     // If it's a playlist, add a custom class & playlist menu.
-    const isPlaylist = SmUIFactory.isPlaylist(data);
+    const isPlaylist = isPlaylistPlayer(data);
 
     // Intial set of components.
     let components: any[] = [
@@ -539,8 +526,8 @@ export namespace SmUIFactory {
   }
 
   export function buildSmUI(player: PlayerAPI, config: UIConfig = {}, data: any): UIManager {
-    // console.log('buildSmUI - config, data', config, data)
-
+    // Inject any custom styling onto the page
+    // that's not done via components.
     addCustomStyles(player, data);
 
     // show smallScreen UI only on mobile/handheld devices
