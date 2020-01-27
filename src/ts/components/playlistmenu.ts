@@ -32,9 +32,7 @@ export interface PlaylistMenuConfig extends ContainerConfig {
 export class PlaylistMenu extends Container<PlaylistMenuConfig> {
 
   private hideTimeout: Timeout;
-
-  private playlistMenuItself : Container<ContainerConfig>;
-
+  private playlistMenuItself: Container<ContainerConfig>;
   private hoveredClass = 'ui-playlistmenu-wrapper-hovered';
 
   constructor(config: PlaylistMenuConfig) {

@@ -62,7 +62,7 @@ export class PlaylistMenuNavButton extends Button<PlaylistMenuNavButtonConfig> {
 
   scrollAtEnd() {
     const container = this.config.playlistMenu.get(0);
-    return container.offsetWidth + container.scrollLeft == container.scrollWidth;
+    return container.offsetWidth + container.scrollLeft === container.scrollWidth;
   }
 
   toggleVisibility() {

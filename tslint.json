@@ -6,7 +6,7 @@
     "no-duplicate-variable": true,
     "no-eval": true,
     "no-internal-module": true,
-    "no-trailing-whitespace": true,
+    "no-trailing-whitespace": false,
     "no-var-keyword": false,
     "one-line": [true, "check-open-brace", "check-whitespace"],
     "quotemark": [true, "single"],
@@ -20,14 +20,14 @@
       "variable-declaration": "nospace"
     }],
     "variable-name": [true, "ban-keywords"],
-    "whitespace": [true,
+    "whitespace": [false,
       "check-branch",
       "check-decl",
       "check-operator",
       "check-separator",
       "check-type"
     ],
-    "trailing-comma": [true, {"multiline": {
+    "trailing-comma": [false, {"multiline": {
       "arrays": "always",
       "exports": "always",
       "functions": "always",

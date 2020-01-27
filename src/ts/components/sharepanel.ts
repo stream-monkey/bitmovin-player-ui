@@ -41,22 +41,18 @@ export class SharePanel extends Container<SharePanelConfig> {
       cssClasses: ['ui-sharebutton', 'ui-facebooksharebutton'],
       text: 'Facebook',
     });
-    
     this.twitterButton = new Button({
       cssClasses: ['ui-sharebutton', 'ui-twittersharebutton'],
       text: 'Twitter',
     });
-    
     this.emailButton = new Button({
       cssClasses: ['ui-sharebutton', 'ui-emailsharebutton'],
       text: 'Email',
     });
-    
     this.linkButton = new Button({
       cssClasses: ['ui-sharebutton', 'ui-linksharebutton'],
       text: 'Link',
     });
-    
     this.config = this.mergeConfig(config, {
       cssClasses: ['ui-settings-panel', 'ui-sharepanel'],
       hidden: true,
@@ -67,7 +63,7 @@ export class SharePanel extends Container<SharePanelConfig> {
         this.twitterButton,
         this.emailButton,
         this.linkButton,
-      ]
+      ],
     } as SharePanelConfig, this.config);
   }
 
@@ -76,7 +72,6 @@ export class SharePanel extends Container<SharePanelConfig> {
 
     let config = this.getConfig();
     let uiconfig = uimanager.getConfig();
-    
     let title = uiconfig.metadata.title;
 
     // Use a custom supplied share link if passed,
@@ -86,20 +81,20 @@ export class SharePanel extends Container<SharePanelConfig> {
       : window.location.href;
 
     this.facebookButton.onClick.subscribe(() => {
-      let shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareLink}`
-      window.open(shareUrl, 'facebookwindow','left=20,top=20,width=600,height=700,toolbar=0,resizable=1');
-    })
+      let shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareLink}`;
+      window.open(shareUrl, 'facebookwindow', 'left=20,top=20,width=600,height=700,toolbar=0,resizable=1');
+    });
     this.twitterButton.onClick.subscribe(() => {
-      let shareUrl = `https://twitter.com/share?&url=${shareLink}`
-      window.open(shareUrl, 'twitterwindow','left=20,top=20,width=600,height=300,toolbar=0,resizable=1');
-    })
+      let shareUrl = `https://twitter.com/share?&url=${shareLink}`;
+      window.open(shareUrl, 'twitterwindow', 'left=20,top=20,width=600,height=300,toolbar=0,resizable=1');
+    });
     this.emailButton.onClick.subscribe(() => {
-      window.open(`mailto:?subject=${title}&body=${shareLink}`)
-    })
+      window.open(`mailto:?subject=${title}&body=${shareLink}`);
+    });
     this.linkButton.onClick.subscribe(() => {
       copy(shareLink);
       alert('Link copied to clipboard 👍');
-    })
+    });
 
     if (config.hideDelay > -1) {
       this.hideTimeout = new Timeout(config.hideDelay, () => {

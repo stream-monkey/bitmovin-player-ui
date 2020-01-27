@@ -55,7 +55,7 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
 
       // Remove the active class from all other playlist menu items,
       // and add it to this one.
-      const activeClass = this.prefixCss(this.itemActiveClass)
+      const activeClass = this.prefixCss(this.itemActiveClass);
       this.config.playlistMenu.getDomElement().find(`.${this.prefixCss(this.itemClass)}`)
         .get().forEach(playlistMenuItemEl => {
           new DOM(playlistMenuItemEl).removeClass(activeClass);
@@ -125,11 +125,11 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
   }
 
   protected durationContent() {
-    let durationContent : string;
+    let durationContent: string;
     
     switch (this.config.mediaType) {
       case 'on_demand_video':
-        durationContent = this.durationTimestamp()
+        durationContent = this.durationTimestamp();
         break;
       case 'live_stream':
         durationContent = `<i class="fal fa-broadcast-tower"></i>`;

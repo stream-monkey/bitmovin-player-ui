@@ -351,7 +351,7 @@ export namespace SmUIFactory {
       );
     }
 
-    let cssClasses = ['ui-skin-smallscreen']
+    let cssClasses = ['ui-skin-smallscreen'];
     if (isPlaylist) {
       cssClasses.push('ui-is-playlist');
     }
@@ -477,7 +477,7 @@ export namespace SmUIFactory {
     if (data.isOffline) {
       const offlineImage = data.offlineImage
         ? data.offlineImage
-        : '//images.streammonkey.com/offline.jpg'
+        : '//images.streammonkey.com/offline.jpg';
       
       // Set the bitmovinplayer-poster's image to our offline image
       // and hide the main controls.
