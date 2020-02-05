@@ -490,14 +490,7 @@ export namespace SmUIFactory {
           background-image: url(${offlineImage}) !important;
         }
 
-        /* So we can't disable pointer events to disable the player click, 
-        because that also disables the hover required to toggle the playlist
-        menu, so just alter the cursor to deter. (Note that it won't do any
-        harm for them to click an offline stream, just unnecessary processing.) */
-        .bmpui-ui-playbacktoggle-overlay .bmpui-ui-hugeplaybacktogglebutton {
-          cursor: not-allowed;
-        }
-
+        
         /* Show the big play button container even if the player goes "idle",
         which makes sure to still allow for the hover to show the playlist menu;
         otherwise, if it hits that idle state, you'll never be able
