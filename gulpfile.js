@@ -74,7 +74,13 @@ var browserifyInstance = browserify({
 }).plugin(tsify);
 
 var catchBrowserifyErrors = false;
-var production = false;
+// @NOTE:
+// I set this to true by default because it's the production
+// assets that are loaded by the Vue source, and I don't
+// think I really need to implement support for both dev &
+// production asset flipping here, think it's find if
+// they're just always prod.
+var production = true; // false;
 
 function replaceAll() {
   var replacementStreams = replacements.map(function(replacement) { return replace(replacement[0], replacement[1]); });
