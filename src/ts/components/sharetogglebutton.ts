@@ -1,5 +1,6 @@
 import {ToggleButton, ToggleButtonConfig} from './togglebutton';
 import {SharePanel} from './sharepanel';
+import {SettingsPanel} from './settingspanel';
 import {UIInstanceManager} from '../uimanager';
 import {Component, ComponentConfig} from './component';
 import {ArrayUtils} from '../arrayutils';
@@ -14,6 +15,12 @@ export interface ShareToggleButtonConfig extends ToggleButtonConfig {
    * The share panel whose visibility the button should toggle.
    */
   sharePanel: SharePanel;
+
+  /**
+   * Any other settings panels that need to be hidden before this
+   * one is shown.
+   */
+  otherSettingsPanels?: Component<ComponentConfig>[];
 }
 
 /**
@@ -21,7 +28,7 @@ export interface ShareToggleButtonConfig extends ToggleButtonConfig {
  */
 export class ShareToggleButton extends ToggleButton<ShareToggleButtonConfig> {
 
-  private visibleSharePanels: SharePanel[] = [];
+  private visibleSettingsPanels: (SharePanel|SettingsPanel)[] = [];
 
   constructor(config: ShareToggleButtonConfig) {
     super(config);
@@ -49,7 +56,7 @@ export class ShareToggleButton extends ToggleButton<ShareToggleButtonConfig> {
         // Hide all open SharePanels before opening this button's panel
         // (We need to iterate a copy because hiding them will automatically remove themselves from the array
         // due to the subscribeOnce above)
-        this.visibleSharePanels.slice().forEach(sharePanel => sharePanel.hide());
+        this.visibleSettingsPanels.slice().forEach(sharePanel => sharePanel.hide());
       }
       sharePanel.toggleHidden();
     });
@@ -62,12 +69,12 @@ export class ShareToggleButton extends ToggleButton<ShareToggleButtonConfig> {
       this.off();
     });
 
-    // Ensure that only one `SettingPanel` is visible at once
-    // Keep track of shown SharePanels
+    // Ensure that only one `SettingPanel` or `SharePanel` is visible at once
+    // Keep track of shown SettingsPanels & SharePanels
     uimanager.onComponentShow.subscribe((sender: Component<ComponentConfig>) => {
-      if (sender instanceof SharePanel) {
-        this.visibleSharePanels.push(sender);
-        sender.onHide.subscribeOnce(() => ArrayUtils.remove(this.visibleSharePanels, sender));
+      if (sender instanceof SettingsPanel || sender instanceof SharePanel) {
+        this.visibleSettingsPanels.push(sender);
+        sender.onHide.subscribeOnce(() => ArrayUtils.remove(this.visibleSettingsPanels, sender));
       }
     });
   }

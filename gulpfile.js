@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var touch = require('gulp-touch');
 
 // Gulp plugins
 var sass = require('gulp-sass');
@@ -188,7 +189,8 @@ gulp.task('sass', function() {
     }
   }))
   .pipe(sourcemaps.write())
-  .pipe(gulp.dest(paths.target.css));
+  .pipe(gulp.dest(paths.target.css))
+  .pipe(touch());
 
   if (production) {
     // Minify CSS
@@ -198,7 +200,8 @@ gulp.task('sass', function() {
       svgo: false
     })]))
     .pipe(rename({extname: '.min.css'}))
-    .pipe(gulp.dest(paths.target.css));
+    .pipe(gulp.dest(paths.target.css))
+    .pipe(touch());
   }
 
   return stream.pipe(browserSync.reload({stream: true}));

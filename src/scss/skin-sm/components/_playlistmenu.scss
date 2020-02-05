@@ -216,7 +216,18 @@
 }
 
 // Mobile playlist menu.
-&.#{$prefix}-ui-skin-smallscreen {
+&.#{$prefix}-ui-skin-smallscreen.#{$prefix}-ui-is-playlist {
+  // Make sure the controls are force-shown so that
+  // you can still access the mobile playlist menu
+  // if you hit an offline live stream.
+  &.#{$prefix}-player-state-idle {
+    .#{$prefix}-ui-titlebar {
+      display: block;
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
   .#{$prefix}-ui-playlistmenu-wrapper {
     &.#{$prefix}-hidden {
       display: none;
@@ -299,14 +310,6 @@
 
 		.playlist-thumbnail-wrapper {
 			border: none !important;
-		}
-	}
-
-	.#{$prefix}-ui-is-playlist {
-		.#{$prefix}-ui-controlbar {
-			padding: {
-				bottom: .5em !important;
-			}
 		}
 	}
 }

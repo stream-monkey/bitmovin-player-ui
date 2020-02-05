@@ -1,5 +1,6 @@
 import {ToggleButton, ToggleButtonConfig} from './togglebutton';
 import {SettingsPanel} from './settingspanel';
+import {SharePanel} from './sharepanel';
 import {UIInstanceManager} from '../uimanager';
 import {Component, ComponentConfig} from './component';
 import {ArrayUtils} from '../arrayutils';
@@ -16,6 +17,12 @@ export interface SettingsToggleButtonConfig extends ToggleButtonConfig {
   settingsPanel: SettingsPanel;
 
   /**
+   * Any other settings panels that need to be hidden before this
+   * one is shown.
+   */
+  otherSettingsPanels?: Component<ComponentConfig>[];
+
+  /**
    * Decides if the button should be automatically hidden when the settings panel does not contain any active settings.
    * Default: true
    */
@@ -27,7 +34,7 @@ export interface SettingsToggleButtonConfig extends ToggleButtonConfig {
  */
 export class SettingsToggleButton extends ToggleButton<SettingsToggleButtonConfig> {
 
-  private visibleSettingsPanels: SettingsPanel[] = [];
+  private visibleSettingsPanels: (SharePanel|SettingsPanel)[] = [];
 
   constructor(config: SettingsToggleButtonConfig) {
     super(config);
@@ -69,10 +76,10 @@ export class SettingsToggleButton extends ToggleButton<SettingsToggleButtonConfi
       this.off();
     });
 
-    // Ensure that only one `SettingPanel` is visible at once
-    // Keep track of shown SettingsPanels
+    // Ensure that only one `SettingPanel` or `SharePanel` is visible at once
+    // Keep track of shown SettingsPanels & SharePanels
     uimanager.onComponentShow.subscribe((sender: Component<ComponentConfig>) => {
-      if (sender instanceof SettingsPanel) {
+      if (sender instanceof SettingsPanel || sender instanceof SharePanel) {
         this.visibleSettingsPanels.push(sender);
         sender.onHide.subscribeOnce(() => ArrayUtils.remove(this.visibleSettingsPanels, sender));
       }
