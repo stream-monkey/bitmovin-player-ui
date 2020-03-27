@@ -487,7 +487,7 @@ export namespace SmUIFactory {
         /* Force-show the poster with the offline image. */
         .bitmovinplayer-poster {
           display: block !important;
-          background-image: url(${offlineImage}) !important;
+          background-image: url('${offlineImage}') !important;
         }
 
         
