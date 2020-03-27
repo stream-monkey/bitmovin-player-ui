@@ -1,5 +1,13 @@
 .#{$prefix}-ui-uicontainer {
-	-webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  
+  // Remove the box-shadow added for accessibility in 3.9.2
+  // https://github.com/bitmovin/bitmovin-player-ui/issues/286
+  &.#{$prefix}-controls-shown {
+	  .#{$prefix}-ui-hugeplaybacktogglebutton:focus {
+		  box-shadow: none;
+	  }
+	}
 }
 
 .#{$prefix}-ui-volumeslider,
@@ -111,11 +119,13 @@
 .#{$prefix}-ui-closebutton,
 .#{$prefix}-ui-fullscreentogglebutton,
 .#{$prefix}-ui-subtitlesettingstogglebutton, 
-.#{$prefix}-ui-audiotracksettingstogglebutton {
+.#{$prefix}-ui-audiotracksettingstogglebutton,
+.#{$prefix}-ui-selectbox {
 	&,
 	&:focus,
 	&:hover {
-		outline: 0;
+    box-shadow: none;
+    outline: none;
 	}
 
 	&.#{$prefix}-on {
