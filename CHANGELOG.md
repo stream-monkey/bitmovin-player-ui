@@ -4,6 +4,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.12.0]
+
+### Added
+- TTML `displayAlign = after` styling case
+
+### Fixed
+- TTML subtitles region alignment
+
+## [3.11.0]
+
+### Fixed
+- Position alignment for VTT subtitles
+- Default selection not highlighted in AudioTrackListBox and SubtitleListBox
+- Clear subtitles list when source is unloaded
+
+## [3.10.0]
+
+### Added
+- Support for regions in VTT subtitles
+
+### Fixed
+- UI hiding when actively using seek or volume slider
+- Empty background boxes with TTML subtitles on Chromecast
+
+## [3.9.2]
+
+### Added
+- Web Content Accessibility (WCAG) 2.0
+- Keyboard controls for sliders when focused
+
+### Fixed
+- `onActive` and `onInactive` not fired for root `SettingsPanelPage` when `SettingsPanel` was configured with `hideDelay` of `-1`
+- Automatic opening of the first select box when the `SettingsPanel` becomes visible on iOS devices
+
 ## [3.9.1]
 
 ### Fixed
@@ -594,6 +628,10 @@ Version 2.0 of the UI framework is built for player 7.1. If absolutely necessary
 ## 1.0.0 (2017-02-03)
 - First release
 
+[3.12.0]: https://github.com/bitmovin/bitmovin-player-ui/compare/v3.11.0...v3.12.0
+[3.11.0]: https://github.com/bitmovin/bitmovin-player-ui/compare/v3.10.0...v3.11.0
+[3.10.0]: https://github.com/bitmovin/bitmovin-player-ui/compare/v3.9.2...v3.10.0
+[3.9.2]: https://github.com/bitmovin/bitmovin-player-ui/compare/v3.9.1...v3.9.2
 [3.9.1]: https://github.com/bitmovin/bitmovin-player-ui/compare/v3.9.0...v3.9.1
 [3.9.0]: https://github.com/bitmovin/bitmovin-player-ui/compare/v3.8.1...v3.9.0
 [3.8.1]: https://github.com/bitmovin/bitmovin-player-ui/compare/v3.8.0...v3.8.1

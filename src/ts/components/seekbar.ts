@@ -9,6 +9,10 @@ import TimeShiftAvailabilityChangedArgs = PlayerUtils.TimeShiftAvailabilityChang
 import LiveStreamDetectorEventArgs = PlayerUtils.LiveStreamDetectorEventArgs;
 import { TimelineMarker } from '../uiconfig';
 import { PlayerAPI, PlayerEventBase } from 'bitmovin-player';
+import { StringUtils } from '../stringutils';
+import { SeekBarType, SeekBarController } from './seekbarcontroller';
+import { i18n } from '../localization/i18n';
+import { BrowserUtils } from '../browserutils';
 
 /**
  * Configuration interface for the {@link SeekBar} component.
@@ -30,6 +34,11 @@ export interface SeekBarConfig extends ComponentConfig {
    * Default: 50 (50ms = 20fps).
    */
   smoothPlaybackPositionUpdateIntervalMs?: number;
+
+  /**
+   * Used for seekBar control increments and decrements
+   */
+  keyStepIncrements?: { leftRight: number, upDown: number };
 }
 
 /**
@@ -80,6 +89,10 @@ export class SeekBar extends Component<SeekBarConfig> {
 
   private player: PlayerAPI;
 
+  protected seekBarType: SeekBarType;
+
+  protected isUiShown: boolean;
+
   /**
    * Buffer of the the current playback position. The position must be buffered in case the element
    * needs to be refreshed with {@link #refreshPlaybackPosition}.
@@ -89,9 +102,6 @@ export class SeekBar extends Component<SeekBarConfig> {
 
   private smoothPlaybackPositionUpdater: Timeout;
   private pausedTimeshiftUpdater: Timeout;
-
-  // https://hacks.mozilla.org/2013/04/detecting-touch-its-the-why-not-the-how/
-  private touchSupported = ('ontouchstart' in window);
 
   private seekBarEvents = {
     /**
@@ -111,10 +121,18 @@ export class SeekBar extends Component<SeekBarConfig> {
   constructor(config: SeekBarConfig = {}) {
     super(config);
 
+    const keyStepIncrements = this.config.keyStepIncrements || {
+      leftRight: 1,
+      upDown: 5,
+    };
+
     this.config = this.mergeConfig(config, {
       cssClass: 'ui-seekbar',
       vertical: false,
       smoothPlaybackPositionUpdateIntervalMs: 50,
+      keyStepIncrements,
+      ariaLabel: i18n.getLocalizer('seekBar'),
+      tabIndex: 0,
     }, this.config);
 
     this.label = this.config.label;
@@ -129,6 +147,23 @@ export class SeekBar extends Component<SeekBarConfig> {
     }
   }
 
+  protected setAriaSliderMinMax(min: string, max: string) {
+    this.getDomElement().attr('aria-valuemin', min);
+    this.getDomElement().attr('aria-valuemax', max);
+  }
+
+  private setAriaSliderValues() {
+    if (this.seekBarType === SeekBarType.Live) {
+      const timeshiftValue = Math.ceil(this.player.getTimeShift()).toString();
+      this.getDomElement().attr('aria-valuenow', timeshiftValue);
+      this.getDomElement().attr('aria-valuetext', `${i18n.performLocalization(i18n.getLocalizer('seekBar.timeshift'))} ${i18n.performLocalization(i18n.getLocalizer('seekBar.value'))}: ${timeshiftValue}`);
+    } else if (this.seekBarType === SeekBarType.Vod) {
+      const ariaValueText = `${StringUtils.secondsToText(this.player.getCurrentTime())} ${i18n.performLocalization(i18n.getLocalizer('seekBar.durationText'))} ${StringUtils.secondsToText(this.player.getDuration())}`;
+      this.getDomElement().attr('aria-valuenow', Math.floor(this.player.getCurrentTime()).toString());
+      this.getDomElement().attr('aria-valuetext', ariaValueText);
+    }
+  }
+
   configure(player: PlayerAPI, uimanager: UIInstanceManager, configureSeek: boolean = true): void {
     super.configure(player, uimanager);
 
@@ -138,13 +173,28 @@ export class SeekBar extends Component<SeekBarConfig> {
     // (the call must be up here to be executed for the volume slider as well)
     this.setPosition(this.seekBarBackdrop, 100);
 
+    // Add seekbar controls to the seekbar
+    const seekBarController = new SeekBarController(this.config.keyStepIncrements, player, uimanager.getConfig().volumeController);
+
+    seekBarController.setSeekBarControls(this.getDomElement(), () => this.seekBarType);
+
+    // The configureSeek flag can be used by subclasses to disable configuration as seek bar. E.g. the volume
+    // slider is reusing this component but adds its own functionality, and does not need the seek functionality.
+    // This is actually a hack, the proper solution would be for both seek bar and volume sliders to extend
+    // a common base slider component and implement their functionality there.
     if (!configureSeek) {
-      // The configureSeek flag can be used by subclasses to disable configuration as seek bar. E.g. the volume
-      // slider is reusing this component but adds its own functionality, and does not need the seek functionality.
-      // This is actually a hack, the proper solution would be for both seek bar and volume sliders to extend
-      // a common base slider component and implement their functionality there.
+      this.seekBarType = SeekBarType.Volume;
+
       return;
     }
+
+    uimanager.onControlsShow.subscribe(() => {
+      this.isUiShown = true;
+    });
+
+    uimanager.onControlsHide.subscribe(() => {
+      this.isUiShown = false;
+    });
 
     let isPlaying = false;
     let isUserSeeking = false;
@@ -164,12 +214,14 @@ export class SeekBar extends Component<SeekBarConfig> {
         } else {
           let playbackPositionPercentage = 100 - (100 / player.getMaxTimeShift() * player.getTimeShift());
           this.setPlaybackPosition(playbackPositionPercentage);
+          this.setAriaSliderMinMax(player.getMaxTimeShift().toString(), '0');
         }
 
         // Always show full buffer for live streams
         this.setBufferPosition(100);
       } else {
-        let playbackPositionPercentage = 100 / player.getDuration() * this.getRelativeCurrentTime();
+        const playerDuration = player.getDuration();
+        let playbackPositionPercentage = 100 / playerDuration * this.getRelativeCurrentTime();
 
         let videoBufferLength = player.getVideoBufferLength();
         let audioBufferLength = player.getAudioBufferLength();
@@ -184,7 +236,7 @@ export class SeekBar extends Component<SeekBarConfig> {
           bufferLength = 0;
         }
 
-        let bufferPercentage = 100 / player.getDuration() * bufferLength;
+        let bufferPercentage = 100 / playerDuration * bufferLength;
 
         // Update playback position only in paused state or in the initial startup state where player is neither
         // paused nor playing. Playback updates are handled in the Timeout below.
@@ -194,6 +246,12 @@ export class SeekBar extends Component<SeekBarConfig> {
         }
 
         this.setBufferPosition(playbackPositionPercentage + bufferPercentage);
+
+        this.setAriaSliderMinMax('0', playerDuration.toString());
+      }
+
+      if (this.isUiShown) {
+        this.setAriaSliderValues();
       }
     };
 
@@ -297,6 +355,9 @@ export class SeekBar extends Component<SeekBarConfig> {
       isLive = args.live;
       if (isLive && this.smoothPlaybackPositionUpdater != null) {
         this.smoothPlaybackPositionUpdater.clear();
+        this.seekBarType = SeekBarType.Live;
+      } else {
+        this.seekBarType = SeekBarType.Vod;
       }
       switchVisibility(isLive, hasTimeShift);
     });
@@ -520,6 +581,9 @@ export class SeekBar extends Component<SeekBarConfig> {
     let seekBarContainer = new DOM('div', {
       'id': this.config.id,
       'class': this.getCssClasses(),
+      'role': 'slider',
+      'aria-label': i18n.performLocalization(this.config.ariaLabel),
+      'tabindex': this.config.tabIndex.toString(),
     });
 
     let seekBar = new DOM('div', {
@@ -571,13 +635,16 @@ export class SeekBar extends Component<SeekBarConfig> {
     let mouseTouchMoveHandler = (e: MouseEvent | TouchEvent) => {
       e.preventDefault();
       // Avoid propagation to VR handler
-      e.stopPropagation();
+      if (this.player.vr != null) {
+        e.stopPropagation();
+      }
 
       let targetPercentage = 100 * this.getOffset(e);
       this.setSeekPosition(targetPercentage);
       this.setPlaybackPosition(targetPercentage);
       this.onSeekPreviewEvent(targetPercentage, true);
     };
+
     let mouseTouchUpHandler = (e: MouseEvent | TouchEvent) => {
       e.preventDefault();
 
@@ -601,12 +668,14 @@ export class SeekBar extends Component<SeekBarConfig> {
     // and mouseup handlers to the whole document. A seek is triggered when the user lifts the mouse key.
     // A seek mouse gesture is thus basically a click with a long time frame between down and up events.
     seekBar.on('touchstart mousedown', (e: MouseEvent | TouchEvent) => {
-      let isTouchEvent = this.touchSupported && e instanceof TouchEvent;
+      let isTouchEvent = BrowserUtils.isTouchSupported && e instanceof TouchEvent;
 
       // Prevent selection of DOM elements (also prevents mousedown if current event is touchstart)
       e.preventDefault();
       // Avoid propagation to VR handler
-      e.stopPropagation();
+      if (this.player.vr != null) {
+        e.stopPropagation();
+      }
 
       this.setSeeking(true); // Set seeking class on DOM element
       seeking = true; // Set seek tracking flag
@@ -624,10 +693,6 @@ export class SeekBar extends Component<SeekBarConfig> {
       e.preventDefault();
 
       if (seeking) {
-        // During a seek (when mouse is down or touch move active), we need to stop propagation to avoid
-        // the VR viewport reacting to the moves.
-        e.stopPropagation();
-        // Because the stopped propagation inhibits the event on the document, we need to call it from here
         mouseTouchMoveHandler(e);
       }
 
@@ -745,7 +810,7 @@ export class SeekBar extends Component<SeekBarConfig> {
    * @see #getVerticalOffset
    */
   private getOffset(e: MouseEvent | TouchEvent): number {
-    if (this.touchSupported && e instanceof TouchEvent) {
+    if (BrowserUtils.isTouchSupported && e instanceof TouchEvent) {
       if (this.config.vertical) {
         return this.getVerticalOffset(e.type === 'touchend' ? e.changedTouches[0].pageY : e.touches[0].pageY);
       } else {
