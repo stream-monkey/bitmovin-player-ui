@@ -47,6 +47,9 @@ export class PlaylistMenu extends Container<PlaylistMenuConfig> {
         index,
         title: item.title,
         mediaType: item.media_type,
+        image: item.image
+          ? `https://images.streammonkey.com/560x315/${item.image.filename}`
+          : null,
         duration: item.duration,
         playlistMenu: this,
         isActive,

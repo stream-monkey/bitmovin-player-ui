@@ -12,6 +12,7 @@ import { PlaylistMenu } from './playlistmenu';
 export interface PlaylistMenuItemConfig extends ButtonConfig {
   index: number;
   title: string;
+  image?: string;
   duration?: number;
   mediaType: string;
   playlistMenu: PlaylistMenu;
@@ -84,7 +85,9 @@ export class PlaylistMenuItem<Config extends PlaylistMenuItemConfig> extends Com
 
     let thumbnailEl = new DOM('img', {
       class: 'playlist-thumbnail',
-      src: 'https://images.streammonkey.com/560x315/black.jpg',
+      src: this.config.image
+        ? this.config.image
+        : 'https://images.streammonkey.com/560x315/black.jpg',
     });
 
     let detailsEl = new DOM('div', {
