@@ -48,8 +48,10 @@ import { i18n } from './localization/i18n';
 
 export namespace UIFactory {
 
+  // This is the key - default to the cast UI here.
   export function buildDefaultUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
-    return UIFactory.buildModernUI(player, config);
+      return buildDefaultCastReceiverUI(player, config);
+    // return UIFactory.buildModernUI(player, config);
   }
 
   export function buildDefaultSmallScreenUI(player: PlayerAPI, config: UIConfig = {}): UIManager {
@@ -344,9 +346,7 @@ export namespace UIFactory {
         new SubtitleOverlay(),
         new BufferingOverlay(),
         new PlaybackToggleOverlay(),
-        new Watermark(),
         controlBar,
-        new TitleBar({ keepHiddenWithoutMetadata: true }),
         new ErrorMessageOverlay(),
       ],
       cssClasses: ['ui-skin-cast-receiver'],
