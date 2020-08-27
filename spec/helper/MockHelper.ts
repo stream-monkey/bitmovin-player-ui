@@ -50,7 +50,10 @@ export namespace MockHelper {
       html: jest.fn(),
       css: jest.fn(),
       width: jest.fn(),
-      height: jest.fn()
+      height: jest.fn(),
+      size: jest.fn(),
+      empty: jest.fn(),
+      append: jest.fn(),
     }));
 
     return new DOMClass();
@@ -68,6 +71,7 @@ export namespace MockHelper {
           PlayerEvent,
           ViewMode: {
             Fullscreen: 'fullscreen',
+            PictureInPicture: 'pictureinpicture',
           },
         },
         isLive: jest.fn(),
@@ -100,6 +104,7 @@ export namespace MockHelper {
         hasEnded: jest.fn(),
         isStalled: jest.fn(),
         isCasting: jest.fn(),
+        isViewModeAvailable: jest.fn(),
 
         // Event faker
         eventEmitter: eventHelper,
