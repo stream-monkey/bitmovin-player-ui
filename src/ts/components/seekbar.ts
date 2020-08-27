@@ -1,10 +1,10 @@
-import {Component, ComponentConfig} from './component';
-import {DOM} from '../dom';
-import {Event, EventDispatcher, NoArgs} from '../eventdispatcher';
-import {SeekBarLabel} from './seekbarlabel';
-import {UIInstanceManager, SeekPreviewArgs} from '../uimanager';
-import {Timeout} from '../timeout';
-import {PlayerUtils} from '../playerutils';
+import { Component, ComponentConfig } from './component';
+import { DOM } from '../dom';
+import { Event, EventDispatcher, NoArgs } from '../eventdispatcher';
+import { SeekBarLabel } from './seekbarlabel';
+import { UIInstanceManager, SeekPreviewArgs } from '../uimanager';
+import { Timeout } from '../timeout';
+import { PlayerUtils } from '../playerutils';
 import TimeShiftAvailabilityChangedArgs = PlayerUtils.TimeShiftAvailabilityChangedArgs;
 import LiveStreamDetectorEventArgs = PlayerUtils.LiveStreamDetectorEventArgs;
 import { TimelineMarker } from '../uiconfig';
@@ -13,6 +13,7 @@ import { StringUtils } from '../stringutils';
 import { SeekBarType, SeekBarController } from './seekbarcontroller';
 import { i18n } from '../localization/i18n';
 import { BrowserUtils } from '../browserutils';
+import { TimelineMarkersHandler } from './timelinemarkershandler';
 
 /**
  * Configuration interface for the {@link SeekBar} component.
@@ -39,6 +40,11 @@ export interface SeekBarConfig extends ComponentConfig {
    * Used for seekBar control increments and decrements
    */
   keyStepIncrements?: { leftRight: number, upDown: number };
+
+  /**
+   * Used for seekBar marker snapping range percentage
+   */
+  snappingRange?: number;
 }
 
 /**
@@ -55,6 +61,7 @@ export interface SeekBarMarker {
   marker: TimelineMarker;
   position: number;
   duration?: number;
+  element?: DOM;
 }
 
 /**
@@ -81,11 +88,11 @@ export class SeekBar extends Component<SeekBarConfig> {
   private seekBarBufferPosition: DOM;
   private seekBarSeekPosition: DOM;
   private seekBarBackdrop: DOM;
-  private seekBarMarkersContainer: DOM;
 
   private label: SeekBarLabel;
 
-  private timelineMarkers: SeekBarMarker[];
+  private seekBarMarkersContainer: DOM;
+  private timelineMarkersHandler: TimelineMarkersHandler;
 
   private player: PlayerAPI;
 
@@ -133,10 +140,10 @@ export class SeekBar extends Component<SeekBarConfig> {
       keyStepIncrements,
       ariaLabel: i18n.getLocalizer('seekBar'),
       tabIndex: 0,
+      snappingRange: 1,
     }, this.config);
 
     this.label = this.config.label;
-    this.timelineMarkers = [];
   }
 
   initialize(): void {
@@ -282,7 +289,7 @@ export class SeekBar extends Component<SeekBarConfig> {
       this.setSeeking(false);
     };
 
-    let restorePlayingState = function() {
+    let restorePlayingState = function () {
       // Continue playback after seek if player was playing when seek started
       if (isPlaying) {
         // use the same issuer here as in the pause on seek
@@ -363,10 +370,9 @@ export class SeekBar extends Component<SeekBarConfig> {
     });
     let timeShiftDetector = new PlayerUtils.TimeShiftAvailabilityDetector(player);
     timeShiftDetector.onTimeShiftAvailabilityChanged.subscribe((sender, args: TimeShiftAvailabilityChangedArgs) => {
-        hasTimeShift = args.timeShiftAvailable;
-        switchVisibility(isLive, hasTimeShift);
-      },
-    );
+      hasTimeShift = args.timeShiftAvailable;
+      switchVisibility(isLive, hasTimeShift);
+    });
     // Initial detection
     liveStreamDetector.detect();
     timeShiftDetector.detect();
@@ -390,6 +396,11 @@ export class SeekBar extends Component<SeekBarConfig> {
       playbackPositionHandler();
     });
 
+    // Set the snappingRange if set in the uimanager config
+    if (typeof uimanager.getConfig().seekbarSnappingRange === 'number') {
+      this.config.snappingRange = uimanager.getConfig().seekbarSnappingRange;
+    }
+
     // Initialize seekbar
     playbackPositionHandler(); // Set the playback position
     this.setBufferPosition(0);
@@ -397,7 +408,18 @@ export class SeekBar extends Component<SeekBarConfig> {
     if (this.config.smoothPlaybackPositionUpdateIntervalMs !== SeekBar.SMOOTH_PLAYBACK_POSITION_UPDATE_DISABLED) {
       this.configureSmoothPlaybackPositionUpdater(player, uimanager);
     }
-    this.configureMarkers(player, uimanager);
+
+    // Initialize markers
+    this.initializeTimelineMarkers(player, uimanager);
+  }
+
+  private initializeTimelineMarkers(player: PlayerAPI, uimanager: UIInstanceManager): void {
+    const timelineMarkerConfig = {
+      cssPrefix: this.config.cssPrefix,
+      snappingRange: this.config.snappingRange,
+    };
+    this.timelineMarkersHandler = new TimelineMarkersHandler(timelineMarkerConfig, () => this.seekBar.width(), this.seekBarMarkersContainer);
+    this.timelineMarkersHandler.initialize(player, uimanager);
   }
 
   private seekWhileScrubbing = (sender: SeekBar, args: SeekPreviewEventArgs) => {
@@ -521,44 +543,6 @@ export class SeekBar extends Component<SeekBarConfig> {
     return PlayerUtils.getCurrentTimeRelativeToSeekableRange(this.player);
   }
 
-  private configureMarkers(player: PlayerAPI, uimanager: UIInstanceManager): void {
-    let clearMarkers = () => {
-      this.timelineMarkers = [];
-      this.updateMarkers();
-    };
-
-    let setupMarkers = () => {
-      clearMarkers();
-
-      const duration = player.getDuration();
-
-      if (duration === Infinity) {
-        // Don't generate timeline markers if we don't yet have a duration
-        // The duration check is for buggy platforms where the duration is not available instantly (Chrome on Android 4.3)
-        return;
-      }
-
-      for (let marker of uimanager.getConfig().metadata.markers) {
-        const markerPosition = 100 / duration * marker.time; // convert absolute time to percentage
-        const markerDuration = 100 / duration * marker.duration;
-        this.timelineMarkers.push({ marker, position: markerPosition, duration: markerDuration });
-      }
-
-      // Populate the timeline with the markers
-      this.updateMarkers();
-    };
-
-    // Remove markers when unloaded
-    player.on(player.exports.PlayerEvent.SourceUnloaded, clearMarkers);
-    // Update markers when the size of the seekbar changes
-    player.on(player.exports.PlayerEvent.PlayerResized, () => this.updateMarkers());
-    uimanager.getConfig().events.onUpdated.subscribe(setupMarkers);
-    uimanager.onRelease.subscribe(() => uimanager.getConfig().events.onUpdated.unsubscribe(setupMarkers));
-
-    // Init markers at startup
-    setupMarkers();
-  }
-
   release(): void {
     super.release();
 
@@ -653,7 +637,7 @@ export class SeekBar extends Component<SeekBarConfig> {
       new DOM(document).off('touchend mouseup', mouseTouchUpHandler);
 
       let targetPercentage = 100 * this.getOffset(e);
-      let snappedChapter = this.getMarkerAtPosition(targetPercentage);
+      let snappedChapter = this.timelineMarkersHandler && this.timelineMarkersHandler.getMarkerAtPosition(targetPercentage);
 
       this.setSeeking(false);
       seeking = false;
@@ -723,55 +707,6 @@ export class SeekBar extends Component<SeekBarConfig> {
     }
 
     return seekBarContainer;
-  }
-
-  protected updateMarkers(): void {
-    this.seekBarMarkersContainer.empty();
-
-    const seekBarWidthPx = this.seekBar.width();
-
-    for (let marker of this.timelineMarkers) {
-      const markerClasses = ['seekbar-marker'].concat(marker.marker.cssClasses || [])
-        .map(cssClass => this.prefixCss(cssClass));
-
-      const cssProperties: {[propertyName: string]: string} = {
-        'width': marker.position + '%',
-      };
-
-      if (marker.duration > 0) {
-        const markerWidthPx = Math.round(seekBarWidthPx / 100 * marker.duration);
-        cssProperties['border-right-width'] = markerWidthPx + 'px';
-        cssProperties['margin-left'] = '0';
-      }
-
-      this.seekBarMarkersContainer.append(new DOM('div', {
-        'class': markerClasses.join(' '),
-        'data-marker-time': String(marker.marker.time),
-        'data-marker-title': String(marker.marker.title),
-      }).css(cssProperties));
-    }
-  }
-
-  protected getMarkerAtPosition(percentage: number): SeekBarMarker | null {
-    const snappingRange = 1;
-
-    if (this.timelineMarkers.length > 0) {
-      for (let marker of this.timelineMarkers) {
-        // Handle interval markers
-        if (marker.duration > 0
-          && percentage >= marker.position - snappingRange
-          && percentage <= marker.position + marker.duration + snappingRange) {
-          return marker;
-        }
-        // Handle position markers
-        else if (percentage >= marker.position - snappingRange
-          && percentage <= marker.position + snappingRange) {
-          return marker;
-        }
-      }
-    }
-
-    return null;
   }
 
   /**
@@ -988,7 +923,7 @@ export class SeekBar extends Component<SeekBarConfig> {
   }
 
   protected onSeekPreviewEvent(percentage: number, scrubbing: boolean) {
-    let snappedMarker = this.getMarkerAtPosition(percentage);
+    let snappedMarker = this.timelineMarkersHandler && this.timelineMarkersHandler.getMarkerAtPosition(percentage);
 
     let seekPositionPercentage = percentage;
 
