@@ -73,6 +73,8 @@ export namespace SmUIFactory {
         new PlaybackTimeLabel({ timeLabelMode: PlaybackTimeLabelMode.TotalTime, cssClasses: ['text-right'] })
       ];
 
+    let subtitleOverlay = new SubtitleOverlay();
+
     if ( ! data.controlsDisabled) {
       let mainSettingsPanelPage = new SettingsPanelPage({
         components: [
@@ -90,13 +92,41 @@ export namespace SmUIFactory {
         hidden: true,
       });
 
+      let subtitleSettingsPanelPage = new SubtitleSettingsPanelPage({
+        settingsPanel: settingsPanel,
+        overlay: subtitleOverlay,
+      });
+  
+      const subtitleSelectBox = new SubtitleSelectBox();
+  
+      let subtitleSettingsOpenButton = new SettingsPanelPageOpenButton({
+        targetPage: subtitleSettingsPanelPage,
+        container: settingsPanel,
+        ariaLabel: i18n.getLocalizer('settings.subtitles'),
+        text: i18n.getLocalizer('open'),
+      });
+  
       mainSettingsPanelPage.addComponent(
         new SettingsPanelItem(
-          // Don't allow customizing subtitles, i.e. don't include
-          // a settings button & page to do so.
-          i18n.getLocalizer('settings.subtitles'),
-          new SubtitleSelectBox(),
+          new SubtitleSettingsLabel({
+            text: i18n.getLocalizer('settings.subtitles'),
+            opener: subtitleSettingsOpenButton,
+          }),
+          subtitleSelectBox,
+          {
+            role: 'menubar',
+          },
         ));
+  
+      settingsPanel.addComponent(subtitleSettingsPanelPage);
+
+      // mainSettingsPanelPage.addComponent(
+      //   new SettingsPanelItem(
+      //     // Don't allow customizing subtitles, i.e. don't include
+      //     // a settings button & page to do so.
+      //     i18n.getLocalizer('settings.subtitles'),
+      //     new SubtitleSelectBox(),
+      //   ));
 
       let sharePanel;
       
@@ -164,7 +194,7 @@ export namespace SmUIFactory {
 
     // Assemble all container components.
     let components: any[] = [
-      new SubtitleOverlay(),
+      subtitleOverlay,
       new BufferingOverlay(),
       new PlaybackToggleOverlay(),
       new CastStatusOverlay(),
@@ -238,9 +268,11 @@ export namespace SmUIFactory {
     // If it's a playlist, add a custom class & playlist menu.
     const isPlaylist = isPlaylistPlayer(data);
 
+    let subtitleOverlay = new SubtitleOverlay();
+
     // Intial set of components.
     let components: any[] = [
-      new SubtitleOverlay(),
+      subtitleOverlay,
       new BufferingOverlay(),
       new CastStatusOverlay(),
       new PlaybackToggleOverlay(),
@@ -249,6 +281,34 @@ export namespace SmUIFactory {
     ];
 
     if ( ! data.controlsDisabled) {
+      // let mainSettingsPanelPage = new SettingsPanelPage({
+      //   components: [
+      //     new SettingsPanelItem(i18n.getLocalizer('settings.video.quality'), new VideoQualitySelectBox()),
+      //     new SettingsPanelItem(i18n.getLocalizer('speed'), new PlaybackSpeedSelectBox()),
+      //     new SettingsPanelItem(i18n.getLocalizer('settings.audio.track'), new AudioTrackSelectBox()),
+      //     new SettingsPanelItem(i18n.getLocalizer('settings.audio.quality'), new AudioQualitySelectBox()),
+      //   ],
+      // });
+  
+      // let settingsPanel = new SettingsPanel({
+      //   components: [
+      //     mainSettingsPanelPage,
+      //   ],
+      //   hidden: true,
+      //   pageTransitionAnimation: false,
+      //   hideDelay: -1,
+      // });
+  
+      // mainSettingsPanelPage.addComponent(
+      //   new SettingsPanelItem(
+      //     // Don't allow customizing subtitles, i.e. don't include
+      //     // a settings button & page to do so.
+      //     i18n.getLocalizer('settings.subtitles'),
+      //     new SubtitleSelectBox(),
+      //   ));
+  
+      // settingsPanel.addComponent(new CloseButton({ target: settingsPanel }));
+
       let mainSettingsPanelPage = new SettingsPanelPage({
         components: [
           new SettingsPanelItem(i18n.getLocalizer('settings.video.quality'), new VideoQualitySelectBox()),
@@ -257,7 +317,7 @@ export namespace SmUIFactory {
           new SettingsPanelItem(i18n.getLocalizer('settings.audio.quality'), new AudioQualitySelectBox()),
         ],
       });
-  
+
       let settingsPanel = new SettingsPanel({
         components: [
           mainSettingsPanelPage,
@@ -266,16 +326,37 @@ export namespace SmUIFactory {
         pageTransitionAnimation: false,
         hideDelay: -1,
       });
-  
+
+      let subtitleSettingsPanelPage = new SubtitleSettingsPanelPage({
+        settingsPanel: settingsPanel,
+        overlay: subtitleOverlay,
+      });
+
+      let subtitleSettingsOpenButton = new SettingsPanelPageOpenButton({
+        targetPage: subtitleSettingsPanelPage,
+        container: settingsPanel,
+        ariaLabel: i18n.getLocalizer('settings.subtitles'),
+        text: i18n.getLocalizer('open'),
+      });
+
+      const subtitleSelectBox = new SubtitleSelectBox();
+
       mainSettingsPanelPage.addComponent(
         new SettingsPanelItem(
-          // Don't allow customizing subtitles, i.e. don't include
-          // a settings button & page to do so.
-          i18n.getLocalizer('settings.subtitles'),
-          new SubtitleSelectBox(),
+          new SubtitleSettingsLabel({
+            text: i18n.getLocalizer('settings.subtitles'),
+            opener: subtitleSettingsOpenButton,
+          }),
+          subtitleSelectBox,
+          {
+            role: 'menubar',
+          },
         ));
-  
+
+      settingsPanel.addComponent(subtitleSettingsPanelPage);
+
       settingsPanel.addComponent(new CloseButton({ target: settingsPanel }));
+      subtitleSettingsPanelPage.addComponent(new CloseButton({ target: settingsPanel }));
       
       // All title bar components.
       let titleBarComponents = [
