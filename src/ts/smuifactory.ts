@@ -284,7 +284,13 @@ export namespace SmUIFactory {
       new CastStatusOverlay(),
       new PlaybackToggleOverlay(),
       new RecommendationOverlay(),
-      new ErrorMessageOverlay()
+      new ErrorMessageOverlay(),
+      new Container({
+        components: [
+          new UnmuteButton(),
+        ],
+        cssClass: 'ui-unmute',
+      }),
     ];
 
     if ( ! data.controlsDisabled) {
