@@ -1,0 +1,22 @@
+@import '../variables';
+@import '../mixins';
+
+.#{$prefix}-ui-unmute {
+  background-color: $color-background-bars;
+  left: 1.5em;
+  padding: .5em 1.5em;
+  position: absolute;
+  top: 1em;
+
+  .#{$prefix}-ui-button-unmute {
+    @extend %ui-button;
+
+    .#{$prefix}-label {
+      display: inherit;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

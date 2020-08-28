@@ -40,6 +40,7 @@ import { ErrorMessageOverlay } from './components/errormessageoverlay';
 import { AdClickOverlay } from './components/adclickoverlay';
 import { AdMessageLabel } from './components/admessagelabel';
 import { AdSkipButton } from './components/adskipbutton';
+import { UnmuteButton } from './components/unmutebutton';
 import { CloseButton } from './components/closebutton';
 import { MetadataLabel, MetadataLabelContent } from './components/metadatalabel';
 import { PlayerUtils } from './playerutils';
@@ -200,6 +201,12 @@ export namespace SmUIFactory {
       new CastStatusOverlay(),
       new RecommendationOverlay(),
       new ErrorMessageOverlay(),
+      new Container({
+        components: [
+          new UnmuteButton(),
+        ],
+        cssClass: 'ui-unmute',
+      }),
       controlBar
     ];
 
