@@ -4,7 +4,8 @@
   // Remove the box-shadow added for accessibility in 3.9.2
   // https://github.com/bitmovin/bitmovin-player-ui/issues/286
   &.#{$prefix}-controls-shown {
-	  .#{$prefix}-ui-hugeplaybacktogglebutton:focus {
+	  .#{$prefix}-ui-hugeplaybacktogglebutton:focus,
+	  .#{$prefix}-ui-unmutebutton:focus {
 		  box-shadow: none;
 	  }
 	}
@@ -120,6 +121,7 @@
 .#{$prefix}-ui-fullscreentogglebutton,
 .#{$prefix}-ui-subtitlesettingstogglebutton, 
 .#{$prefix}-ui-audiotracksettingstogglebutton,
+.#{$prefix}-ui-unmutebutton,
 .#{$prefix}-ui-selectbox {
 	&,
 	&:focus,

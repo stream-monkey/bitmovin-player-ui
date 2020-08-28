@@ -8,7 +8,11 @@ import { AdEvent, LinearAd, PlayerAPI } from 'bitmovin-player';
  * Configuration interface for the {@link UnmuteButton}.
  */
 export interface UnmuteButtonConfig extends ButtonConfig {
-  // ...
+  /**
+   * The delay in milliseconds after which the unmute button will be hidden when there is no user interaction.
+   * Default: 7 seconds (7000)
+   */
+  hideDelay?: number;
 }
 
 /**
@@ -20,7 +24,9 @@ export class UnmuteButton extends Button<UnmuteButtonConfig> {
     super(config);
 
     this.config = this.mergeConfig(config, <UnmuteButtonConfig>{
-      cssClass: 'ui-button-unmute',
+      hidden: true,
+      cssClass: 'ui-unmutebutton',
+      hideDelay: 7000,
     }, this.config);
   }
 
@@ -40,17 +46,26 @@ export class UnmuteButton extends Button<UnmuteButtonConfig> {
       return;
     }
 
-    let hideTimeout = new Timeout(10000, () => {
+    let hideTimeout = new Timeout(config.hideDelay, () => {
       this.hide();
     });
 
-    let readyHandler = () => {
+    let showDelay = new Timeout(500, () => {
       this.show();
-      this.setText('Unmute');
+    });
+
+    let readyHandler = () => {
+      // // Tiny delay to showing to avoid an ugly overlap
+      // // w/ the play button fade out/animation.
+      // showDelay.start();
     }
 
     let playingHandler = () => {
-      // Hide after 10 seconds.
+      // Tiny delay to showing to avoid an ugly overlap
+      // w/ the play button fade out/animation.
+      showDelay.start();
+
+      // Once it starts playing, start the auto-hide timeout.
       hideTimeout.start();
     }
 
